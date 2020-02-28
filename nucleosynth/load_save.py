@@ -17,6 +17,17 @@ def extract_tracer(tracer, model):
     tracer : int
     model : str
     """
+    f = load_hdf5(tracer, model)
+
+
+def load_hdf5(tracer, model):
+    """Load skynet tracer hdf5 file
+
+    parameters
+    ----------
+    tracer : int
+    model : str
+    """
     filepath = paths.tracer_filepath(tracer, model=model)
     f = h5py.File(filepath, 'r')
 
