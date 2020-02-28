@@ -5,7 +5,9 @@ Functions for paths/filenames
 
 Shell environment variables needed:
 NUCLEOSYNTH
-
+    path to this repository
+SKYNET_OUTPUT
+    path to skynet output directory
 """
 
 
@@ -13,7 +15,7 @@ NUCLEOSYNTH
 #                      Repo/meta
 # ===============================================================
 def repo_path():
-    """Return path to progs repo
+    """Return path to nucleosynth (this) repo
     """
     try:
         path = os.environ['NUCLEOSYNTH']
