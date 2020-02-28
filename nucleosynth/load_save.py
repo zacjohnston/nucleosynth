@@ -8,7 +8,16 @@ from . import paths
 Functions for loading/saving data
 """
 
-def load_tracer():
-    """Load skynet tracer output
+
+def extract_tracer(tracer, model):
+    """Load skynet tracer hdf5 file
+
+    parameters
+    ----------
+    tracer : int
+    model : str
     """
-    pass
+    filepath = paths.tracer_filepath(tracer, model=model)
+    f = h5py.File(filepath, 'r')
+
+    return f
