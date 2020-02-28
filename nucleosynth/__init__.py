@@ -1,6 +1,7 @@
 from . import tracer
+from . import paths
 
 __all__ = ['tracer',
-           # 'paths',
+           'paths',
            # 'load_save',
            ]
