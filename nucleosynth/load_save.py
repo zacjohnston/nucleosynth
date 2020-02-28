@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import h5py
 
@@ -17,7 +18,25 @@ def extract_tracer(tracer, model):
     tracer : int
     model : str
     """
+    table = pd.DataFrame()
     f = load_hdf5(tracer, model)
+
+
+def load_network(tracer, model):
+    """Load isotope info (Z, A) for tracer
+
+    parameters
+    ----------
+    tracer : int
+    model : str
+    """
+    table = pd.DataFrame()
+    f = load_hdf5(tracer, model)
+
+    for key in ['Z', 'A']:
+        table[key] = np.array(f[key], dtype=int)
+
+    return table
 
 
 def load_hdf5(tracer, model):
