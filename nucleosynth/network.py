@@ -15,7 +15,16 @@ def get_network(tracer, model):
     tracer : int
     model : str
     """
-    return load_save.load_network(tracer, model)
+    net = load_save.load_network(tracer, model)
+    iso_list = []
+
+    for i in range(len(net)):
+        row = net.loc[i]
+        iso_str = get_isotope_str(z=row['Z'], a=row['A'])
+        iso_list += [iso_str]
+
+    net['isotope'] = iso_list
+    return net[['isotope', 'Z', 'A']]
 
 
 def get_isotope_str(z, a):
