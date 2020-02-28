@@ -21,6 +21,11 @@ def extract_tracer(tracer, model):
     table = pd.DataFrame()
     f = load_hdf5(tracer, model)
 
+    for key in ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate']:
+        table[key.lower()] = f[key]
+
+    return table
+
 
 def load_network(tracer, model):
     """Load isotope info (Z, A) for tracer
