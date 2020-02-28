@@ -7,7 +7,7 @@ Functions for managing nuclear network data
 """
 
 
-def get_network(tracer, model):
+def get_tracer_network(tracer, model):
     """Load isotope info (Z, A) from tracer
 
     parameters
