@@ -18,6 +18,30 @@ def get_network(tracer, model):
     return load_save.load_network(tracer, model)
 
 
+def get_isotope_str(z, a):
+    """Return string for given isotope
+
+    parameters
+    ----------
+    z : int
+        atomic number
+    a : int
+        atomic mass
+    """
+    if a < 1 or z < 0:
+        raise ValueError('Invalid isotope')
+
+    element = get_element_str(z)
+
+    if z == 0:  # special case for neutrons
+        if a == 1:
+            return element
+        else:
+            raise ValueError('Invalid isotope')
+    else:
+        return f'{element}{a}'
+
+
 def get_element_str(z):
     """Return string for given element
 
