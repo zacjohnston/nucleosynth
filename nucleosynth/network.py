@@ -7,6 +7,21 @@ Functions for managing nuclear network data
 """
 
 
+def get_tracer_abu(tracer, model):
+    """Load isotope info (Z, A) from tracer
+
+    parameters
+    ----------
+    tracer : int
+    model : str
+    """
+    net = get_tracer_network(tracer=tracer, model=model)
+    abu = load_save.load_abu(tracer=tracer, model=model)
+
+    abu.columns = list(net['isotope'])
+    return abu
+
+
 def get_tracer_network(tracer, model):
     """Load isotope info (Z, A) from tracer
 
