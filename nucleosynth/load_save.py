@@ -45,6 +45,20 @@ def load_tracer_network(tracer, model):
     return table
 
 
+def load_abu(tracer, model):
+    """Load chemical abundance table from tracer file
+
+    parameters
+    ----------
+    tracer : int
+    model : str
+    """
+    f = load_hdf5(tracer, model)
+    abu = pd.DataFrame(f['Y'])
+
+    return abu
+
+
 def load_hdf5(tracer, model):
     """Load skynet tracer hdf5 file
 
