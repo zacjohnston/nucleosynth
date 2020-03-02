@@ -28,7 +28,7 @@ def extract_tracer(tracer, model):
     return table
 
 
-def load_network(tracer, model):
+def load_tracer_network(tracer, model):
     """Load isotope info (Z, A) for tracer
 
     parameters

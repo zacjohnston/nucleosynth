@@ -15,7 +15,7 @@ def get_tracer_network(tracer, model):
     tracer : int
     model : str
     """
-    net = load_save.load_network(tracer, model)
+    net = load_save.load_tracer_network(tracer, model)
     iso_list = []
 
     for i in range(len(net)):
