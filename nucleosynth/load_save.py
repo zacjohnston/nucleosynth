@@ -20,8 +20,9 @@ def extract_tracer(tracer, model):
     """
     table = pd.DataFrame()
     f = load_hdf5(tracer, model)
+    keys = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
-    for key in ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate']:
+    for key in keys:
         table[key.lower()] = f[key]
 
     return table
