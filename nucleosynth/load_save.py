@@ -22,7 +22,8 @@ def extract_tracer(tracer, model, verbose=True):
     """
     printv(f'Loading tracer table', verbose=verbose)
     table = pd.DataFrame()
-    f = load_hdf5(tracer, model)
+
+    f = load_tracer_hdf5(tracer, model)
     keys = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
     for key in keys:
@@ -42,7 +43,7 @@ def load_tracer_network(tracer, model, verbose=True):
     """
     printv(f'Loading tracer network', verbose=verbose)
     table = pd.DataFrame()
-    f = load_hdf5(tracer, model)
+    f = load_tracer_hdf5(tracer, model)
 
     for key in ['Z', 'A']:
         table[key] = np.array(f[key], dtype=int)
@@ -60,13 +61,13 @@ def load_abu(tracer, model, verbose=True):
     verbose : bool
     """
     printv(f'Loading tracer abundances', verbose=verbose)
-    f = load_hdf5(tracer, model)
+    f = load_tracer_hdf5(tracer, model)
     abu = pd.DataFrame(f['Y'])
 
     return abu
 
 
-def load_hdf5(tracer, model, verbose=True):
+def load_tracer_hdf5(tracer, model, verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
