@@ -7,30 +7,32 @@ Functions for managing nuclear network data
 """
 
 
-def get_tracer_abu(tracer, model):
+def get_tracer_abu(tracer, model, verbose=True):
     """Load isotope info (Z, A) from tracer
 
     parameters
     ----------
     tracer : int
     model : str
+    verbose : bool
     """
-    net = get_tracer_network(tracer=tracer, model=model)
-    abu = load_save.load_abu(tracer=tracer, model=model)
+    net = get_tracer_network(tracer=tracer, model=model, verbose=verbose)
+    abu = load_save.load_abu(tracer=tracer, model=model, verbose=verbose)
 
     abu.columns = list(net['isotope'])
     return abu
 
 
-def get_tracer_network(tracer, model):
+def get_tracer_network(tracer, model, verbose=True):
     """Load isotope info (Z, A) from tracer
 
     parameters
     ----------
     tracer : int
     model : str
+    verbose : bool
     """
-    net = load_save.load_tracer_network(tracer, model)
+    net = load_save.load_tracer_network(tracer, model=model, verbose=verbose)
     iso_list = []
 
     for i in range(len(net)):
