@@ -34,7 +34,7 @@ class Tracer:
 
         if load_all:
             self.load_all()
-            
+
     def load_all(self):
         """Load all tracer data
         """
@@ -52,12 +52,14 @@ class Tracer:
     def load_network(self):
         """Load network of isotopes
         """
-        self.network = network.get_tracer_network(self.tracer, self.model, self.verbose)
+        self.network = network.get_tracer_network(self.tracer, self.model,
+                                                  self.file, self.verbose)
 
     def load_abu(self):
         """Load chemical abundances
         """
-        self.abu = network.get_tracer_abu(self.tracer, self.model, self.verbose)
+        self.abu = network.get_tracer_abu(self.tracer, self.model,
+                                          self.file, self.verbose)
 
     def load_table(self):
         """Load table of scalars
