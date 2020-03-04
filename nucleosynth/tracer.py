@@ -25,7 +25,6 @@ class Tracer:
         self.path = paths.model_path(model=model)
         self.verbose = verbose
 
-        self.network = network.get_tracer_network(tracer=tracer, model=model)
-        self.abu = network.get_tracer_abu(tracer=tracer, model=model)
-        self.table = load_save.load_tracer_columns(tracer=tracer, model=model,
-                                                   verbose=verbose)
+        self.network = network.get_tracer_network(tracer, model, verbose=verbose)
+        self.abu = network.get_tracer_abu(tracer, model, verbose=verbose)
+        self.table = load_save.load_tracer_columns(tracer, model, verbose=verbose)
