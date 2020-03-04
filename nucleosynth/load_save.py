@@ -4,6 +4,7 @@ import h5py
 
 # nucleosynth
 from . import paths
+from . import network
 from .printing import printv
 
 """
@@ -40,7 +41,7 @@ def load_tracer_columns(tracer, model, columns=None, tracer_file=None,
 
 
 def load_tracer_network(tracer, model, tracer_file=None, verbose=True):
-    """Load isotope info (Z, A) for tracer
+    """Load isotope info (Z, A) used in tracer
 
     parameters
     ----------
@@ -50,16 +51,25 @@ def load_tracer_network(tracer, model, tracer_file=None, verbose=True):
     verbose : bool
     """
     printv(f'Loading tracer network', verbose=verbose)
-    table = pd.DataFrame()
+
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
+    table = pd.DataFrame()
+    iso_list = []
 
     for key in ['Z', 'A']:
         table[key] = np.array(tracer_file[key], dtype=int)
 
-    return table
+    for i in range(len(table)):
+        row = table.loc[i]
+        iso_str = network.get_isotope_str(z=row['Z'], a=row['A'])
+        iso_list += [iso_str]
+
+    table['isotope'] = iso_list
+
+    return table[['isotope', 'Z', 'A']]
 
 
-def load_abu(tracer, model, tracer_file=None, verbose=True):
+def load_tracer_abu(tracer, model, tracer_file=None, verbose=True):
     """Load chemical abundance table from tracer file
 
     parameters
@@ -70,8 +80,12 @@ def load_abu(tracer, model, tracer_file=None, verbose=True):
     verbose : bool
     """
     printv(f'Loading tracer abundances', verbose=verbose)
+
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
+    net = load_tracer_network(tracer, model, tracer_file, verbose=verbose)
+
     abu = pd.DataFrame(tracer_file['Y'])
+    abu.columns = list(net['isotope'])
 
     return abu
 

@@ -52,14 +52,16 @@ class Tracer:
     def load_network(self):
         """Load network of isotopes
         """
-        self.network = network.get_tracer_network(self.tracer, self.model,
-                                                  self.file, self.verbose)
+        self.network = load_save.load_tracer_network(self.tracer, self.model,
+                                                     tracer_file=self.file,
+                                                     verbose=self.verbose)
 
     def load_abu(self):
         """Load chemical abundances
         """
-        self.abu = network.get_tracer_abu(self.tracer, self.model,
-                                          self.file, self.verbose)
+        self.abu = load_save.load_tracer_abu(self.tracer, self.model,
+                                             tracer_file=self.file,
+                                             verbose=self.verbose)
 
     def load_table(self):
         """Load table of scalars
