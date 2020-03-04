@@ -11,7 +11,8 @@ Functions for loading/saving data
 """
 
 
-def load_tracer_columns(tracer, model, verbose=True, columns=None):
+def load_tracer_columns(tracer, model, columns=None, tracer_file=None,
+                        verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
@@ -20,6 +21,8 @@ def load_tracer_columns(tracer, model, verbose=True, columns=None):
     model : str
     columns : [str]
         list of columns to extract
+    tracer_file : h5py.File
+        raw tracer file, as returned by load_tracer_file()
     verbose : bool
     """
     printv(f'Loading tracer columns', verbose=verbose)
@@ -27,7 +30,6 @@ def load_tracer_columns(tracer, model, verbose=True, columns=None):
 
     if columns is None:
         columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
-
     f = load_tracer_file(tracer, model, verbose=verbose)
 
     for column in columns:
@@ -71,17 +73,20 @@ def load_abu(tracer, model, verbose=True):
     return abu
 
 
-def load_tracer_file(tracer, model, verbose=True):
+def load_tracer_file(tracer, model, tracer_file=None, verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
     ----------
     tracer : int
     model : str
+    tracer_file : h5py.File
+        if tracer_file provided, simply return
     verbose : bool
     """
-    filepath = paths.tracer_filepath(tracer, model=model)
-    printv(f'Loading tracer hdf5: {filepath}', verbose=verbose)
+    if tracer_file is None:
+        filepath = paths.tracer_filepath(tracer, model=model)
+        printv(f'Loading tracer file: {filepath}', verbose=verbose)
+        f = h5py.File(filepath, 'r')
 
-    f = h5py.File(filepath, 'r')
-    return f
+    return tracer_file
