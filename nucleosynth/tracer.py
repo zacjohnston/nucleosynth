@@ -31,6 +31,14 @@ class Tracer:
         self.abu = None
         self.table = None
 
+    def load_all(self):
+        """Load all tracer data
+        """
+        self.load_file()
+        self.load_network()
+        self.load_abu()
+        self.load_table()
+        
     def load_file(self):
         """Load raw tracer file
         """
