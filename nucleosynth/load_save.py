@@ -11,8 +11,8 @@ Functions for loading/saving data
 """
 
 
-def extract_tracer_columns(tracer, model, verbose=True,
-                           columns = ('Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy')):
+def load_tracer_columns(tracer, model, verbose=True,
+                        columns=('Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy')):
     """Load skynet tracer hdf5 file
 
     parameters
