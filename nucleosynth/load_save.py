@@ -11,8 +11,7 @@ Functions for loading/saving data
 """
 
 
-def load_tracer_columns(tracer, model, verbose=True,
-                        columns=('Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy')):
+def load_tracer_columns(tracer, model, verbose=True, columns=None):
     """Load skynet tracer hdf5 file
 
     parameters
@@ -20,11 +19,14 @@ def load_tracer_columns(tracer, model, verbose=True,
     tracer : int
     model : str
     columns : [str]
-        columns to extract
+        list of columns to extract
     verbose : bool
     """
     printv(f'Loading tracer columns', verbose=verbose)
     table = pd.DataFrame()
+
+    if columns is None:
+        columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
     f = load_tracer_hdf5(tracer, model)
 
