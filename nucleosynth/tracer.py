@@ -30,7 +30,7 @@ class Tracer:
         self.abu = network.get_tracer_abu(tracer, model, verbose=verbose)
         self.table = load_save.load_tracer_columns(tracer, model, verbose=verbose)
 
-    def load_tracer_file(self):
+    def load_file(self):
         """Load raw tracer file
         """
         self.file = load_save.load_tracer_file(self.tracer, self.model,
