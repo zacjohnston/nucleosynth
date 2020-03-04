@@ -53,20 +53,20 @@ def load_tracer_network(tracer, model, tracer_file=None, verbose=True):
     printv(f'Loading tracer network', verbose=verbose)
 
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
-    table = pd.DataFrame()
+    tracer_network = pd.DataFrame()
     iso_list = []
 
     for key in ['Z', 'A']:
-        table[key] = np.array(tracer_file[key], dtype=int)
+        tracer_network[key] = np.array(tracer_file[key], dtype=int)
 
-    for i in range(len(table)):
-        row = table.loc[i]
+    for i in range(len(tracer_network)):
+        row = tracer_network.loc[i]
         iso_str = network.get_isotope_str(z=row['Z'], a=row['A'])
         iso_list += [iso_str]
 
-    table['isotope'] = iso_list
+    tracer_network['isotope'] = iso_list
 
-    return table[['isotope', 'Z', 'A']]
+    return tracer_network[['isotope', 'Z', 'A']]
 
 
 def load_tracer_abu(tracer, model, tracer_file=None, verbose=True):
