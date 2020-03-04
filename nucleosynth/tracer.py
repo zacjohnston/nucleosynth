@@ -27,7 +27,7 @@ class Tracer:
 
         self.file = None
         self.network = None
-        self.abu = network.get_tracer_abu(tracer, model, verbose=verbose)
+        self.abu = None
         self.table = load_save.load_tracer_columns(tracer, model, verbose=verbose)
 
     def load_file(self):
@@ -37,6 +37,11 @@ class Tracer:
                                                verbose=self.verbose)
 
     def load_network(self):
-        """Load network of isotopes from tracer
+        """Load network of isotopes
         """
         self.network = network.get_tracer_network(self.tracer, self.model, self.verbose)
+
+    def load_abu(self):
+        """Load chemical abundances
+        """
+        self.abu = network.get_tracer_abu(self.tracer, self.model, self.verbose)
