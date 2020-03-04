@@ -84,10 +84,10 @@ def load_tracer_abu(tracer, model, tracer_file=None, verbose=True):
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
     net = load_tracer_network(tracer, model, tracer_file, verbose=verbose)
 
-    abu = pd.DataFrame(tracer_file['Y'])
-    abu.columns = list(net['isotope'])
+    tracer_abu = pd.DataFrame(tracer_file['Y'])
+    tracer_abu.columns = list(net['isotope'])
 
-    return abu
+    return tracer_abu
 
 
 def load_tracer_file(tracer, model, tracer_file=None, verbose=True):
