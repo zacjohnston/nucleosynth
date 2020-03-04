@@ -1,4 +1,3 @@
-
 # nucleosynth
 from . import paths
 from . import network
@@ -11,7 +10,7 @@ Class representing an individual mass tracer from a model
 
 class Tracer:
     """
-    Object representing an individual mass tracer from a model
+    Object representing an individual mass tracer from a skynet model
     """
     def __init__(self, tracer, model, verbose=True):
         """
@@ -19,6 +18,7 @@ class Tracer:
         ----------
         tracer : int
         model : str
+        verbose : bool
         """
         self.tracer = tracer
         self.model = model
