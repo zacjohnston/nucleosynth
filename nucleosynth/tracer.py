@@ -26,4 +26,4 @@ class Tracer:
 
         self.network = network.get_tracer_network(tracer=tracer, model=model)
         self.abu = network.get_tracer_abu(tracer=tracer, model=model)
-        self.table = load_save.extract_tracer(tracer=tracer, model=model)
+        self.table = load_save.extract_tracer_columns(tracer=tracer, model=model)

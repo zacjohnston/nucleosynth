@@ -11,23 +11,25 @@ Functions for loading/saving data
 """
 
 
-def extract_tracer(tracer, model, verbose=True):
+def extract_tracer_columns(tracer, model, verbose=True,
+                           columns = ('Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy')):
     """Load skynet tracer hdf5 file
 
     parameters
     ----------
     tracer : int
     model : str
+    columns : [str]
+        columns to extract
     verbose : bool
     """
-    printv(f'Loading tracer table', verbose=verbose)
+    printv(f'Loading tracer columns', verbose=verbose)
     table = pd.DataFrame()
 
     f = load_tracer_hdf5(tracer, model)
-    keys = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
-    for key in keys:
-        table[key.lower()] = f[key]
+    for column in columns:
+        table[column.lower()] = f[column]
 
     return table
 
