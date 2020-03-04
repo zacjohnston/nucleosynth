@@ -28,7 +28,7 @@ def load_tracer_columns(tracer, model, verbose=True, columns=None):
     if columns is None:
         columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
-    f = load_tracer_hdf5(tracer, model)
+    f = load_tracer_hdf5(tracer, model, verbose=verbose)
 
     for column in columns:
         table[column.lower()] = f[column]
@@ -47,7 +47,7 @@ def load_tracer_network(tracer, model, verbose=True):
     """
     printv(f'Loading tracer network', verbose=verbose)
     table = pd.DataFrame()
-    f = load_tracer_hdf5(tracer, model)
+    f = load_tracer_hdf5(tracer, model, verbose=verbose)
 
     for key in ['Z', 'A']:
         table[key] = np.array(f[key], dtype=int)
@@ -65,7 +65,7 @@ def load_abu(tracer, model, verbose=True):
     verbose : bool
     """
     printv(f'Loading tracer abundances', verbose=verbose)
-    f = load_tracer_hdf5(tracer, model)
+    f = load_tracer_hdf5(tracer, model, verbose=verbose)
     abu = pd.DataFrame(f['Y'])
 
     return abu
