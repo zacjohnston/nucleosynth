@@ -12,6 +12,7 @@ class Tracer:
     """
     Object representing an individual mass tracer from a skynet model
     """
+
     def __init__(self, tracer, model, verbose=True):
         """
         parameters
@@ -28,7 +29,7 @@ class Tracer:
         self.file = None
         self.network = None
         self.abu = None
-        self.table = load_save.load_tracer_columns(tracer, model, verbose=verbose)
+        self.table = None
 
     def load_file(self):
         """Load raw tracer file
@@ -45,3 +46,10 @@ class Tracer:
         """Load chemical abundances
         """
         self.abu = network.get_tracer_abu(self.tracer, self.model, self.verbose)
+
+    def load_table(self):
+        """Load table of scalars
+        """
+        self.table = load_save.load_tracer_columns(self.tracer, self.model,
+                                                   tracer_file=self.file,
+                                                   verbose=self.verbose)
