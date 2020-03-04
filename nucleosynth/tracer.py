@@ -13,7 +13,7 @@ class Tracer:
     """
     Object representing an individual mass tracer from a model
     """
-    def __init__(self, tracer, model):
+    def __init__(self, tracer, model, verbose=True):
         """
         parameters
         ----------
@@ -23,7 +23,9 @@ class Tracer:
         self.tracer = tracer
         self.model = model
         self.path = paths.model_path(model=model)
+        self.verbose = verbose
 
         self.network = network.get_tracer_network(tracer=tracer, model=model)
         self.abu = network.get_tracer_abu(tracer=tracer, model=model)
-        self.table = load_save.load_tracer_columns(tracer=tracer, model=model)
+        self.table = load_save.load_tracer_columns(tracer=tracer, model=model,
+                                                   verbose=verbose)
