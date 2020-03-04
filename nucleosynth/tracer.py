@@ -13,12 +13,13 @@ class Tracer:
     Object representing an individual mass tracer from a skynet model
     """
 
-    def __init__(self, tracer, model, verbose=True):
+    def __init__(self, tracer, model, load_all=True, verbose=True):
         """
         parameters
         ----------
         tracer : int
         model : str
+        load_all : bool
         verbose : bool
         """
         self.tracer = tracer
@@ -31,6 +32,9 @@ class Tracer:
         self.abu = None
         self.table = None
 
+        if load_all:
+            self.load_all()
+            
     def load_all(self):
         """Load all tracer data
         """
@@ -38,7 +42,7 @@ class Tracer:
         self.load_network()
         self.load_abu()
         self.load_table()
-        
+
     def load_file(self):
         """Load raw tracer file
         """
