@@ -1,4 +1,4 @@
-name: nucleosynth_test
+name: nucleosynth
 dependencies:
   - python=3.7.*
   - h5py=2.10.*
