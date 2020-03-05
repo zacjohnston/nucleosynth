@@ -55,7 +55,9 @@ def load_tracer_abu(tracer, model, tracer_file=None, tracer_network=None,
     printv(f'Loading tracer abundances', verbose=verbose)
 
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
-    tracer_network = load_tracer_network(tracer, model, tracer_file, verbose=verbose)
+
+    tracer_network = load_tracer_network(tracer, model, tracer_file=tracer_file,
+                                         tracer_network=tracer_network, verbose=verbose)
 
     tracer_abu = pd.DataFrame(tracer_file['Y'])
     tracer_abu.columns = list(tracer_network['isotope'])
@@ -78,7 +80,7 @@ def load_tracer_network(tracer, model, tracer_file=None, tracer_network=None,
     printv(f'Loading tracer network', verbose=verbose)
 
     tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
-    
+
     if tracer_network is None:
         tracer_network = pd.DataFrame()
         iso_list = []

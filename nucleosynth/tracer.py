@@ -61,6 +61,7 @@ class Tracer:
         """
         self.abu = load_save.load_tracer_abu(self.tracer, self.model,
                                              tracer_file=self.file,
+                                             tracer_network=self.network,
                                              verbose=self.verbose)
 
     def load_table(self):
