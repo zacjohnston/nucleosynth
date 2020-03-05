@@ -6,6 +6,20 @@ Functions for managing nuclear network data
 """
 
 
+def select_a(tracer_network, a):
+    """Return subset of tracer network with given A (atomic mass number)
+    """
+    mask = tracer_network['A'] == a
+    return tracer_network[mask]
+
+
+def select_z(tracer_network, z):
+    """Return subset of tracer network with given Z (atomic number)
+    """
+    mask = tracer_network['Z'] == z
+    return tracer_network[mask]
+
+
 def get_isotope_str(z, a):
     """Return string for given isotope
 
