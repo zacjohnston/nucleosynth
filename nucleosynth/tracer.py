@@ -29,7 +29,7 @@ class Tracer:
         self.file = None
         self.network = None
         self.abu = None
-        self.table = None
+        self.columns = None
 
         if load_all:
             self.load_all()
@@ -40,7 +40,7 @@ class Tracer:
         self.load_file()
         self.load_network()
         self.load_abu()
-        self.load_table()
+        self.load_columns()
 
     def load_file(self):
         """Load raw tracer file
@@ -63,9 +63,9 @@ class Tracer:
                                              tracer_network=self.network,
                                              verbose=self.verbose)
 
-    def load_table(self):
+    def load_columns(self):
         """Load table of scalars
         """
-        self.table = load_save.load_tracer_columns(self.tracer_id, self.model,
-                                                   tracer_file=self.file,
-                                                   verbose=self.verbose)
+        self.columns = load_save.load_tracer_columns(self.tracer_id, self.model,
+                                                     tracer_file=self.file,
+                                                     verbose=self.verbose)
