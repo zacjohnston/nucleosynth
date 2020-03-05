@@ -142,7 +142,7 @@ class Tracer:
         plotting.set_ax_scales(ax=ax, x_var='time', y_var=column,
                                y_scale=y_scale, x_scale=x_scale)
         plotting.set_ax_legend(ax=ax, legend=legend)
-        plotting.set_ax_labels(ax=ax, xlabel='Time (s)', ylabel=column)
+        plotting.set_ax_labels(ax=ax, x_var='time', y_var=column)
         self._set_ax_title(ax=ax, title=title)
 
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,

@@ -96,19 +96,24 @@ def set_ax_lims(ax, xlims=None, ylims=None):
         ax.set_xlim(xlims)
 
 
-def set_ax_labels(ax, xlabel=None, ylabel=None):
+def set_ax_labels(ax, x_var=None, y_var=None, xlabel=None, ylabel=None):
     """Set x and y axis limits
 
     parameters
     ----------
     ax : pyplot Axis
+    x_var : str
+    y_var : str
     xlabel : str
     ylabel : str
     """
-    if ylabel is not None:
-        ax.set_ylabel(ylabel)
-    if xlabel is not None:
-        ax.set_xlabel(xlabel)
+    if ylabel is None:
+        ylabel = plot_config.ax_labels.get(y_var, y_var)
+    if xlabel is None:
+        xlabel = plot_config.ax_labels.get(x_var, x_var)
+
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
 
 
 def set_ax_legend(ax, legend, loc=None):
