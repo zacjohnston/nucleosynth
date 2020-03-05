@@ -34,7 +34,7 @@ def check_ax(ax, figsize):
 
     parameters
     ----------
-    ax : Axes
+    ax : pyplot Axis
     figsize : [width, height]
     """
     fig = None
@@ -50,7 +50,7 @@ def set_ax_scales(ax, y_var=None, x_var=None, y_scale=None, x_scale=None):
 
     parameters
     ----------
-    ax : Axes
+    ax : pyplot Axis
     y_var : str
     x_var : str
     y_scale : one of ('log', 'linear')
@@ -72,7 +72,7 @@ def set_ax_title(ax, string, title):
 
     parameters
     ----------
-    ax : Axes
+    ax : pyplot Axis
     string : str
     title : bool
     """
@@ -85,7 +85,7 @@ def set_ax_lims(ax, xlims=None, ylims=None):
 
     parameters
     ----------
-    ax : Axes
+    ax : pyplot Axis
     xlims : [min, max]
     ylims : [min, max]
     """
@@ -95,12 +95,27 @@ def set_ax_lims(ax, xlims=None, ylims=None):
         ax.set_xlim(xlims)
 
 
+def set_ax_labels(ax, xlabel=None, ylabel=None):
+    """Set x and y axis limits
+
+    parameters
+    ----------
+    ax : pyplot Axis
+    xlabel : str
+    ylabel : str
+    """
+    if ylabel is not None:
+        ax.set_ylabel(ylabel)
+    if xlabel is not None:
+        ax.set_xlabel(xlabel)
+
+
 def set_ax_legend(ax, legend, loc=None):
     """Set axis labels
 
     parameters
     ----------
-    ax : Axes
+    ax : pyplot Axis
     legend : bool
     loc : str or int
     """
