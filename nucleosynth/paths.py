@@ -52,24 +52,24 @@ def model_path(model):
     return os.path.join(path, model)
 
 
-def tracer_filename(tracer):
+def tracer_filename(tracer_id):
     """Return name of skynet tracer file
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     """
-    return f'{tracer}.h5'
+    return f'{tracer_id}.h5'
 
 
-def tracer_filepath(tracer, model):
+def tracer_filepath(tracer_id, model):
     """Return path to skynet tracer file
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     model : str
     """
     path = model_path(model)
-    filename = tracer_filename(tracer)
+    filename = tracer_filename(tracer_id)
     return os.path.join(path, filename)
