@@ -1,0 +1,7 @@
+name: nucleosynth_test
+dependencies:
+  - python=3.7.*
+  - h5py=2.10.*
+  - matplotlib=3.1.*
+  - numpy=1.18.*
+  - pandas=1.0.*
