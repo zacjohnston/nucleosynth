@@ -4,16 +4,23 @@ Each module can only import modules from lower levels (NOT from same level).
 =============================================================
 
 ----------------------------
+ Level 3
+----------------------------
+tracer.py
+
+----------------------------
  Level 2
 ----------------------------
-network.py
+load_save.py
 
 ----------------------------
  Level 1
 ----------------------------
-load_save.py
+network.py
 
 ----------------------------
  Level 0
 ----------------------------
 paths.py
+config/elements.py
+printing.py
