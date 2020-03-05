@@ -121,6 +121,7 @@ class Tracer:
         plotting.set_ax_lims(ax=ax, ylims=ylims, xlims=xlims)
         plotting.set_ax_scales(ax=ax, y_scale=y_scale, x_scale=x_scale)
         plotting.set_ax_legend(ax=ax, legend=legend)
+        plotting.set_ax_labels(ax=ax, xlabel='Time (s)', ylabel=column)
         self._set_ax_title(ax=ax, title=title)
 
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
