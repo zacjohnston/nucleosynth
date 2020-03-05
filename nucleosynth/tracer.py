@@ -1,6 +1,7 @@
 # nucleosynth
 from . import paths
 from . import load_save
+from . import network
 from . import plotting
 
 """
@@ -92,6 +93,25 @@ class Tracer:
                                                      tracer_file=self.file,
                                                      verbose=self.verbose)
 
+    # ===============================================================
+    #                      Accessing Data
+    # ===============================================================
+    def get_a(self, a):
+        """Return subset of network with given A (atomic mass number)
+
+        a : int
+            atomic mass number to select
+        """
+        return network.select_a(self.network, a=a)
+
+    def get_z(self, z):
+        """Return subset of network with given Z (atomic number)
+
+        z : int
+            atomic number to select
+        """
+        return network.select_z(self.network, z=z)
+    
     # ===============================================================
     #                      Plotting
     # ===============================================================
