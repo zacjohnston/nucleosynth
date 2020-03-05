@@ -12,13 +12,13 @@ Functions for loading/saving data
 """
 
 
-def load_tracer_columns(tracer, model, columns=None, tracer_file=None,
+def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
                         verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     model : str
     columns : [str]
         list of columns to extract
@@ -26,13 +26,13 @@ def load_tracer_columns(tracer, model, columns=None, tracer_file=None,
         raw tracer file, as returned by load_tracer_file()
     verbose : bool
     """
-    printv(f'Loading tracer columns', verbose=verbose)
+    printv(f'Loading tracer_id columns', verbose=verbose)
     table = pd.DataFrame()
 
     if columns is None:
         columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
-    tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
 
     for column in columns:
         table[column.lower()] = tracer_file[column]
@@ -40,23 +40,23 @@ def load_tracer_columns(tracer, model, columns=None, tracer_file=None,
     return table
 
 
-def load_tracer_abu(tracer, model, tracer_file=None, tracer_network=None,
+def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
                     verbose=True):
-    """Load chemical abundance table from tracer file
+    """Load chemical abundance table from tracer_id file
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     model : str
     tracer_file : h5py.File
     tracer_network : pd.DataFrame
     verbose : bool
     """
-    printv(f'Loading tracer abundances', verbose=verbose)
+    printv(f'Loading tracer_id abundances', verbose=verbose)
 
-    tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
 
-    tracer_network = load_tracer_network(tracer, model, tracer_file=tracer_file,
+    tracer_network = load_tracer_network(tracer_id, model, tracer_file=tracer_file,
                                          tracer_network=tracer_network, verbose=verbose)
 
     tracer_abu = pd.DataFrame(tracer_file['Y'])
@@ -65,21 +65,21 @@ def load_tracer_abu(tracer, model, tracer_file=None, tracer_network=None,
     return tracer_abu
 
 
-def load_tracer_network(tracer, model, tracer_file=None, tracer_network=None,
+def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
                         verbose=True):
-    """Load isotope info (Z, A) used in tracer
+    """Load isotope info (Z, A) used in tracer_id
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     model : str
     tracer_file : h5py.File
     tracer_network : pd.DataFrame
     verbose : bool
     """
-    printv(f'Loading tracer network', verbose=verbose)
+    printv(f'Loading tracer_id network', verbose=verbose)
 
-    tracer_file = load_tracer_file(tracer, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
 
     if tracer_network is None:
         tracer_network = pd.DataFrame()
@@ -99,20 +99,20 @@ def load_tracer_network(tracer, model, tracer_file=None, tracer_network=None,
     return tracer_network
 
 
-def load_tracer_file(tracer, model, tracer_file=None, verbose=True):
-    """Load skynet tracer hdf5 file
+def load_tracer_file(tracer_id, model, tracer_file=None, verbose=True):
+    """Load skynet tracer_id hdf5 file
 
     parameters
     ----------
-    tracer : int
+    tracer_id : int
     model : str
     tracer_file : h5py.File
         if tracer_file provided, simply return
     verbose : bool
     """
     if tracer_file is None:
-        filepath = paths.tracer_filepath(tracer, model=model)
-        printv(f'Loading tracer file: {filepath}', verbose=verbose)
+        filepath = paths.tracer_filepath(tracer_id, model=model)
+        printv(f'Loading tracer_id file: {filepath}', verbose=verbose)
         tracer_file = h5py.File(filepath, 'r')
 
     return tracer_file
