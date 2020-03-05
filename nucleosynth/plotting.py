@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# nucleosynth
+from .config import plot_config
+
 """
 General functions for plotting
 """
@@ -56,15 +59,13 @@ def set_ax_scales(ax, y_var=None, x_var=None, y_scale=None, x_scale=None):
     y_scale : one of ('log', 'linear')
     x_scale : one of ('log', 'linear')
     """
-    # if x_scale is None:
-    #     x_scale = self.config['plotting']['ax_scales'].get(x_var, 'log')
-    # if y_scale is None:
-    #     y_scale = self.config['plotting']['ax_scales'].get(y_var, 'log')
+    if x_scale is None:
+        x_scale = plot_config.ax_scales.get(x_var, 'linear')
+    if y_scale is None:
+        y_scale = plot_config.ax_scales.get(y_var, 'log')
 
-    if x_scale is not None:
-        ax.set_xscale(x_scale)
-    if y_scale is not None:
-        ax.set_yscale(y_scale)
+    ax.set_xscale(x_scale)
+    ax.set_yscale(y_scale)
 
 
 def set_ax_title(ax, string, title):
