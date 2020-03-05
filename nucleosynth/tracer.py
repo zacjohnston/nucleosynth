@@ -1,6 +1,7 @@
 # nucleosynth
 from . import paths
 from . import load_save
+from . import plotting
 
 """
 Class representing an individual mass tracer from a model
@@ -52,6 +53,9 @@ class Tracer:
         if load_all:
             self.load_all()
 
+    # ===============================================================
+    #                      Loading
+    # ===============================================================
     def load_all(self):
         """Load all tracer data
         """
@@ -87,3 +91,51 @@ class Tracer:
         self.columns = load_save.load_tracer_columns(self.tracer_id, self.model,
                                                      tracer_file=self.file,
                                                      verbose=self.verbose)
+
+    # ===============================================================
+    #                      Plotting
+    # ===============================================================
+    def plot(self, column, y_scale=None, x_scale=None,
+             ax=None, legend=False, title=True,
+             ylims=None, xlims=None, figsize=(8, 6), label=None,
+             linestyle='-', marker=''):
+        """Plot column quantity versus time
+
+        parameters
+        ----------
+        column : str
+            quantity to plot on y-axis (from Tracer.columns)
+        y_scale : {'log', 'linear'}
+        x_scale : {'log', 'linear'}
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        label : str
+        linestyle : str
+        marker : str
+        """
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+        plotting.set_ax_lims(ax=ax, ylims=ylims, xlims=xlims)
+        plotting.set_ax_scales(ax=ax, y_scale=y_scale, x_scale=x_scale)
+        plotting.set_ax_legend(ax=ax, legend=legend)
+        self._set_ax_title(ax=ax, title=title)
+
+        ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
+                marker=marker, label=label)
+
+        return fig
+
+    def _set_ax_title(self, ax, title):
+        """Add title to axis if title==True
+
+        parameters
+        ----------
+        ax : Axis
+        title : bool
+        """
+        if title:
+            string = f'{self.model}: tracer {self.tracer_id}'
+            plotting.set_ax_title(ax=ax, string=string, title=title)
