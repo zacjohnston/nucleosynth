@@ -101,25 +101,21 @@ class Tracer:
         """Return abundance column(s) for given Z and/or A
 
         z : int
+            atomic number
         a : int
+            atomic mass number
         """
         return network.select_abu(self.abu, tracer_network=self.network, z=z, a=a)
 
-    def get_a(self, a):
-        """Return subset of network with given A (atomic mass number)
-
-        a : int
-            atomic mass number to select
-        """
-        return network.select_a(self.network, a=a)
-
-    def get_z(self, z):
-        """Return subset of network with given Z (atomic number)
+    def get_network(self, z=None, a=None):
+        """Return subset of network with given Z and/or A
 
         z : int
-            atomic number to select
+            atomic number
+        a : int
+            atomic mass number
         """
-        return network.select_z(self.network, z=z)
+        return network.select_network(self.network, z=z, a=a)
 
     # ===============================================================
     #                      Plotting
