@@ -97,7 +97,7 @@ def get_zbar(abu_table, tracer_network, ye=None, abar=None):
         ye = get_ye(abu_table, tracer_network)
     if abar is None:
         abar = get_abar(abu_table)
-        
+
     return ye * abar
 
 

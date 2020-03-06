@@ -107,6 +107,8 @@ class Tracer:
         """
         if self.abu is None:
             self.load_abu()
+        if self.network is None:
+            self.load_network()
 
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
 
@@ -128,6 +130,8 @@ class Tracer:
             self.load_columns()
         if self.abu is None:
             self.load_abu()
+        if self.network is None:
+            self.load_network()
 
         self.columns['zbar'] = network.get_zbar(self.abu, self.network,
                                                 ye=self.columns['ye'])
