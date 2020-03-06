@@ -54,6 +54,8 @@ def select_abu(abu_table, tracer_network, z=None, a=None):
 def get_mass_frac(abu_table, tracer_network):
     """Calculate mass fraction (X) table from abu table
 
+    X = Y*A
+
     parameters
     ----------
     abu_table : pd.DataFrame
