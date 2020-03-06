@@ -65,10 +65,7 @@ class Tracer:
     def load_all(self):
         """Load all tracer data
         """
-        self.load_file()
-        self.load_columns()
-        self.load_network()
-        self.load_abu()
+        self.check_loaded()
 
         self.load_mass_frac()
         self.load_sumy_abar()
@@ -117,34 +114,20 @@ class Tracer:
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
         """
-        if self.abu is None:
-            self.load_abu()
-        if self.network is None:
-            self.load_network()
-
+        self.check_loaded()
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from abu table
         """
-        if self.columns is None:
-            self.load_columns()
-        if self.abu is None:
-            self.load_abu()
-
+        self.check_loaded()
         self.columns['sumy'] = network.get_sumy(self.abu)
         self.columns['abar'] = 1 / self.columns['sumy']
 
     def get_zbar(self):
         """Get Zbar versus time from abu table
         """
-        if self.columns is None:
-            self.load_columns()
-        if self.abu is None:
-            self.load_abu()
-        if self.network is None:
-            self.load_network()
-
+        self.check_loaded()
         self.columns['zbar'] = network.get_zbar(self.abu, self.network,
                                                 ye=self.columns['ye'])
 
