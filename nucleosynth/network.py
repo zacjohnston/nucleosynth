@@ -65,11 +65,27 @@ def get_mass_frac(abu_table, tracer_network):
     return abu_table.multiply(a)
 
 
+def get_ye(abu_table, tracer_network):
+    """Calculate Ye from abu table
+
+    Ye = sum(Z*X/A)
+       = sum(Z*Y)
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    tracer_network : pd.DataFrame
+    """
+    z = np.array(tracer_network['Z'])
+    zy = abu_table.multiply(z)
+    return np.sum(zy, axis=1)
+
+
 def get_sumy(abu_table):
     """Calculate sumY from abu table
 
     sumY = sum(Y)
-    Abar = 1 / sumY
+    Abar = 1/sumY
 
     parameters
     ----------
@@ -81,7 +97,7 @@ def get_sumy(abu_table):
 def get_abar(abu_table):
     """Calculate Abar from abu table
 
-    Abar = 1 / sumY
+    Abar = 1/sumY
 
     parameters
     ----------
