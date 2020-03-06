@@ -5,6 +5,8 @@ ax_scales = {
     'ye': 'linear',
     'entropy': 'linear',
     'time': 'linear',
+    'abar': 'linear',
+    'sumy': 'linear',
 }
 
 ax_labels = {
@@ -14,4 +16,6 @@ ax_labels = {
     'ye': '$Y_e$',
     'entropy': '$S$',  # TODO (units?)
     'time': 'Time (s)',
+    'abar': r'$\bar{A}$',
+    'sumy': 'sumY',
 }
