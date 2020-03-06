@@ -28,34 +28,29 @@ def select_z(tracer_network, z):
 # ===============================================================
 def select_abu(abu_table, tracer_network, z=None, a=None):
     """Return column(s) of abundance table with given Z and/or A
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    tracer_network : pd.DataFrame
+    z : int
+    a : int
     """
     if z is None:
         if a is None:
             raise ValueError('Must specify at least one of Z, A')
         else:
-            subset = select_abu_a(abu_table, tracer_network, a=a)
+            sub_net = select_a(tracer_network, a=a)
+            subset = abu_table.iloc[:, sub_net.index]
     else:
         if a is None:
-            subset = select_abu_z(abu_table, tracer_network, z=z)
+            sub_net = select_z(tracer_network, z=z)
+            subset = abu_table.iloc[:, sub_net.index]
         else:
             isotope = get_isotope_str(z=z, a=a)
             subset = abu_table[isotope]
 
     return subset
-
-
-def select_abu_a(abu_table, tracer_network, a):
-    """Return subset of abundance table with given A (atomic mass number)
-    """
-    sub_net = select_a(tracer_network, a=a)
-    return abu_table.iloc[:, sub_net.index]
-
-
-def select_abu_z(abu_table, tracer_network, z):
-    """Return subset of abundance table with given Z (atomic number)
-    """
-    sub_net = select_z(tracer_network, z=z)
-    return abu_table.iloc[:, sub_net.index]
 
 
 # ===============================================================
