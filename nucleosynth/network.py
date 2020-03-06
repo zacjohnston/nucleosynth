@@ -25,7 +25,11 @@ def select_network(tracer_network, a=None, z=None):
 
     z_mask = tracer_network['Z'] == z
     a_mask = tracer_network['A'] == a
-    mask = np.logical_and(z_mask, a_mask)
+
+    if None in [z, a]:
+        mask = np.logical_or(z_mask, a_mask)
+    else:
+        mask = np.logical_and(z_mask, a_mask)
 
     return tracer_network[mask]
 
@@ -43,21 +47,8 @@ def select_abu(abu_table, tracer_network, z=None, a=None):
     z : int
     a : int
     """
-    if z is None:
-        if a is None:
-            raise ValueError('Must specify at least one of Z, A')
-        else:
-            sub_net = select_a(tracer_network, a=a)
-            subset = abu_table.iloc[:, sub_net.index]
-    else:
-        if a is None:
-            sub_net = select_z(tracer_network, z=z)
-            subset = abu_table.iloc[:, sub_net.index]
-        else:
-            isotope = get_isotope_str(z=z, a=a)
-            subset = abu_table[isotope]
-
-    return subset
+    sub_net = select_network(tracer_network, z=z, a=a)
+    return abu_table.iloc[:, sub_net.index]
 
 
 # ===============================================================
