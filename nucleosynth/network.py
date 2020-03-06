@@ -51,6 +51,18 @@ def select_abu(abu_table, tracer_network, z=None, a=None):
     return abu_table.iloc[:, sub_net.index]
 
 
+def get_mass_frac(abu_table, tracer_network):
+    """Calculate mass fraction (X) table from abu table
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    tracer_network : pd.DataFrame
+    """
+    a = np.array(tracer_network['A'])
+    return abu_table.multiply(a)
+
+
 # ===============================================================
 #                      strings
 # ===============================================================
