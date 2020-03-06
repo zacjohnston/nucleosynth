@@ -1,3 +1,5 @@
+import numpy as np
+
 # nucleosynth
 from .config import elements
 
@@ -9,17 +11,22 @@ Functions for managing nuclear network data
 # ===============================================================
 #                      network table
 # ===============================================================
-def select_a(tracer_network, a):
-    """Return subset of tracer network with given A (atomic mass number)
-    """
-    mask = tracer_network['A'] == a
-    return tracer_network[mask]
+def select_network(tracer_network, a=None, z=None):
+    """Return subset of tracer network with given Z and/or A
 
-
-def select_z(tracer_network, z):
-    """Return subset of tracer network with given Z (atomic number)
+    parameters
+    ----------
+    tracer_network : pd.DataFrame
+    z : int
+    a : int
     """
-    mask = tracer_network['Z'] == z
+    if (z is None) and (a is None):
+        raise ValueError('Must specify at least one of Z, A')
+
+    z_mask = tracer_network['Z'] == z
+    a_mask = tracer_network['A'] == a
+    mask = np.logical_and(z_mask, a_mask)
+
     return tracer_network[mask]
 
 
