@@ -15,11 +15,13 @@ class Tracer:
     attributes
     ----------
     abu : pd.DataFrame
-        Table of isotopic abundances (number fraction) versus time
+        Table of isotopic abundances (Y, number fraction) versus time
     columns : pd.DataFrame
         Table of main scalar quantities (density, temperature, etc.) versus time
     file : h5py.File
         Raw hdf5 tracer output file from skynet
+    mass_frac : pd.DataFrame
+        Table of isotopic mass fractions (X) versus time
     model : str
         Name of the core-collapse model (typically named after the progenitor model)
     network : pd.DataFrame
