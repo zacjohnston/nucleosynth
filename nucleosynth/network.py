@@ -65,6 +65,18 @@ def get_mass_frac(abu_table, tracer_network):
     return abu_table.multiply(a)
 
 
+def get_sumy(abu_table):
+    """Calculate sumY from abu table
+
+    sumY = sum(Y)
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    """
+    return np.sum(abu_table, axis=1)
+
+
 # ===============================================================
 #                      strings
 # ===============================================================
