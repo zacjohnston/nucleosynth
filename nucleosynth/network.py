@@ -26,11 +26,22 @@ def select_z(tracer_network, z):
 # ===============================================================
 #                      abu table
 # ===============================================================
-def select_abu(abu_table, z, a):
-    """Return column of abundance table for given Z, A
+def select_abu(abu_table, tracer_network, z=None, a=None):
+    """Return column(s) of abundance table with given Z and/or A
     """
-    isotope = get_isotope_str(z=z, a=a)
-    return abu_table[isotope]
+    if z is None:
+        if a is None:
+            raise ValueError('Must specify at least one of Z, A')
+        else:
+            subset = select_abu_a(abu_table, tracer_network, a=a)
+    else:
+        if a is None:
+            subset = select_abu_z(abu_table, tracer_network, z=z)
+        else:
+            isotope = get_isotope_str(z=z, a=a)
+            subset = abu_table[isotope]
+
+    return subset
 
 
 def select_abu_a(abu_table, tracer_network, a):
