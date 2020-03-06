@@ -104,6 +104,11 @@ class Tracer:
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from abu table
         """
+        if self.columns is None:
+            self.load_columns()
+        if self.abu is None:
+            self.load_abu()
+
         self.columns['sumy'] = network.get_sumy(self.abu)
         self.columns['abar'] = 1 / self.columns['sumy']
 
