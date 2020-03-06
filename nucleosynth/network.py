@@ -69,6 +69,7 @@ def get_sumy(abu_table):
     """Calculate sumY from abu table
 
     sumY = sum(Y)
+    Abar = 1 / sumY
 
     parameters
     ----------
