@@ -8,10 +8,10 @@ ax_scales = {
 }
 
 ax_labels = {
-    'density': r'$\rho$ (g/cm^3)',
+    'density': r'$\rho$ (g cm$^{-3}$)',
     'temperature': '$T$ (K)',
-    'heatingrate': 'Heating Rate',  # TODO
+    'heatingrate': 'Heating Rate',  # TODO (erg/s?)
     'ye': '$Y_e$',
-    'entropy': '$S$',  # TODO
+    'entropy': '$S$',  # TODO (units?)
     'time': 'Time (s)',
 }
