@@ -138,12 +138,10 @@ class Tracer:
         marker : str
         """
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
-        plotting.set_ax_lims(ax=ax, ylims=ylims, xlims=xlims)
-        plotting.set_ax_scales(ax=ax, x_var='time', y_var=column,
-                               y_scale=y_scale, x_scale=x_scale)
-        plotting.set_ax_legend(ax=ax, legend=legend)
-        plotting.set_ax_labels(ax=ax, x_var='time', y_var=column)
+
         self._set_ax_title(ax=ax, title=title)
+        plotting.set_ax_all(ax, y_var=column, x_var='time', y_scale=y_scale,
+                            x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend)
 
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
                 marker=marker, label=label)
