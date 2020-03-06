@@ -81,6 +81,21 @@ def get_ye(abu_table, tracer_network):
     return np.sum(zy, axis=1)
 
 
+def get_zbar(abu_table, tracer_network):
+    """Calculate Zbar from abu table
+
+    Zbar = Ye*Abar
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    tracer_network : pd.DataFrame
+    """
+    ye = get_ye(abu_table, tracer_network)
+    abar = get_abar(abu_table)
+    return ye * abar
+
+
 def get_sumy(abu_table):
     """Calculate sumY from abu table
 
