@@ -52,6 +52,7 @@ class Tracer:
         self.network = None
         self.abu = None
         self.mass_frac = None
+        self.sumy = None
         self.columns = None
         self.title = f'{self.model}: tracer_{self.tracer_id}'
 
@@ -68,6 +69,7 @@ class Tracer:
         self.load_network()
         self.load_abu()
         self.load_mass_frac()
+        self.load_sumy()
         self.load_columns()
 
     def load_file(self):
@@ -95,6 +97,11 @@ class Tracer:
         """Get mass fraction (X) table from abu table
         """
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
+
+    def load_sumy(self):
+        """Get sumY versus time from abu table
+        """
+        self.sumy = network.get_sumy(self.abu)
 
     def load_columns(self):
         """Load table of scalars
