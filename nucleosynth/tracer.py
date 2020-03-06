@@ -140,22 +140,11 @@ class Tracer:
         """
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
-        self._set_ax_title(ax=ax, title=title)
-        plotting.set_ax_all(ax, y_var=column, x_var='time', y_scale=y_scale,
-                            x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend)
-
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
                 marker=marker, label=label)
 
+        plotting.set_ax_all(ax, y_var=column, x_var='time', y_scale=y_scale,
+                            x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend,
+                            title=title, title_str=self.title)
+
         return fig
-
-    def _set_ax_title(self, ax, title):
-        """Add title to axis if title==True
-
-        parameters
-        ----------
-        ax : Axis
-        title : bool
-        """
-        if title:
-            plotting.set_ax_title(ax=ax, string=self.title, title=title)
