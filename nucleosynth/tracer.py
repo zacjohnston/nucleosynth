@@ -69,14 +69,23 @@ class Tracer:
         self.load_columns()
         self.load_network()
         self.load_abu()
+
         self.load_mass_frac()
         self.load_sumy_abar()
+        self.get_zbar()
 
     def load_file(self):
         """Load raw tracer file
         """
         self.file = load_save.load_tracer_file(self.tracer_id, self.model,
                                                verbose=self.verbose)
+
+    def load_columns(self):
+        """Load table of scalars
+        """
+        self.columns = load_save.load_tracer_columns(self.tracer_id, self.model,
+                                                     tracer_file=self.file,
+                                                     verbose=self.verbose)
 
     def load_network(self):
         """Load table of network isotopes
@@ -112,12 +121,16 @@ class Tracer:
         self.columns['sumy'] = network.get_sumy(self.abu)
         self.columns['abar'] = 1 / self.columns['sumy']
 
-    def load_columns(self):
-        """Load table of scalars
+    def get_zbar(self):
+        """Get Zbar versus time from abu table
         """
-        self.columns = load_save.load_tracer_columns(self.tracer_id, self.model,
-                                                     tracer_file=self.file,
-                                                     verbose=self.verbose)
+        if self.columns is None:
+            self.load_columns()
+        if self.abu is None:
+            self.load_abu()
+
+        self.columns['zbar'] = network.get_zbar(self.abu, self.network,
+                                                ye=self.columns['ye'])
 
     # ===============================================================
     #                      Accessing Data
