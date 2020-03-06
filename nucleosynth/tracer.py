@@ -97,6 +97,14 @@ class Tracer:
     # ===============================================================
     #                      Accessing Data
     # ===============================================================
+    def get_abu(self, z=None, a=None):
+        """Return abundance column(s) for given Z and/or A
+
+        z : int
+        a : int
+        """
+        return network.select_abu(self.abu, tracer_network=self.network, z=z, a=a)
+
     def get_a(self, a):
         """Return subset of network with given A (atomic mass number)
 
