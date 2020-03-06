@@ -50,6 +50,7 @@ class Tracer:
         self.network = None
         self.abu = None
         self.columns = None
+        self.title = f'{self.model}: tracer_{self.tracer_id}'
 
         if load_all:
             self.load_all()
@@ -157,5 +158,4 @@ class Tracer:
         title : bool
         """
         if title:
-            string = f'{self.model}: tracer {self.tracer_id}'
-            plotting.set_ax_title(ax=ax, string=string, title=title)
+            plotting.set_ax_title(ax=ax, string=self.title, title=title)
