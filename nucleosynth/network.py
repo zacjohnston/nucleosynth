@@ -6,6 +6,9 @@ Functions for managing nuclear network data
 """
 
 
+# ===============================================================
+#                      network table
+# ===============================================================
 def select_a(tracer_network, a):
     """Return subset of tracer network with given A (atomic mass number)
     """
@@ -18,6 +21,16 @@ def select_z(tracer_network, z):
     """
     mask = tracer_network['Z'] == z
     return tracer_network[mask]
+
+
+# ===============================================================
+#                      abu table
+# ===============================================================
+def select_abu(abu_table, z, a):
+    """Return column of abundance table for given Z, A
+    """
+    isotope = get_isotope_str(z=z, a=a)
+    return abu_table[isotope]
 
 
 def select_abu_a(abu_table, tracer_network, a):
@@ -34,6 +47,9 @@ def select_abu_z(abu_table, tracer_network, z):
     return abu_table.iloc[:, sub_net.index]
 
 
+# ===============================================================
+#                      strings
+# ===============================================================
 def get_isotope_str(z, a):
     """Return string for given isotope
 
