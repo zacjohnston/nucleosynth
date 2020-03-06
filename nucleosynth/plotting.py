@@ -48,6 +48,34 @@ def check_ax(ax, figsize):
     return fig, ax
 
 
+def set_ax_all(ax, y_var=None, x_var=None, y_scale=None, x_scale=None,
+               xlabel=None, ylabel=None, xlims=None, ylims=None,
+               legend=False, legend_loc=None, title=False, title_str=None):
+    """Set all ax properties
+
+    parameters
+    ----------
+    ax : pyplot Axis
+    y_var : str
+    x_var : str
+    y_scale : one of ('log', 'linear')
+    x_scale : one of ('log', 'linear')
+    xlabel : str
+    ylabel : str
+    xlims : [min, max]
+    ylims : [min, max]
+    legend : bool
+    legend_loc : str
+    title : bool
+    title_str : str
+    """
+    set_ax_scales(ax, x_var=x_var, y_var=y_var, x_scale=x_scale, y_scale=y_scale)
+    set_ax_labels(ax, y_var=y_var, x_var=x_var, ylabel=ylabel, xlabel=xlabel)
+    set_ax_lims(ax, xlims=xlims, ylims=ylims)
+    set_ax_legend(ax, legend=legend, loc=legend_loc)
+    set_ax_title(ax, string=title_str, title=title)
+
+
 def set_ax_scales(ax, y_var=None, x_var=None, y_scale=None, x_scale=None):
     """Set axis scales (linear, log)
 
