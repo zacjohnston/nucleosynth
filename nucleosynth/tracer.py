@@ -74,6 +74,18 @@ class Tracer:
         self.load_sumy_abar()
         self.get_zbar()
 
+    def check_loaded(self):
+        """Check that main data is loaded
+        """
+        if self.file is None:
+            self.load_file()
+        if self.columns is None:
+            self.load_columns()
+        if self.abu is None:
+            self.load_abu()
+        if self.network is None:
+            self.load_network()
+
     def load_file(self):
         """Load raw tracer file
         """
