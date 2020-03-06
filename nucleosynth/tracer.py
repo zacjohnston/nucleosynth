@@ -49,6 +49,7 @@ class Tracer:
         self.file = None
         self.network = None
         self.abu = None
+        self.mass_frac = None
         self.columns = None
         self.title = f'{self.model}: tracer_{self.tracer_id}'
 
@@ -64,6 +65,7 @@ class Tracer:
         self.load_file()
         self.load_network()
         self.load_abu()
+        self.load_mass_frac()
         self.load_columns()
 
     def load_file(self):
@@ -86,6 +88,11 @@ class Tracer:
                                              tracer_file=self.file,
                                              tracer_network=self.network,
                                              verbose=self.verbose)
+
+    def load_mass_frac(self):
+        """Get mass fraction (X) table from abu table
+        """
+        self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
 
     def load_columns(self):
         """Load table of scalars
