@@ -78,6 +78,19 @@ def get_sumy(abu_table):
     return np.sum(abu_table, axis=1)
 
 
+def get_abar(abu_table):
+    """Calculate Abar from abu table
+
+    Abar = 1 / sumY
+
+    parameters
+    ----------
+    abu_table : pd.DataFrame
+    """
+    sumy = get_sumy(abu_table)
+    return 1 / sumy
+
+
 # ===============================================================
 #                      strings
 # ===============================================================
