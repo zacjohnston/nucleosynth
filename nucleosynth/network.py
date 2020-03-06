@@ -20,6 +20,20 @@ def select_z(tracer_network, z):
     return tracer_network[mask]
 
 
+def select_abu_a(abu_table, tracer_network, a):
+    """Return subset of abundance table with given A (atomic mass number)
+    """
+    sub_net = select_a(tracer_network, a=a)
+    return abu_table.iloc[:, sub_net.index]
+
+
+def select_abu_z(abu_table, tracer_network, z):
+    """Return subset of abundance table with given Z (atomic number)
+    """
+    sub_net = select_z(tracer_network, z=z)
+    return abu_table.iloc[:, sub_net.index]
+
+
 def get_isotope_str(z, a):
     """Return string for given isotope
 
