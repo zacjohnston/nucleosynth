@@ -96,6 +96,9 @@ class Tracer:
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
         """
+        if self.abu is None:
+            self.load_abu()
+
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
 
     def load_sumy_abar(self):
