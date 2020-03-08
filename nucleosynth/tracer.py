@@ -78,10 +78,10 @@ class Tracer:
             self.load_file()
         if self.columns is None:
             self.load_columns()
-        if self.abu is None:
-            self.load_abu()
         if self.network is None:
             self.load_network()
+        if self.abu is None:
+            self.load_abu()
 
     def load_file(self):
         """Load raw tracer file
