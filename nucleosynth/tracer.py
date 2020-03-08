@@ -16,8 +16,6 @@ class Tracer:
 
     attributes
     ----------
-    a : [int]
-        unique A in network
     abu : pd.DataFrame
         Table of isotopic abundances (Y, number fraction) versus time
     columns : pd.DataFrame
@@ -38,10 +36,12 @@ class Tracer:
         abundance table, grouped by Z and summed over A
     tracer_id : int
         The tracer ID/index
+    unique_a : [int]
+        unique A in network
+    unique_z : [int]
+        unique Z in network
     verbose : bool
         Option to print output
-    z : [int]
-        unique Z in network
     """
 
     def __init__(self, tracer_id, model, load_all=True, verbose=True):
@@ -63,8 +63,8 @@ class Tracer:
         self.abu = None
         self.mass_frac = None
 
-        self.z = None
-        self.a = None
+        self.unique_z = None
+        self.unique_a = None
         self.sums_abu_a = None
         self.sums_abu_z = None
 
@@ -126,8 +126,8 @@ class Tracer:
     def get_network_unique(self):
         """Get unique Z and A in network
         """
-        self.z = np.unique(self.network['Z'])
-        self.a = np.unique(self.network['A'])
+        self.unique_z = np.unique(self.network['Z'])
+        self.unique_a = np.unique(self.network['A'])
 
     def load_abu(self):
         """Load chemical abundance table
