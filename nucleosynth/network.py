@@ -35,17 +35,6 @@ def select_network(tracer_network, a=None, z=None):
     return tracer_network[mask]
 
 
-def get_unique(tracer_network, choice):
-    """Return unique Z or A from network
-
-    parameters
-    ----------
-    tracer_network : pd.DataFrame
-    choice : one of ['A', 'Z']
-    """
-    return np.unique(tracer_network[choice])
-
-
 # ===============================================================
 #                      summaries/subsets
 # ===============================================================
@@ -68,7 +57,7 @@ def get_table_sums(table, tracer_network, group_by):
     a = None
     z = None
 
-    unique = get_unique(tracer_network, choice=group_by)
+    unique = np.unique(tracer_network[group_by])
 
     for num in unique:
         if group_by == 'A':
