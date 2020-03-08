@@ -2,6 +2,8 @@ ax_scales = {
     'density': 'log',
     'temperature': 'log',
     'heatingrate': 'log',
+    'abu': 'log',
+    'mass_frac': 'log',
     'ye': 'linear',
     'entropy': 'linear',
     'time': 'linear',
@@ -17,5 +19,7 @@ ax_labels = {
     'entropy': '$S$',  # TODO (units?)
     'time': 'Time (s)',
     'abar': r'$\bar{A}$',
-    'sumy': 'sumY',
+    'sumy': r'$\Sigma Y$',
+    'abu': '$Y$',
+    'mass_frac': '$X$',
 }
