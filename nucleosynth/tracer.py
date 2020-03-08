@@ -63,7 +63,7 @@ class Tracer:
         self.sums = None
 
         self.columns = None
-        self.title = f'{self.model}: tracer_{self.tracer_id}'
+        self.title = f'{self.model}, tracer_{self.tracer_id}'
 
         if load_all:
             self.load_all()
