@@ -211,6 +211,7 @@ class Tracer:
         linestyle : str
         marker : str
         """
+        # TODO: plot multiple subplots
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
@@ -247,15 +248,18 @@ class Tracer:
         linestyle : str
         marker : str
         """
+        # TODO: slider for timestep
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         x = self.network_unique[group]
         y = self.sums[table][group].loc[timestep]
 
+        time = self.columns['time'][timestep]
+        title_str = f"{self.title}, t={time:.3e} s"
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
         plotting.set_ax_all(ax, y_var=table, x_var=group, y_scale=y_scale,
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
-                            title=title, title_str=self.title)
+                            title=title, title_str=title_str)
 
         return fig
