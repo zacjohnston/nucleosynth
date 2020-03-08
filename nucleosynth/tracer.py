@@ -28,16 +28,14 @@ class Tracer:
         Name of the core-collapse model (typically named after the progenitor model)
     network : pd.DataFrame
         Table of isotopes used in model (name, Z, A)
+    network_unique : {group: [int]}
+        unique A and Z in network
     path : str
         Path to skynet model output
     sums : {table: group: pd.DataFrame}
         abundance/mass fraction tables, grouped and summed over A/Z
     tracer_id : int
         The tracer ID/index
-    unique_a : [int]
-        unique A in network
-    unique_z : [int]
-        unique Z in network
     verbose : bool
         Option to print output
     """
@@ -61,8 +59,7 @@ class Tracer:
         self.abu = None
         self.mass_frac = None
 
-        self.unique_z = None
-        self.unique_a = None
+        self.network_unique = None
         self.sums = None
 
         self.columns = None
@@ -123,8 +120,9 @@ class Tracer:
     def get_network_unique(self):
         """Get unique Z and A in network
         """
-        self.unique_z = np.unique(self.network['Z'])
-        self.unique_a = np.unique(self.network['A'])
+        self.network_unique = {}
+        for group in ['A', 'Z']:
+            self.network_unique[group] = np.unique(self.network[group])
 
     def load_abu(self):
         """Load chemical abundance table
