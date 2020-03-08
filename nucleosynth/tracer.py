@@ -34,6 +34,10 @@ class Tracer:
         abundance table, grouped by A and summed over Z
     sums_abu_z : pd.DataFrame
         abundance table, grouped by Z and summed over A
+    sums_mass_frac_a : pd.DataFrame
+        mass fraction table, grouped by A and summed over Z
+    sums_mass_frac_z : pd.DataFrame
+        mass fraction table, grouped by Z and summed over A
     tracer_id : int
         The tracer ID/index
     unique_a : [int]
@@ -65,8 +69,11 @@ class Tracer:
 
         self.unique_z = None
         self.unique_a = None
+        # TODO: store in dict? eg, self.sums['abu']['A']
         self.sums_abu_a = None
         self.sums_abu_z = None
+        self.sums_mass_frac_a = None
+        self.sums_mass_frac_z = None
 
         self.columns = None
         self.title = f'{self.model}: tracer_{self.tracer_id}'
@@ -148,6 +155,8 @@ class Tracer:
         """
         self.sums_abu_a = network.get_table_sums(self.abu, self.network, group_by='A')
         self.sums_abu_z = network.get_table_sums(self.abu, self.network, group_by='Z')
+        self.sums_mass_frac_a = network.get_table_sums(self.mass_frac, self.network, 'A')
+        self.sums_mass_frac_z = network.get_table_sums(self.mass_frac, self.network, 'Z')
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from abu table
