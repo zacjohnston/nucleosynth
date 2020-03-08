@@ -167,3 +167,22 @@ def get_element_str(z):
         return names[z]
     else:
         raise ValueError(f'element with Z={z} not defined. Check config/elements.py')
+
+
+# ===============================================================
+#                      convenience
+# ===============================================================
+def check_a_or_z(z, a):
+    """Check that one (and only one) of A or Z has been specified
+    """
+    check_a_and_or_z(z=z, a=a, message='Must specify one of Z, A')
+
+    if (z is not None) and (a is not None):
+        raise ValueError('Can only specify one of Z, A')
+
+
+def check_a_and_or_z(z, a, message='Must specify at least one of Z, A'):
+    """Check that at least one of A or Z has been specified
+    """
+    if (z is None) and (a is None):
+        raise ValueError(message)
