@@ -1,3 +1,5 @@
+import numpy as np
+
 # nucleosynth
 from . import paths
 from . import load_save
@@ -14,6 +16,8 @@ class Tracer:
 
     attributes
     ----------
+    a : [int]
+        unique A in network
     abu : pd.DataFrame
         Table of isotopic abundances (Y, number fraction) versus time
     columns : pd.DataFrame
@@ -32,6 +36,8 @@ class Tracer:
         The tracer ID/index
     verbose : bool
         Option to print output
+    z : [int]
+        unique Z in network
     """
 
     def __init__(self, tracer_id, model, load_all=True, verbose=True):
@@ -52,6 +58,9 @@ class Tracer:
         self.network = None
         self.abu = None
         self.mass_frac = None
+
+        self.z = None
+        self.a = None
 
         self.columns = None
         self.title = f'{self.model}: tracer_{self.tracer_id}'
@@ -76,10 +85,13 @@ class Tracer:
         """
         if self.file is None:
             self.load_file()
+
         if self.columns is None:
             self.load_columns()
+
         if self.network is None:
             self.load_network()
+
         if self.abu is None:
             self.load_abu()
 
@@ -102,6 +114,13 @@ class Tracer:
         self.network = load_save.load_tracer_network(self.tracer_id, self.model,
                                                      tracer_file=self.file,
                                                      verbose=self.verbose)
+        self.get_network_unique()
+
+    def get_network_unique(self):
+        """Get unique Z and A in network
+        """
+        self.z = np.unique(self.network['Z'])
+        self.a = np.unique(self.network['A'])
 
     def load_abu(self):
         """Load chemical abundance table
