@@ -34,6 +34,26 @@ def select_network(tracer_network, a=None, z=None):
     return tracer_network[mask]
 
 
+def get_unique(tracer_network, choice):
+    """Return unique Z or A from network
+
+    parameters
+    ----------
+    tracer_network : pd.DataFrame
+    choice : one of ['A', 'Z']
+    """
+    return np.unique(tracer_network[choice])
+
+
+# ===============================================================
+#                      summaries
+# ===============================================================
+def get_sum(table, tracer_network, z=None, a=None):
+    """Calculate abundance/mass fraction sums over Z or A
+    """
+    pass
+
+
 # ===============================================================
 #                      abu table
 # ===============================================================
