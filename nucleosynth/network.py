@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 # nucleosynth
 from .config import elements
@@ -48,10 +49,37 @@ def get_unique(tracer_network, choice):
 # ===============================================================
 #                      summaries/subsets
 # ===============================================================
-def get_sum(table, tracer_network, z=None, a=None):
-    """Calculate abundance/mass fraction sums over Z or A
+def get_table_sums(table, tracer_network, group_by):
+    """Calculate sums of abundance/mass-fraction over Z or A
+        i.e., sum table columns grouped by either Z or A
+
+    Returns : pd.DataFrame()
+        where each column corresponds to the Z/A summed over
+
+    parameters
+    ----------
+    table : pd.DataFrame
+        Abundances or mass fractions
+    tracer_network : pd.DataFrame
+    group_by : one of ['A', 'Z']
+        Which atomic number to group columns by
     """
-    pass
+    sums = pd.DataFrame()
+    a = None
+    z = None
+
+    unique = get_unique(tracer_network, choice=group_by)
+
+    for num in unique:
+        if group_by == 'A':
+            a = num
+        else:
+            z = num
+
+        subset = select_table(table, tracer_network=tracer_network, z=z, a=a)
+        sums[num] = np.sum(subset, axis=1)
+
+    return sums
 
 
 # ===============================================================
