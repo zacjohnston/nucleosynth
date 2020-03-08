@@ -46,7 +46,7 @@ def get_unique(tracer_network, choice):
 
 
 # ===============================================================
-#                      summaries
+#                      summaries/subsets
 # ===============================================================
 def get_sum(table, tracer_network, z=None, a=None):
     """Calculate abundance/mass fraction sums over Z or A
@@ -55,20 +55,21 @@ def get_sum(table, tracer_network, z=None, a=None):
 
 
 # ===============================================================
-#                      abu table
+#                      tables
 # ===============================================================
-def select_abu(abu_table, tracer_network, z=None, a=None):
+def select_table(table, tracer_network, z=None, a=None):
     """Return column(s) of abundance table with given Z and/or A
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    table : pd.DataFrame
+        either abundance or mass_frac table
     tracer_network : pd.DataFrame
     z : int
     a : int
     """
     sub_net = select_network(tracer_network, z=z, a=a)
-    return abu_table.iloc[:, sub_net.index]
+    return table.iloc[:, sub_net.index]
 
 
 def get_mass_frac(abu_table, tracer_network):

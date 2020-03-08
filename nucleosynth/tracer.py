@@ -142,7 +142,7 @@ class Tracer:
         a : int
             atomic mass number
         """
-        return network.select_abu(self.abu, tracer_network=self.network, z=z, a=a)
+        return network.select_table(self.abu, tracer_network=self.network, z=z, a=a)
 
     def get_network(self, z=None, a=None):
         """Return subset of network with given Z and/or A
