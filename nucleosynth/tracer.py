@@ -221,3 +221,41 @@ class Tracer:
                             title=title, title_str=self.title)
 
         return fig
+
+    def plot_sums(self, timestep, table, group, y_scale=None,
+                  ax=None, legend=False, title=True,
+                  ylims=None, xlims=None, figsize=(8, 6), label=None,
+                  linestyle='-', marker='o'):
+        """Plot composition sums versus time
+
+        parameters
+        ----------
+        timestep : int
+            index of timestep to plot
+        table : one of ['abu', 'mass_frac']
+             which composition table to plot
+        group : one of ['A', 'Z']
+             which atomic number to group by on x-axis
+        y_scale : {'log', 'linear'}
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        label : str
+        linestyle : str
+        marker : str
+        """
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        x = self.network_unique[group]
+        y = self.sums[table][group].loc[timestep]
+
+        ax.plot(x, y, ls=linestyle, marker=marker, label=label)
+
+        plotting.set_ax_all(ax, y_var=table, x_var=group, y_scale=y_scale,
+                            x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
+                            title=title, title_str=self.title)
+
+        return fig
