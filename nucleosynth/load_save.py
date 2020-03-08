@@ -26,7 +26,7 @@ def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
         raw tracer file, as returned by load_tracer_file()
     verbose : bool
     """
-    printv(f'Loading tracer_id columns', verbose=verbose)
+    printv(f'Loading tracer columns', verbose=verbose)
     table = pd.DataFrame()
 
     if columns is None:
@@ -42,7 +42,7 @@ def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
 
 def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
                     verbose=True):
-    """Load chemical abundance table from tracer_id file
+    """Load chemical abundance table from tracer file
 
     parameters
     ----------
@@ -52,7 +52,7 @@ def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
     tracer_network : pd.DataFrame
     verbose : bool
     """
-    printv(f'Loading tracer_id abundances', verbose=verbose)
+    printv(f'Loading tracer abundances', verbose=verbose)
 
     tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
 
@@ -67,7 +67,7 @@ def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
 
 def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
                         verbose=True):
-    """Load isotope info (Z, A) used in tracer_id
+    """Load isotope info (Z, A) used in tracer
 
     parameters
     ----------
@@ -77,11 +77,10 @@ def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
     tracer_network : pd.DataFrame
     verbose : bool
     """
-    printv(f'Loading tracer_id network', verbose=verbose)
-
     tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
 
     if tracer_network is None:
+        printv(f'Loading tracer network', verbose=verbose)
         tracer_network = pd.DataFrame()
         iso_list = []
 
@@ -100,7 +99,7 @@ def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
 
 
 def load_tracer_file(tracer_id, model, tracer_file=None, verbose=True):
-    """Load skynet tracer_id hdf5 file
+    """Load skynet tracer hdf5 file
 
     parameters
     ----------
@@ -112,7 +111,7 @@ def load_tracer_file(tracer_id, model, tracer_file=None, verbose=True):
     """
     if tracer_file is None:
         filepath = paths.tracer_filepath(tracer_id, model=model)
-        printv(f'Loading tracer_id file: {filepath}', verbose=verbose)
+        printv(f'Loading tracer file: {filepath}', verbose=verbose)
         tracer_file = h5py.File(filepath, 'r')
 
     return tracer_file
