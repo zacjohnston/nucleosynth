@@ -32,6 +32,10 @@ class Tracer:
         Table of isotopes used in model (name, Z, A)
     path : str
         Path to skynet model output
+    sums_abu_a : pd.DataFrame
+        abundance table, grouped by A and summed over Z
+    sums_abu_z : pd.DataFrame
+        abundance table, grouped by Z and summed over A
     tracer_id : int
         The tracer ID/index
     verbose : bool
@@ -61,6 +65,8 @@ class Tracer:
 
         self.z = None
         self.a = None
+        self.sums_abu_a = None
+        self.sums_abu_z = None
 
         self.columns = None
         self.title = f'{self.model}: tracer_{self.tracer_id}'
@@ -69,7 +75,7 @@ class Tracer:
             self.load_all()
 
     # ===============================================================
-    #                      Loading
+    #                      Loading/extracting
     # ===============================================================
     def load_all(self):
         """Load all tracer data
@@ -77,6 +83,7 @@ class Tracer:
         self.check_loaded()
 
         self.load_mass_frac()
+        self.load_sums()
         self.load_sumy_abar()
         self.get_zbar()
 
@@ -135,6 +142,12 @@ class Tracer:
         """
         self.check_loaded()
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
+
+    def load_sums(self):
+        """Get abundance/mass-fraction sums over Z, A
+        """
+        self.sums_abu_a = network.get_table_sums(self.abu, self.network, group_by='A')
+        self.sums_abu_z = network.get_table_sums(self.abu, self.network, group_by='Z')
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from abu table
