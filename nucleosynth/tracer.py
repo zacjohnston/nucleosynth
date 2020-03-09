@@ -114,22 +114,24 @@ class Tracer:
     def load_columns(self):
         """Load table of scalars
         """
+        self.printv('Loading and joining columns')
         columns = []
         for i in [1, 2]:
             columns += [load_save.load_tracer_columns(self.tracer_id, tracer_step=i,
                                                       model=self.model,
                                                       tracer_file=self.files[i],
-                                                      verbose=self.verbose)]
+                                                      verbose=False)]
 
         self.columns = pd.concat(columns, ignore_index=True)
 
     def load_network(self):
         """Load table of network isotopes
         """
+        self.printv('Loading network')
         self.network = load_save.load_tracer_network(self.tracer_id, tracer_step=1,
                                                      model=self.model,
                                                      tracer_file=self.files[1],
-                                                     verbose=self.verbose)
+                                                     verbose=False)
         self.get_network_unique()
 
     def get_network_unique(self):
@@ -142,25 +144,28 @@ class Tracer:
     def load_abu(self):
         """Load chemical abundance table
         """
+        self.printv('Loading and joining abundance tables')
         abu = []
         for i in [1, 2]:
             abu += [load_save.load_tracer_abu(self.tracer_id, tracer_step=i,
                                               model=self.model,
                                               tracer_file=self.files[i],
                                               tracer_network=self.network,
-                                              verbose=self.verbose)]
+                                              verbose=False)]
 
         self.abu = pd.concat(abu, ignore_index=True)
 
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
         """
+        self.printv('Calculating mass fractions')
         self.check_loaded()
         self.mass_frac = network.get_mass_frac(self.abu, tracer_network=self.network)
 
     def load_sums(self):
         """Get abundance/mass-fraction sums over A, Z
         """
+        self.printv('Calculating composition sums')
         self.check_loaded()
         self.sums = {'abu': {}, 'mass_frac': {}}
         tables = {'abu': self.abu, 'mass_frac': self.mass_frac}
