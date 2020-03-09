@@ -22,6 +22,8 @@ class Tracer:
         Table of main scalar quantities (density, temperature, etc.) versus time
     file : h5py.File
         Raw hdf5 tracer output file from skynet
+    mass : float
+        mass of tracer (Msun)
     mass_frac : pd.DataFrame
         Table of isotopic mass fractions (X) versus time
     model : str
@@ -40,18 +42,20 @@ class Tracer:
         Option to print output
     """
 
-    def __init__(self, tracer_id, model, load_all=True, verbose=True):
+    def __init__(self, tracer_id, model, load_all=True, mass=0.01, verbose=True):
         """
         parameters
         ----------
         tracer_id : int
         model : str
         load_all : bool
+        mass : float
         verbose : bool
         """
         self.tracer_id = tracer_id
         self.model = model
         self.path = paths.model_path(model=model)
+        self.mass = mass
         self.verbose = verbose
 
         self.file = None
