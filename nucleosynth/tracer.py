@@ -6,6 +6,7 @@ from . import paths
 from . import load_save
 from . import network
 from . import plotting
+from . import printing
 
 """
 Class representing an individual mass tracer from a model
@@ -282,3 +283,11 @@ class Tracer:
                             title=title, title_str=title_str)
 
         return fig
+
+    # ===============================================================
+    #                      Convenience
+    # ===============================================================
+    def printv(self, string):
+        """Print string if verbose is True
+        """
+        printing.printv(string, verbose=self.verbose)
