@@ -12,13 +12,14 @@ Functions for loading/saving data
 """
 
 
-def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
+def load_tracer_columns(tracer_id, tracer_step, model, columns=None, tracer_file=None,
                         verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
     ----------
     tracer_id : int
+    tracer_step : 1 or 2
     model : str
     columns : [str]
         list of columns to extract
@@ -32,7 +33,8 @@ def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
     if columns is None:
         columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
 
-    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
+                                   tracer_file=tracer_file, verbose=verbose)
 
     for column in columns:
         table[column.lower()] = tracer_file[column]
@@ -40,13 +42,14 @@ def load_tracer_columns(tracer_id, model, columns=None, tracer_file=None,
     return table
 
 
-def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
-                    verbose=True):
+def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
+                    tracer_network=None, verbose=True):
     """Load chemical abundance table from tracer file
 
     parameters
     ----------
     tracer_id : int
+    tracer_step : 1 or 2
     model : str
     tracer_file : h5py.File
     tracer_network : pd.DataFrame
@@ -54,9 +57,11 @@ def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
     """
     printv(f'Loading tracer abundances', verbose=verbose)
 
-    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
+                                   tracer_file=tracer_file, verbose=verbose)
 
-    tracer_network = load_tracer_network(tracer_id, model, tracer_file=tracer_file,
+    tracer_network = load_tracer_network(tracer_id, tracer_step, model=model,
+                                         tracer_file=tracer_file,
                                          tracer_network=tracer_network, verbose=verbose)
 
     tracer_abu = pd.DataFrame(tracer_file['Y'])
@@ -65,19 +70,21 @@ def load_tracer_abu(tracer_id, model, tracer_file=None, tracer_network=None,
     return tracer_abu
 
 
-def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
-                        verbose=True):
+def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
+                        tracer_network=None, verbose=True):
     """Load isotope info (Z, A) used in tracer
 
     parameters
     ----------
     tracer_id : int
+    tracer_step : 1 or 2
     model : str
     tracer_file : h5py.File
     tracer_network : pd.DataFrame
     verbose : bool
     """
-    tracer_file = load_tracer_file(tracer_id, model, tracer_file, verbose=verbose)
+    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
+                                   tracer_file=tracer_file, verbose=verbose)
 
     if tracer_network is None:
         printv(f'Loading tracer network', verbose=verbose)
@@ -98,19 +105,20 @@ def load_tracer_network(tracer_id, model, tracer_file=None, tracer_network=None,
     return tracer_network
 
 
-def load_tracer_file(tracer_id, model, tracer_file=None, verbose=True):
+def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
     ----------
     tracer_id : int
+    tracer_step : 1 or 2
     model : str
     tracer_file : h5py.File
         if tracer_file provided, simply return
     verbose : bool
     """
     if tracer_file is None:
-        filepath = paths.tracer_filepath(tracer_id, model=model)
+        filepath = paths.tracer_filepath(tracer_id, tracer_step, model=model)
         printv(f'Loading tracer file: {filepath}', verbose=verbose)
         tracer_file = h5py.File(filepath, 'r')
 

@@ -52,24 +52,30 @@ def model_path(model):
     return os.path.join(path, model)
 
 
-def tracer_filename(tracer_id):
+def tracer_filename(tracer_id, tracer_step):
     """Return name of skynet tracer file
 
     parameters
     ----------
     tracer_id : int
+        ID/index of tracer
+    tracer_step : 1 or 2
+        the skynet step/stage (1st follows STIR, 2nd is free expansion)
     """
-    return f'{tracer_id}.h5'
+    extensions = {1: '', 2: '_2'}
+    extension = extensions[tracer_step]
+    return f'{tracer_id}{extension}.h5'
 
 
-def tracer_filepath(tracer_id, model):
+def tracer_filepath(tracer_id, tracer_step, model):
     """Return path to skynet tracer file
 
     parameters
     ----------
     tracer_id : int
+    tracer_step : 1 or 2
     model : str
     """
     path = model_path(model)
-    filename = tracer_filename(tracer_id)
+    filename = tracer_filename(tracer_id, tracer_step)
     return os.path.join(path, filename)

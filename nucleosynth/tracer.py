@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 # nucleosynth
 from . import paths
@@ -20,8 +21,8 @@ class Tracer:
         Table of isotopic abundances (Y, number fraction) versus time
     columns : pd.DataFrame
         Table of main scalar quantities (density, temperature, etc.) versus time
-    file : h5py.File
-        Raw hdf5 tracer output file from skynet
+    files : h5py.File
+        Raw hdf5 tracer output files from skynet
     mass : float
         mass of tracer (Msun)
     mass_frac : pd.DataFrame
@@ -58,7 +59,7 @@ class Tracer:
         self.mass = mass
         self.verbose = verbose
 
-        self.file = None
+        self.files = None
         self.network = None
         self.abu = None
         self.mass_frac = None
@@ -88,8 +89,8 @@ class Tracer:
     def check_loaded(self):
         """Check that main data is loaded
         """
-        if self.file is None:
-            self.load_file()
+        if self.files is None:
+            self.load_files()
 
         if self.columns is None:
             self.load_columns()
@@ -100,24 +101,33 @@ class Tracer:
         if self.abu is None:
             self.load_abu()
 
-    def load_file(self):
-        """Load raw tracer file
+    def load_files(self):
+        """Load raw tracer files
         """
-        self.file = load_save.load_tracer_file(self.tracer_id, self.model,
-                                               verbose=self.verbose)
+        self.files = {}
+        for i in [1, 2]:
+            self.files[i] = load_save.load_tracer_file(self.tracer_id, tracer_step=i,
+                                                       model=self.model,
+                                                       verbose=self.verbose)
 
     def load_columns(self):
         """Load table of scalars
         """
-        self.columns = load_save.load_tracer_columns(self.tracer_id, self.model,
-                                                     tracer_file=self.file,
-                                                     verbose=self.verbose)
+        columns = []
+        for i in [1, 2]:
+            columns += [load_save.load_tracer_columns(self.tracer_id, tracer_step=i,
+                                                      model=self.model,
+                                                      tracer_file=self.files[i],
+                                                      verbose=self.verbose)]
+
+        self.columns = pd.concat(columns, ignore_index=True)
 
     def load_network(self):
         """Load table of network isotopes
         """
-        self.network = load_save.load_tracer_network(self.tracer_id, self.model,
-                                                     tracer_file=self.file,
+        self.network = load_save.load_tracer_network(self.tracer_id, tracer_step=1,
+                                                     model=self.model,
+                                                     tracer_file=self.files[1],
                                                      verbose=self.verbose)
         self.get_network_unique()
 
@@ -131,10 +141,15 @@ class Tracer:
     def load_abu(self):
         """Load chemical abundance table
         """
-        self.abu = load_save.load_tracer_abu(self.tracer_id, self.model,
-                                             tracer_file=self.file,
-                                             tracer_network=self.network,
-                                             verbose=self.verbose)
+        abu = []
+        for i in [1, 2]:
+            abu += [load_save.load_tracer_abu(self.tracer_id, tracer_step=i,
+                                              model=self.model,
+                                              tracer_file=self.files[i],
+                                              tracer_network=self.network,
+                                              verbose=self.verbose)]
+
+        self.abu = pd.concat(abu, ignore_index=True)
 
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
