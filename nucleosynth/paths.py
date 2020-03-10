@@ -120,27 +120,31 @@ def columns_cache_filepath(tracer_id, model):
 
 
 # ===============================================================
-#                      Abu
+#                      Cache
 # ===============================================================
-def abu_cache_filename(tracer_id, model):
+def cache_filename(tracer_id, model, table_name):
     """Return filename of columns cache
 
     parameters
     ----------
     tracer_id : int
     model : str
+    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     """
-    return f'abu_{model}_tracer_{tracer_id}.pickle'
+    return f'{table_name}_{model}_tracer_{tracer_id}.pickle'
 
 
-def abu_cache_filepath(tracer_id, model):
+def cache_filepath(tracer_id, model, table_name):
     """Return filename of columns cache
 
     parameters
     ----------
     tracer_id : int
     model : str
+    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     """
     path = model_cache_path(model)
-    filename = abu_cache_filename(tracer_id, model)
+    filename = cache_filename(tracer_id, model, table_name=table_name)
     return os.path.join(path, filename)
+
+
