@@ -169,7 +169,7 @@ def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
     tracer_file : h5py.File
     verbose : bool
     """
-    printv(f'Extracting tracer columns', verbose=verbose)
+    printv(f'Extracting columns: tracer {tracer_id}, step {tracer_step}', verbose=verbose)
     table = pd.DataFrame()
 
     if columns is None:
@@ -196,7 +196,7 @@ def save_columns_cache(table, tracer_id, model, verbose=True):
     """
     check_model_cache_path(model, verbose=verbose)
     filepath = paths.columns_cache_filepath(tracer_id, model)
-    printv(f'Saving columns: {filepath}', verbose)
+    printv(f'Saving columns table: {filepath}', verbose)
     table.to_pickle(filepath)
 
 
