@@ -38,7 +38,7 @@ def skynet_path():
     return path
 
 
-def cache_path(model):
+def model_cache_path(model):
     """Return path to temporary cache directory
 
     parameters
@@ -104,3 +104,16 @@ def columns_cache_filename(tracer_id, model):
     model : str
     """
     return f'columns_{model}_tracer_{tracer_id}.pickle'
+
+
+def columns_cache_filepath(tracer_id, model):
+    """Return filename of columns cache
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    """
+    path = model_cache_path(model)
+    filename = columns_cache_filename(tracer_id, model)
+    return os.path.join(path, filename)
