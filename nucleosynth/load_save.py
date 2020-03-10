@@ -19,34 +19,6 @@ Functions for loading/saving data
 # ===============================================================
 #              Loading/extracting
 # ===============================================================
-def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
-                    tracer_network=None, verbose=True):
-    """Load chemical abundance table from tracer file
-
-    parameters
-    ----------
-    tracer_id : int
-    tracer_step : 1 or 2
-    model : str
-    tracer_file : h5py.File
-    tracer_network : pd.DataFrame
-    verbose : bool
-    """
-    printv(f'Loading tracer abundances', verbose=verbose)
-
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
-
-    tracer_network = load_tracer_network(tracer_id, tracer_step, model=model,
-                                         tracer_file=tracer_file,
-                                         tracer_network=tracer_network, verbose=verbose)
-
-    tracer_abu = pd.DataFrame(tracer_file['Y'])
-    tracer_abu.columns = list(tracer_network['isotope'])
-
-    return tracer_abu
-
-
 def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
                         tracer_network=None, verbose=True):
     """Load isotope info (Z, A) used in tracer
@@ -133,7 +105,7 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
 
     if not reload:
         try:
-            table = load_columns_cache(tracer_id, model, verbose=verbose)
+            table = load_table_cache(tracer_id, model, 'columns', verbose=verbose)
         except FileNotFoundError:
             printv('cache not found', verbose)
 
@@ -149,7 +121,7 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
         table = pd.concat(tables, ignore_index=True)
 
         if save:
-            save_columns_cache(table, tracer_id, model=model, verbose=verbose)
+            save_table_cache(table, tracer_id, model, 'columns', verbose=verbose)
 
     return table
 
@@ -184,7 +156,10 @@ def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
     return table
 
 
-def save_columns_cache(table, tracer_id, model, verbose=True):
+# ===============================================================
+#              Cache
+# ===============================================================
+def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     """Save columns table to file
 
     parameters
@@ -192,26 +167,59 @@ def save_columns_cache(table, tracer_id, model, verbose=True):
     table : pd.DataFrame
     tracer_id : int
     model : str
+    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     verbose : bool
     """
     check_model_cache_path(model, verbose=verbose)
-    filepath = paths.cache_filepath(tracer_id, model, 'columns')
+    filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
     printv(f'Saving columns table: {filepath}', verbose)
     table.to_pickle(filepath)
 
 
-def load_columns_cache(tracer_id, model, verbose=True):
+def load_table_cache(tracer_id, model, table_name, verbose=True):
     """Load columns table from pre-cached file
 
     parameters
     ----------
     tracer_id : int
     model : str
+    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     verbose : bool
     """
-    filepath = paths.cache_filepath(tracer_id, model, 'columns')
+    filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
     printv(f'Loading columns cache: {filepath}', verbose)
     return pd.read_pickle(filepath)
+
+
+# ===============================================================
+#              Abundance
+# ===============================================================
+def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
+                    tracer_network=None, verbose=True):
+    """Load chemical abundance table from tracer file
+
+    parameters
+    ----------
+    tracer_id : int
+    tracer_step : 1 or 2
+    model : str
+    tracer_file : h5py.File
+    tracer_network : pd.DataFrame
+    verbose : bool
+    """
+    printv(f'Loading tracer abundances', verbose=verbose)
+
+    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
+                                   tracer_file=tracer_file, verbose=verbose)
+
+    tracer_network = load_tracer_network(tracer_id, tracer_step, model=model,
+                                         tracer_file=tracer_file,
+                                         tracer_network=tracer_network, verbose=verbose)
+
+    tracer_abu = pd.DataFrame(tracer_file['Y'])
+    tracer_abu.columns = list(tracer_network['isotope'])
+
+    return tracer_abu
 
 
 # ===============================================================
