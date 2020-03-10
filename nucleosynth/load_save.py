@@ -150,6 +150,20 @@ def save_columns_cache(table, tracer_id, model, verbose=True):
     table.to_pickle(filepath)
 
 
+def load_columns_cache(tracer_id, model, verbose=True):
+    """Load columns table from pre-cached file
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    verbose : bool
+    """
+    filepath = paths.columns_cache_filepath(tracer_id, model)
+    printv(f'Loading columns cache: {filepath}', verbose)
+    return pd.read_pickle(filepath)
+
+
 # ===============================================================
 #              Misc.
 # ===============================================================
