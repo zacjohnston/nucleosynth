@@ -78,7 +78,7 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 #              Columns
 # ===============================================================
 def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
-                        columns=None, tracer_file=None, reload=False, save=True,
+                        columns=None, tracer_files=None, reload=False, save=True,
                         verbose=True):
     """Load columns from skynet tracer output, and join tables
 
@@ -92,8 +92,9 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
         Load multiple skynet files for joining
     columns : [str]
         list of columns to extract
-    tracer_file : h5py.File
-        raw tracer file, as returned by load_tracer_file()
+    tracer_files : {h5py.File}
+        raw tracer files to load and join, as returned by load_tracer_file()
+        dict keys must correspond to tracer_steps
     reload : bool
         Force reload from raw skynet file
     save : bool
@@ -111,14 +112,9 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
 
     if table is None:
         printv('Reloading and joining column tables', verbose)
-        tables = []
 
-        for step in tracer_steps:
-            tables += [extract_tracer_columns(tracer_id, tracer_step=step,
-                                              model=model, columns=columns,
-                                              tracer_file=tracer_file, verbose=verbose)]
-
-        table = pd.concat(tables, ignore_index=True)
+        table = extract_tracer_columns(tracer_id, tracer_steps=tracer_steps, model=model,
+                                       columns=columns, tracer_files=tracer_files, verbose=verbose)
 
         if save:
             save_table_cache(table, tracer_id, model, 'columns', verbose=verbose)
@@ -126,8 +122,8 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
     return table
 
 
-def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
-                           tracer_file=None, verbose=True):
+def extract_tracer_columns(tracer_id, tracer_steps, model, columns=None,
+                           tracer_files=None, verbose=True):
     """Extract columns from skynet output file
 
     Returns : pd.DataFrame
@@ -135,25 +131,29 @@ def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
     parameters
     ----------
     tracer_id : int
-    tracer_step : 1 or 2
+    tracer_steps : [int]
     model : str
     columns : [str]
-    tracer_file : h5py.File
+    tracer_files : {h5py.File}
     verbose : bool
     """
-    printv(f'Extracting columns: tracer {tracer_id}, step {tracer_step}', verbose=verbose)
-    table = pd.DataFrame()
+    step_tables = []
 
     if columns is None:
         columns = tables_config.columns
 
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
+    for step in tracer_steps:
+        table = pd.DataFrame()
+        printv(f'Extracting step {step}', verbose=verbose)
 
-    for column in columns:
-        table[column.lower()] = tracer_file[column]
+        tracer_file = load_tracer_file(tracer_id, step, model=model,
+                                       tracer_file=tracer_files[step], verbose=verbose)
+        for column in columns:
+            table[column.lower()] = tracer_file[column]
 
-    return table
+        step_tables += [table]
+
+    return pd.concat(step_tables, ignore_index=True)
 
 
 # ===============================================================
