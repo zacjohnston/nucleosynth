@@ -93,33 +93,6 @@ def tracer_filepath(tracer_id, tracer_step, model):
 
 
 # ===============================================================
-#                      Columns
-# ===============================================================
-def columns_cache_filename(tracer_id, model):
-    """Return filename of columns cache
-
-    parameters
-    ----------
-    tracer_id : int
-    model : str
-    """
-    return f'columns_{model}_tracer_{tracer_id}.pickle'
-
-
-def columns_cache_filepath(tracer_id, model):
-    """Return filename of columns cache
-
-    parameters
-    ----------
-    tracer_id : int
-    model : str
-    """
-    path = model_cache_path(model)
-    filename = columns_cache_filename(tracer_id, model)
-    return os.path.join(path, filename)
-
-
-# ===============================================================
 #                      Cache
 # ===============================================================
 def cache_filename(tracer_id, model, table_name):

@@ -108,7 +108,7 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
                         columns=None, tracer_file=None, reload=False, save=True,
                         verbose=True):
-    """Load columns from skynet tracer output
+    """Load columns from skynet tracer output, and join tables
 
     Returns : pd.DataFrame
 
@@ -156,7 +156,7 @@ def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
 
 def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
                            tracer_file=None, verbose=True):
-    """Extract columns from skynet tracer output
+    """Extract columns from skynet output file
 
     Returns : pd.DataFrame
 
@@ -195,7 +195,7 @@ def save_columns_cache(table, tracer_id, model, verbose=True):
     verbose : bool
     """
     check_model_cache_path(model, verbose=verbose)
-    filepath = paths.columns_cache_filepath(tracer_id, model)
+    filepath = paths.cache_filepath(tracer_id, model, 'columns')
     printv(f'Saving columns table: {filepath}', verbose)
     table.to_pickle(filepath)
 
@@ -209,7 +209,7 @@ def load_columns_cache(tracer_id, model, verbose=True):
     model : str
     verbose : bool
     """
-    filepath = paths.columns_cache_filepath(tracer_id, model)
+    filepath = paths.cache_filepath(tracer_id, model, 'columns')
     printv(f'Loading columns cache: {filepath}', verbose)
     return pd.read_pickle(filepath)
 
