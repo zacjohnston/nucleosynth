@@ -106,7 +106,7 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 #              Columns
 # ===============================================================
 def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
-                        tracer_file=None, verbose=True):
+                        tracer_file=None, reload=False, verbose=True):
     """Load columns from skynet tracer output
 
     Returns : pd.DataFrame
@@ -120,11 +120,22 @@ def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
         list of columns to extract
     tracer_file : h5py.File
         raw tracer file, as returned by load_tracer_file()
+    reload : bool
+        Force reload from raw skynet file
     verbose : bool
     """
     printv(f'Loading tracer columns', verbose=verbose)
-    table = extract_tracer_columns(tracer_id, tracer_step, model=model, columns=columns,
-                                   tracer_file=tracer_file, verbose=verbose)
+    table = None
+
+    if not reload:
+        try:
+            table = load_columns_cache(tracer_id, model, verbose=verbose)
+        except FileNotFoundError:
+            printv('cache not found - reloading', verbose)
+
+    if table is None:
+        table = extract_tracer_columns(tracer_id, tracer_step, model=model, columns=columns,
+                                       tracer_file=tracer_file, verbose=verbose)
 
     return table
 
@@ -144,6 +155,7 @@ def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
     tracer_file : h5py.File
     verbose : bool
     """
+    printv(f'Extracting tracer columns', verbose=verbose)
     table = pd.DataFrame()
 
     if columns is None:
