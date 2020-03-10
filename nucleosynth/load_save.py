@@ -105,8 +105,9 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 # ===============================================================
 #              Columns
 # ===============================================================
-def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
-                        tracer_file=None, reload=False, save=True, verbose=True):
+def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
+                        columns=None, tracer_file=None, reload=False, save=True,
+                        verbose=True):
     """Load columns from skynet tracer output
 
     Returns : pd.DataFrame
@@ -114,8 +115,9 @@ def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
     parameters
     ----------
     tracer_id : int
-    tracer_step : 1 or 2
     model : str
+    tracer_steps : [int]
+        Load multiple skynet files for joining
     columns : [str]
         list of columns to extract
     tracer_file : h5py.File
@@ -133,11 +135,18 @@ def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
         try:
             table = load_columns_cache(tracer_id, model, verbose=verbose)
         except FileNotFoundError:
-            printv('cache not found - reloading', verbose)
+            printv('cache not found', verbose)
 
     if table is None:
-        table = extract_tracer_columns(tracer_id, tracer_step, model=model, columns=columns,
-                                       tracer_file=tracer_file, verbose=verbose)
+        printv('Reloading and joining column tables', verbose)
+        tables = []
+
+        for step in tracer_steps:
+            tables += [extract_tracer_columns(tracer_id, tracer_step=step,
+                                              model=model, columns=columns,
+                                              tracer_file=tracer_file, verbose=verbose)]
+
+        table = pd.concat(tables, ignore_index=True)
 
         if save:
             save_columns_cache(table, tracer_id, model=model, verbose=verbose)
