@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import h5py
+import os
+import subprocess
+import sys
 
 # nucleosynth
 from . import paths
@@ -123,3 +126,35 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
         tracer_file = h5py.File(filepath, 'r')
 
     return tracer_file
+
+
+# ===============================================================
+#              Misc.
+# ===============================================================
+def try_mkdir(path, skip=False, verbose=True):
+    """Try to create directory
+
+    parameters
+    ----------
+    path: str
+        Full path to directory to create
+    skip : bool
+        do nothing if directory already exists
+        if skip=false, will ask to overwrite an existing directory
+    verbose : bool
+    """
+    printv(f'Creating directory  {path}', verbose)
+    if os.path.exists(path):
+        if skip:
+            printv('Directory already exists - skipping', verbose)
+        else:
+            print('Directory exists')
+            cont = input('Overwrite (DESTROY)? (y/[n]): ')
+
+            if cont == 'y' or cont == 'Y':
+                subprocess.run(['rm', '-r', path])
+                subprocess.run(['mkdir', path])
+            elif cont == 'n' or cont == 'N':
+                sys.exit()
+    else:
+        subprocess.run(['mkdir', '-p', path], check=True)
