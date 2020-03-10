@@ -90,3 +90,17 @@ def tracer_filepath(tracer_id, tracer_step, model):
     path = model_path(model)
     filename = tracer_filename(tracer_id, tracer_step)
     return os.path.join(path, filename)
+
+
+# ===============================================================
+#                      Cache
+# ===============================================================
+def columns_cache_filename(tracer_id, model):
+    """Return filename of columns cache
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    """
+    return f'columns_{model}_tracer_{tracer_id}.pickle'
