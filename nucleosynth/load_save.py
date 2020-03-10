@@ -131,6 +131,13 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 # ===============================================================
 #              Misc.
 # ===============================================================
+def check_model_cache_path(model, verbose=True):
+    """Check that the model cache directory exists
+    """
+    path = paths.model_cache_path(model)
+    try_mkdir(path, skip=True)
+
+
 def try_mkdir(path, skip=False, verbose=True):
     """Try to create directory
 
@@ -146,7 +153,7 @@ def try_mkdir(path, skip=False, verbose=True):
     printv(f'Creating directory  {path}', verbose)
     if os.path.exists(path):
         if skip:
-            printv('Directory already exists - skipping', verbose)
+            printv('Directory already exists', verbose)
         else:
             print('Directory exists')
             cont = input('Overwrite (DESTROY)? (y/[n]): ')
@@ -154,7 +161,7 @@ def try_mkdir(path, skip=False, verbose=True):
             if cont == 'y' or cont == 'Y':
                 subprocess.run(['rm', '-r', path])
                 subprocess.run(['mkdir', path])
-            elif cont == 'n' or cont == 'N':
+            else:
                 sys.exit()
     else:
         subprocess.run(['mkdir', '-p', path], check=True)
