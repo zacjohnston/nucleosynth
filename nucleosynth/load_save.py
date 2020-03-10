@@ -9,6 +9,7 @@ import sys
 from . import paths
 from . import network
 from .printing import printv
+from .config import tables_config
 
 """
 Functions for loading/saving data
@@ -108,6 +109,8 @@ def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
                         tracer_file=None, verbose=True):
     """Load columns from skynet tracer output
 
+    Returns : pd.DataFrame
+
     parameters
     ----------
     tracer_id : int
@@ -129,11 +132,22 @@ def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
 def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
                            tracer_file=None, verbose=True):
     """Extract columns from skynet tracer output
+
+    Returns : pd.DataFrame
+
+    parameters
+    ----------
+    tracer_id : int
+    tracer_step : 1 or 2
+    model : str
+    columns : [str]
+    tracer_file : h5py.File
+    verbose : bool
     """
     table = pd.DataFrame()
 
     if columns is None:
-        columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
+        columns = tables_config.columns
 
     tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
                                    tracer_file=tracer_file, verbose=verbose)
