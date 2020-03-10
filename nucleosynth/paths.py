@@ -93,7 +93,7 @@ def tracer_filepath(tracer_id, tracer_step, model):
 
 
 # ===============================================================
-#                      Cache
+#                      Columns
 # ===============================================================
 def columns_cache_filename(tracer_id, model):
     """Return filename of columns cache

@@ -18,36 +18,6 @@ Functions for loading/saving data
 # ===============================================================
 #              Loading/extracting
 # ===============================================================
-def load_tracer_columns(tracer_id, tracer_step, model, columns=None, tracer_file=None,
-                        verbose=True):
-    """Load skynet tracer hdf5 file
-
-    parameters
-    ----------
-    tracer_id : int
-    tracer_step : 1 or 2
-    model : str
-    columns : [str]
-        list of columns to extract
-    tracer_file : h5py.File
-        raw tracer file, as returned by load_tracer_file()
-    verbose : bool
-    """
-    printv(f'Loading tracer columns', verbose=verbose)
-    table = pd.DataFrame()
-
-    if columns is None:
-        columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
-
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
-
-    for column in columns:
-        table[column.lower()] = tracer_file[column]
-
-    return table
-
-
 def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
                     tracer_network=None, verbose=True):
     """Load chemical abundance table from tracer file
@@ -132,8 +102,48 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 
 
 # ===============================================================
-#              Cache
+#              Columns
 # ===============================================================
+def load_tracer_columns(tracer_id, tracer_step, model, columns=None,
+                        tracer_file=None, verbose=True):
+    """Load columns from skynet tracer output
+
+    parameters
+    ----------
+    tracer_id : int
+    tracer_step : 1 or 2
+    model : str
+    columns : [str]
+        list of columns to extract
+    tracer_file : h5py.File
+        raw tracer file, as returned by load_tracer_file()
+    verbose : bool
+    """
+    printv(f'Loading tracer columns', verbose=verbose)
+    table = extract_tracer_columns(tracer_id, tracer_step, model=model, columns=columns,
+                                   tracer_file=tracer_file, verbose=verbose)
+
+    return table
+
+
+def extract_tracer_columns(tracer_id, tracer_step, model, columns=None,
+                           tracer_file=None, verbose=True):
+    """Extract columns from skynet tracer output
+    """
+    table = pd.DataFrame()
+
+    if columns is None:
+        columns = ['Time', 'Density', 'Temperature', 'Ye', 'HeatingRate', 'Entropy']
+
+    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
+                                   tracer_file=tracer_file, verbose=verbose)
+
+    for column in columns:
+        table[column.lower()] = tracer_file[column]
+
+    return table
+
+
 def save_columns_cache(table, tracer_id, model, verbose=True):
     """Save columns table to file
 
@@ -171,7 +181,7 @@ def check_model_cache_path(model, verbose=True):
     """Check that the model cache directory exists
     """
     path = paths.model_cache_path(model)
-    try_mkdir(path, skip=True)
+    try_mkdir(path, skip=True, verbose=verbose)
 
 
 def try_mkdir(path, skip=False, verbose=True):
