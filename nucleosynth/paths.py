@@ -38,15 +38,26 @@ def skynet_path():
     return path
 
 
+def cache_path(model):
+    """Return path to temporary cache directory
+
+    parameters
+    ----------
+    model : str
+        """
+    path = repo_path()
+    return os.path.join(path, 'cache', model)
+
+
 # ===============================================================
 #                      Tracers
 # ===============================================================
 def model_path(model):
     """Return path to model output directory
 
-        parameters
-        ----------
-        model : str
+    parameters
+    ----------
+    model : str
         """
     path = skynet_path()
     return os.path.join(path, model)
