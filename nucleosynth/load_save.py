@@ -77,6 +77,87 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 # ===============================================================
 #              Columns
 # ===============================================================
+def load_table(tracer_id, model, table_name, tracer_steps=(1, 2),
+               columns=None, tracer_files=None, reload=False,
+               save=True, verbose=True):
+    """Generalised function for loading tracer tables
+
+    Returns : pd.DataFrame
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
+    tracer_steps : [int]
+        Load multiple skynet files for joining
+    columns : [str]
+        list of columns to extract
+    tracer_files : {h5py.File}
+        raw tracer files to load and join, as returned by load_tracer_file()
+        dict keys must correspond to tracer_steps
+    reload : bool
+        Force reload from raw skynet file
+    save : bool
+        save extracted table to cache
+    verbose : bool
+    """
+    printv(f'Loading {table_name} table', verbose=verbose)
+    table = None
+
+    if not reload:
+        try:
+            table = load_table_cache(tracer_id, model, table_name, verbose=verbose)
+        except FileNotFoundError:
+            printv('cache not found', verbose)
+
+    if table is None:
+        printv(f'Reloading and joining {table_name} tables', verbose)
+
+        table = extract_tracer_columns(tracer_id, tracer_steps=tracer_steps, model=model,
+                                       columns=columns, tracer_files=tracer_files,
+                                       verbose=verbose)
+
+        if save:
+            save_table_cache(table, tracer_id, model, 'columns', verbose=verbose)
+
+    return table
+
+
+def extract_table(tracer_id, tracer_steps, model, columns=None,
+                           tracer_files=None, verbose=True):
+    """Extract columns from skynet output file
+
+    Returns : pd.DataFrame
+
+    parameters
+    ----------
+    tracer_id : int
+    tracer_steps : [int]
+    model : str
+    columns : [str]
+    tracer_files : {h5py.File}
+    verbose : bool
+    """
+    step_tables = []
+
+    if columns is None:
+        columns = tables_config.columns
+
+    for step in tracer_steps:
+        table = pd.DataFrame()
+        printv(f'Extracting step {step}', verbose=verbose)
+
+        tracer_file = load_tracer_file(tracer_id, step, model=model,
+                                       tracer_file=tracer_files[step], verbose=verbose)
+        for column in columns:
+            table[column.lower()] = tracer_file[column]
+
+        step_tables += [table]
+
+    return pd.concat(step_tables, ignore_index=True)
+
+
 def load_tracer_columns(tracer_id, model, tracer_steps=(1, 2),
                         columns=None, tracer_files=None, reload=False, save=True,
                         verbose=True):
