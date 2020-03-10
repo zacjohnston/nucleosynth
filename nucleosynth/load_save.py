@@ -15,6 +15,9 @@ Functions for loading/saving data
 """
 
 
+# ===============================================================
+#              Loading/extracting
+# ===============================================================
 def load_tracer_columns(tracer_id, tracer_step, model, columns=None, tracer_file=None,
                         verbose=True):
     """Load skynet tracer hdf5 file
@@ -126,6 +129,25 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
         tracer_file = h5py.File(filepath, 'r')
 
     return tracer_file
+
+
+# ===============================================================
+#              Cache
+# ===============================================================
+def save_columns_cache(table, tracer_id, model, verbose=True):
+    """Save columns table to file
+
+    parameters
+    ----------
+    table : pd.DataFrame
+    tracer_id : int
+    model : str
+    verbose : bool
+    """
+    check_model_cache_path(model, verbose=verbose)
+    filepath = paths.columns_cache_filepath(tracer_id, model)
+    printv(f'Saving columns: {filepath}', verbose)
+    table.to_pickle(filepath)
 
 
 # ===============================================================
