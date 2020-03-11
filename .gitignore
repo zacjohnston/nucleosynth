@@ -1,8 +1,11 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
 __pycache__/
-temp/
 .ipynb_checkpoints
 .vscode/
+
+# nucleosynth
+temp/
 cache/
 !cache/REAME.md
+.DS_Store
