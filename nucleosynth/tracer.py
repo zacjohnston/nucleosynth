@@ -115,14 +115,10 @@ class Tracer:
         """Load table of scalars
         """
         self.printv('Loading and joining columns')
-        columns = []
-        for i in [1, 2]:
-            columns += [load_save.load_tracer_columns(self.tracer_id, tracer_step=i,
-                                                      model=self.model,
-                                                      tracer_file=self.files[i],
-                                                      verbose=False)]
-
-        self.columns = pd.concat(columns, ignore_index=True)
+        self.columns = load_save.load_tracer_columns(self.tracer_id,
+                                                     model=self.model,
+                                                     tracer_files=self.files,
+                                                     verbose=False)
 
     def load_network(self):
         """Load table of network isotopes
