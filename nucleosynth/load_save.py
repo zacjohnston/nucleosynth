@@ -61,7 +61,7 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
     return tracer_file
 
 
-def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
+def load_tracer_table(tracer_id, model, table_name, tracer_steps,
                       columns=None, tracer_files=None, tracer_network=None,
                       reload=False, save=True, verbose=True):
     """Generalised function for loading tracer tables
