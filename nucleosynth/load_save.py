@@ -54,6 +54,28 @@ def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
     return tracer_network
 
 
+def load_tracer_files(tracer_id, model, tracer_steps=(1, 2),
+                      tracer_files=None, verbose=True):
+    """Load skynet tracer hdf5 file
+
+    parameters
+    ----------
+    tracer_id : int
+    tracer_steps : [int]
+    model : str
+    tracer_files : h5py.File
+    verbose : bool
+    """
+    if tracer_files is None:
+        tracer_files = {}
+
+        for step in tracer_steps:
+            tracer_files[step] = load_tracer_file(tracer_id, tracer_step=step,
+                                                  model=model, verbose=verbose)
+
+    return tracer_files
+
+
 def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
     """Load skynet tracer hdf5 file
 
