@@ -111,17 +111,19 @@ class Tracer:
         """Load raw tracer files
         """
         self.files = {}
-        for i in [1, 2]:
-            self.files[i] = load_save.load_tracer_file(self.tracer_id, tracer_step=i,
-                                                       model=self.model,
-                                                       verbose=self.verbose)
+        for step in self.steps:
+            self.files[step] = load_save.load_tracer_file(self.tracer_id,
+                                                          tracer_step=step,
+                                                          model=self.model,
+                                                          verbose=self.verbose)
 
     def load_columns(self):
         """Load table of scalars
         """
-        self.printv('Loading and joining columns')
+        self.printv('Loading columns')
         self.columns = load_save.load_tracer_table(self.tracer_id,
                                                    model=self.model,
+                                                   tracer_steps=self.steps,
                                                    table_name='columns',
                                                    tracer_files=self.files,
                                                    verbose=False)
@@ -130,10 +132,12 @@ class Tracer:
         """Load table of network isotopes
         """
         self.printv('Loading network')
-        self.network = load_save.load_tracer_network(self.tracer_id, tracer_step=1,
-                                                     model=self.model,
-                                                     tracer_file=self.files[1],
-                                                     verbose=False)
+        self.network = load_save.load_tracer_table(self.tracer_id,
+                                                   model=self.model,
+                                                   tracer_steps=self.steps,
+                                                   table_name='network',
+                                                   tracer_files=self.files,
+                                                   verbose=False)
         self.get_network_unique()
 
     def get_network_unique(self):
@@ -146,16 +150,13 @@ class Tracer:
     def load_abu(self):
         """Load chemical abundance table
         """
-        self.printv('Loading and joining abundance tables')
-        abu = []
-        for i in [1, 2]:
-            abu += [load_save.load_tracer_abu(self.tracer_id, tracer_step=i,
-                                              model=self.model,
-                                              tracer_file=self.files[i],
-                                              tracer_network=self.network,
-                                              verbose=False)]
-
-        self.abu = pd.concat(abu, ignore_index=True)
+        self.printv('Loading abundances')
+        self.abu = load_save.load_tracer_table(self.tracer_id, tracer_steps=self.steps,
+                                               model=self.model,
+                                               tracer_files=self.files,
+                                               table_name='abu',
+                                               tracer_network=self.network,
+                                               verbose=False)
 
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
