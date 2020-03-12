@@ -110,12 +110,10 @@ class Tracer:
     def load_files(self):
         """Load raw tracer files
         """
-        self.files = {}
-        for step in self.steps:
-            self.files[step] = load_save.load_tracer_file(self.tracer_id,
-                                                          tracer_step=step,
-                                                          model=self.model,
-                                                          verbose=self.verbose)
+        self.files = load_save.load_tracer_files(self.tracer_id,
+                                                 tracer_steps=self.steps,
+                                                 model=self.model,
+                                                 verbose=self.verbose)
 
     def load_columns(self):
         """Load table of scalars
