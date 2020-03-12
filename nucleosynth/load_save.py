@@ -19,7 +19,7 @@ Functions for loading/saving data
 # ===============================================================
 #              Loading/extracting
 # ===============================================================
-def load_tracer_files(tracer_id, model, tracer_steps=(1, 2),
+def load_tracer_files(tracer_id, model, tracer_steps,
                       tracer_files=None, verbose=True):
     """Load skynet tracer hdf5 file
 
