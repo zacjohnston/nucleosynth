@@ -96,9 +96,6 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
     return tracer_file
 
 
-# ===============================================================
-#              Columns
-# ===============================================================
 def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
                       columns=None, tracer_files=None, reload=False,
                       save=True, verbose=True):
@@ -174,6 +171,9 @@ def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
     return pd.concat(step_tables, ignore_index=True)
 
 
+# ===============================================================
+#              Columns
+# ===============================================================
 def extract_tracer_columns(tracer_file, columns=None):
     """Extract table of columns from a skynet output file
 
