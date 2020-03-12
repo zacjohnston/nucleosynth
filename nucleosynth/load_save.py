@@ -185,29 +185,6 @@ def extract_tracer_columns(tracer_file, columns=None):
 # ===============================================================
 #              Network
 # ===============================================================
-def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
-                        tracer_network=None, verbose=True):
-    """Load isotope info (Z, A) used in tracer
-
-    parameters
-    ----------
-    tracer_id : int
-    tracer_step : 1 or 2
-    model : str
-    tracer_file : h5py.File
-    tracer_network : pd.DataFrame
-    verbose : bool
-    """
-    printv(f'Loading tracer network', verbose=verbose)
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
-
-    if tracer_network is None:
-        tracer_network = extract_tracer_network(tracer_file)
-
-    return tracer_network
-
-
 def extract_tracer_network(tracer_file):
     """Extract tracer network of isotopes from skynet output file
 
