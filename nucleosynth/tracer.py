@@ -36,6 +36,8 @@ class Tracer:
         unique A and Z in network
     path : str
         Path to skynet model output
+    steps : [int]
+        list of skynet model steps
     sums : {table: group: pd.DataFrame}
         abundance/mass fraction tables, grouped and summed over A/Z
     tracer_id : int
@@ -44,12 +46,14 @@ class Tracer:
         Option to print output
     """
 
-    def __init__(self, tracer_id, model, load_all=True, mass=0.01, verbose=True):
+    def __init__(self, tracer_id, model, load_all=True,
+                 steps=(1, 2), mass=0.01, verbose=True):
         """
         parameters
         ----------
         tracer_id : int
         model : str
+        steps : [int]
         load_all : bool
         mass : float
         verbose : bool
@@ -59,6 +63,7 @@ class Tracer:
         self.path = paths.model_path(model=model)
         self.mass = mass
         self.verbose = verbose
+        self.steps = steps
 
         self.files = None
         self.network = None
