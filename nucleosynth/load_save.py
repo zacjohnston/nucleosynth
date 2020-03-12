@@ -107,8 +107,8 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
     return table
 
 
-def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
-                         tracer_files=None, verbose=True):
+def extract_tracer_table(tracer_id, tracer_steps, model, table_name, columns=None,
+                         tracer_files=None, tracer_network=None, verbose=True):
     """Extract and join table from multiple skynet output files
 
     Returns : pd.DataFrame
@@ -118,8 +118,10 @@ def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
     tracer_id : int
     tracer_steps : [int]
     model : str
+    table_name : str
     columns : [str]
     tracer_files : {h5py.File}
+    tracer_network : pd.DataFrame
     verbose : bool
     """
     step_tables = []
@@ -129,8 +131,23 @@ def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
 
     tracer_files = load_tracer_files(tracer_id, model=model, tracer_steps=tracer_steps,
                                      tracer_files=tracer_files, verbose=verbose)
+
+    if tracer_network is None:
+        tracer_network = extract_tracer_network(tracer_files[tracer_steps[0]])
+
+    if table_name == 'network':
+        return tracer_network
+
     for step in tracer_steps:
-        table = extract_tracer_columns(tracer_files[step], columns=columns)
+        tracer_file = tracer_files[step]
+
+        if table_name == 'columns':
+            table = extract_tracer_columns(tracer_file, columns=columns)
+        elif table_name == 'abu':
+            table = extract_tracer_abu(tracer_file, tracer_network=tracer_network)
+        else:
+            raise ValueError('table_name must be one of: columns, abu, mass_frac ')
+
         step_tables += [table]
 
     return pd.concat(step_tables, ignore_index=True)
