@@ -147,7 +147,7 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
 
 def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
                          tracer_files=None, verbose=True):
-    """Extract columns from skynet output file
+    """Extract and join table from multiple skynet output files
 
     Returns : pd.DataFrame
 
@@ -165,52 +165,34 @@ def extract_tracer_table(tracer_id, tracer_steps, model, columns=None,
     if columns is None:
         columns = tables_config.columns
 
+    tracer_files = load_tracer_files(tracer_id, model=model, tracer_steps=tracer_steps,
+                                     tracer_files=tracer_files, verbose=verbose)
     for step in tracer_steps:
-        table = pd.DataFrame()
-        printv(f'Extracting step {step}', verbose=verbose)
-
-        tracer_file = load_tracer_file(tracer_id, step, model=model,
-                                       tracer_file=tracer_files[step], verbose=verbose)
-        for column in columns:
-            table[column.lower()] = tracer_file[column]
-
+        table = extract_tracer_columns(tracer_files[step], columns=columns)
         step_tables += [table]
 
     return pd.concat(step_tables, ignore_index=True)
 
 
-def extract_tracer_columns(tracer_id, tracer_steps, model, columns=None,
-                           tracer_files=None, verbose=True):
-    """Extract columns from skynet output file
+def extract_tracer_columns(tracer_file, columns=None):
+    """Extract table of columns from a skynet output file
 
     Returns : pd.DataFrame
 
     parameters
     ----------
-    tracer_id : int
-    tracer_steps : [int]
-    model : str
+    tracer_file : h5py.File
     columns : [str]
-    tracer_files : {h5py.File}
-    verbose : bool
     """
-    step_tables = []
+    table = pd.DataFrame()
 
     if columns is None:
         columns = tables_config.columns
 
-    for step in tracer_steps:
-        table = pd.DataFrame()
-        printv(f'Extracting step {step}', verbose=verbose)
+    for column in columns:
+        table[column.lower()] = tracer_file[column]
 
-        tracer_file = load_tracer_file(tracer_id, step, model=model,
-                                       tracer_file=tracer_files[step], verbose=verbose)
-        for column in columns:
-            table[column.lower()] = tracer_file[column]
-
-        step_tables += [table]
-
-    return pd.concat(step_tables, ignore_index=True)
+    return table
 
 
 # ===============================================================
