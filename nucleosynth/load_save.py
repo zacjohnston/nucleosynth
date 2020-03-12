@@ -62,8 +62,8 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 
 
 def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
-                      columns=None, tracer_files=None, reload=False,
-                      save=True, verbose=True):
+                      columns=None, tracer_files=None, tracer_network=None,
+                      reload=False, save=True, verbose=True):
     """Generalised function for loading tracer tables
 
     Returns : pd.DataFrame
@@ -80,6 +80,7 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
     tracer_files : {h5py.File}
         raw tracer files to load and join, as returned by load_tracer_file()
         dict keys must correspond to tracer_steps
+    tracer_network : pd.DataFrame
     reload : bool
         Force reload from raw skynet file
     save : bool
@@ -88,6 +89,9 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
     """
     printv(f'Loading {table_name} table', verbose=verbose)
     table = None
+
+    if table_name not in ['columns', 'network', 'abu']:
+        raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
     if not reload:
         try:
@@ -99,8 +103,9 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
         printv(f'Reloading and joining {table_name} tables', verbose)
 
         table = extract_tracer_table(tracer_id, tracer_steps=tracer_steps, model=model,
-                                     columns=columns, tracer_files=tracer_files,
-                                     verbose=verbose)
+                                     table_name=table_name, columns=columns,
+                                     tracer_network=tracer_network,
+                                     tracer_files=tracer_files, verbose=verbose)
         if save:
             save_table_cache(table, tracer_id, model, table_name, verbose=verbose)
 
