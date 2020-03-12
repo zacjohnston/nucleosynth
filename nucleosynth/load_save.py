@@ -77,9 +77,9 @@ def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=Tr
 # ===============================================================
 #              Columns
 # ===============================================================
-def load_table(tracer_id, model, table_name, tracer_steps=(1, 2),
-               columns=None, tracer_files=None, reload=False,
-               save=True, verbose=True):
+def load_tracer_table(tracer_id, model, table_name, tracer_steps=(1, 2),
+                      columns=None, tracer_files=None, reload=False,
+                      save=True, verbose=True):
     """Generalised function for loading tracer tables
 
     Returns : pd.DataFrame
