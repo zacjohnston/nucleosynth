@@ -115,10 +115,11 @@ class Tracer:
         """Load table of scalars
         """
         self.printv('Loading and joining columns')
-        self.columns = load_save.load_tracer_columns(self.tracer_id,
-                                                     model=self.model,
-                                                     tracer_files=self.files,
-                                                     verbose=False)
+        self.columns = load_save.load_table(self.tracer_id,
+                                            model=self.model,
+                                            table_name='columns',
+                                            tracer_files=self.files,
+                                            verbose=False)
 
     def load_network(self):
         """Load table of network isotopes
