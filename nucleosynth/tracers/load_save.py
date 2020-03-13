@@ -6,10 +6,10 @@ import subprocess
 import sys
 
 # nucleosynth
-from . import paths
-from . import network
-from .printing import printv
-from .config import tables_config
+from nucleosynth import paths
+from nucleosynth import network
+from nucleosynth.printing import printv
+from nucleosynth.config import tables_config
 
 """
 Functions for loading/saving data

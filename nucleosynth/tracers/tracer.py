@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 
 # nucleosynth
-from . import paths
-from . import load_save
-from . import network
-from . import plotting
-from . import printing
+from nucleosynth import paths
+from nucleosynth import load_save
+from nucleosynth import network
+from nucleosynth import plotting
+from nucleosynth import printing
 
 """
 Class representing an individual mass tracer from a model
