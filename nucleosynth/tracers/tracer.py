@@ -120,22 +120,22 @@ class Tracer:
         """
         self.printv('Loading columns')
         self.columns = load_save.load_table(self.tracer_id,
-                                                   model=self.model,
-                                                   tracer_steps=self.steps,
-                                                   table_name='columns',
-                                                   tracer_files=self.files,
-                                                   verbose=False)
+                                            model=self.model,
+                                            tracer_steps=self.steps,
+                                            table_name='columns',
+                                            tracer_files=self.files,
+                                            verbose=False)
 
     def load_network(self):
         """Load table of network isotopes
         """
         self.printv('Loading network')
         self.network = load_save.load_table(self.tracer_id,
-                                                   model=self.model,
-                                                   tracer_steps=self.steps,
-                                                   table_name='network',
-                                                   tracer_files=self.files,
-                                                   verbose=False)
+                                            model=self.model,
+                                            tracer_steps=self.steps,
+                                            table_name='network',
+                                            tracer_files=self.files,
+                                            verbose=False)
         self.get_network_unique()
 
     def get_network_unique(self):
@@ -150,11 +150,11 @@ class Tracer:
         """
         self.printv('Loading abundances')
         self.abu = load_save.load_table(self.tracer_id, tracer_steps=self.steps,
-                                               model=self.model,
-                                               tracer_files=self.files,
-                                               table_name='abu',
-                                               tracer_network=self.network,
-                                               verbose=False)
+                                        model=self.model,
+                                        tracer_files=self.files,
+                                        table_name='abu',
+                                        tracer_network=self.network,
+                                        verbose=False)
 
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table

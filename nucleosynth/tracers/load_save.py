@@ -102,18 +102,18 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     if table is None:
         printv(f'Reloading and joining {table_name} tables', verbose)
 
-        table = extract_tracer_table(tracer_id, tracer_steps=tracer_steps, model=model,
-                                     table_name=table_name, columns=columns,
-                                     tracer_network=tracer_network,
-                                     tracer_files=tracer_files, verbose=verbose)
+        table = extract_table(tracer_id, tracer_steps=tracer_steps, model=model,
+                              table_name=table_name, columns=columns,
+                              tracer_network=tracer_network,
+                              tracer_files=tracer_files, verbose=verbose)
         if save:
             save_table_cache(table, tracer_id, model, table_name, verbose=verbose)
 
     return table
 
 
-def extract_tracer_table(tracer_id, tracer_steps, model, table_name, columns=None,
-                         tracer_files=None, tracer_network=None, verbose=True):
+def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
+                  tracer_files=None, tracer_network=None, verbose=True):
     """Extract and join table from multiple skynet output files
 
     Returns : pd.DataFrame
