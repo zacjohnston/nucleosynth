@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 import h5py
-import os
-import subprocess
-import sys
 
 # nucleosynth
 from nucleosynth import paths
