@@ -138,7 +138,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
                               tracer_files=tracer_files, verbose=verbose)
 
     if tracer_network is None:
-        tracer_network = extract_tracer_network(tracer_files[tracer_steps[0]])
+        tracer_network = extract_network(tracer_files[tracer_steps[0]])
 
     if table_name == 'network':
         return tracer_network
@@ -147,9 +147,9 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
         tracer_file = tracer_files[step]
 
         if table_name == 'columns':
-            table = extract_tracer_columns(tracer_file, columns=columns)
+            table = extract_columns(tracer_file, columns=columns)
         elif table_name == 'abu':
-            table = extract_tracer_abu(tracer_file, tracer_network=tracer_network)
+            table = extract_abu(tracer_file, tracer_network=tracer_network)
         else:
             raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
@@ -161,7 +161,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 # ===============================================================
 #              Columns
 # ===============================================================
-def extract_tracer_columns(tracer_file, columns=None):
+def extract_columns(tracer_file, columns=None):
     """Extract table of columns from a skynet output file
 
     Returns : pd.DataFrame
@@ -185,8 +185,8 @@ def extract_tracer_columns(tracer_file, columns=None):
 # ===============================================================
 #              Network
 # ===============================================================
-def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
-                        tracer_network=None, verbose=True):
+def load_network(tracer_id, tracer_step, model, tracer_file=None,
+                 tracer_network=None, verbose=True):
     """Load isotope info (Z, A) used in tracer
 
     parameters
@@ -203,12 +203,12 @@ def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
                             tracer_file=tracer_file, verbose=verbose)
 
     if tracer_network is None:
-        tracer_network = extract_tracer_network(tracer_file)
+        tracer_network = extract_network(tracer_file)
 
     return tracer_network
 
 
-def extract_tracer_network(tracer_file):
+def extract_network(tracer_file):
     """Extract tracer network of isotopes from skynet output file
 
     parameters
@@ -233,8 +233,8 @@ def extract_tracer_network(tracer_file):
 # ===============================================================
 #              Abundance
 # ===============================================================
-def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
-                    tracer_network=None, verbose=True):
+def load_abu(tracer_id, tracer_step, model, tracer_file=None,
+             tracer_network=None, verbose=True):
     """Load chemical abundance table from tracer file
 
     parameters
@@ -251,15 +251,15 @@ def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
     tracer_file = load_file(tracer_id, tracer_step, model=model,
                             tracer_file=tracer_file, verbose=verbose)
 
-    tracer_network = load_tracer_network(tracer_id, tracer_step, model=model,
-                                         tracer_file=tracer_file,
-                                         tracer_network=tracer_network, verbose=verbose)
+    tracer_network = load_network(tracer_id, tracer_step, model=model,
+                                  tracer_file=tracer_file,
+                                  tracer_network=tracer_network, verbose=verbose)
 
-    tracer_abu = extract_tracer_abu(tracer_file, tracer_network=tracer_network)
+    tracer_abu = extract_abu(tracer_file, tracer_network=tracer_network)
     return tracer_abu
 
 
-def extract_tracer_abu(tracer_file, tracer_network):
+def extract_abu(tracer_file, tracer_network):
     """Extract table of chemical abundances from skynet tracer file
 
     parameters
