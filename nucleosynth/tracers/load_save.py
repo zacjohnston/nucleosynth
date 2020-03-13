@@ -263,7 +263,7 @@ def check_model_cache_path(model, verbose=True):
     """
     path = paths.model_cache_path(model)
     try_mkdir(path, skip=True, verbose=verbose)
-    
+
 
 # ===============================================================
 #              Misc.

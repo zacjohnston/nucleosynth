@@ -36,6 +36,10 @@ class Tracer:
         unique A and Z in network
     path : str
         Path to skynet model output
+    reload : bool
+        whether to force reload from raw file (i.e. don't load cache)
+    save : bool
+        whether to save tables to cache for faster loading
     steps : [int]
         list of skynet model steps
     sums : {table: group: pd.DataFrame}
@@ -47,7 +51,8 @@ class Tracer:
     """
 
     def __init__(self, tracer_id, model, load_all=True,
-                 steps=(1, 2), mass=0.01, verbose=True):
+                 steps=(1, 2), mass=0.01,
+                 save=True, reload=False, verbose=True):
         """
         parameters
         ----------
@@ -56,6 +61,8 @@ class Tracer:
         steps : [int]
         load_all : bool
         mass : float
+        save : bool
+        reload : bool
         verbose : bool
         """
         self.tracer_id = tracer_id
@@ -64,6 +71,8 @@ class Tracer:
         self.mass = mass
         self.verbose = verbose
         self.steps = steps
+        self.save = save
+        self.reload = reload
 
         self.files = None
         self.network = None
@@ -124,6 +133,7 @@ class Tracer:
                                             tracer_steps=self.steps,
                                             table_name='columns',
                                             tracer_files=self.files,
+                                            save=self.save, reload=self.reload,
                                             verbose=False)
 
     def load_network(self):
@@ -135,6 +145,7 @@ class Tracer:
                                             tracer_steps=self.steps,
                                             table_name='network',
                                             tracer_files=self.files,
+                                            save=self.save, reload=self.reload,
                                             verbose=False)
         self.get_network_unique()
 
@@ -154,6 +165,7 @@ class Tracer:
                                         tracer_files=self.files,
                                         table_name='abu',
                                         tracer_network=self.network,
+                                        save=self.save, reload=self.reload,
                                         verbose=False)
 
     def load_mass_frac(self):
