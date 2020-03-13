@@ -19,9 +19,9 @@ Functions for loading/saving tracer data
 # ===============================================================
 #              Loading/extracting
 # ===============================================================
-def load_tracer_files(tracer_id, model, tracer_steps,
-                      tracer_files=None, verbose=True):
-    """Load skynet tracer hdf5 file
+def load_files(tracer_id, model, tracer_steps,
+               tracer_files=None, verbose=True):
+    """Load multiple skynet tracer files
 
     parameters
     ----------
@@ -134,8 +134,8 @@ def extract_tracer_table(tracer_id, tracer_steps, model, table_name, columns=Non
     if columns is None:
         columns = tables_config.columns
 
-    tracer_files = load_tracer_files(tracer_id, model=model, tracer_steps=tracer_steps,
-                                     tracer_files=tracer_files, verbose=verbose)
+    tracer_files = load_files(tracer_id, model=model, tracer_steps=tracer_steps,
+                              tracer_files=tracer_files, verbose=verbose)
 
     if tracer_network is None:
         tracer_network = extract_tracer_network(tracer_files[tracer_steps[0]])
