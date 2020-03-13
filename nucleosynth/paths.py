@@ -44,17 +44,6 @@ def skynet_path():
     return path
 
 
-def model_cache_path(model):
-    """Return path to temporary cache directory
-
-    parameters
-    ----------
-    model : str
-        """
-    path = repo_path()
-    return os.path.join(path, 'cache', model)
-
-
 # ===============================================================
 #                      Tracers
 # ===============================================================
@@ -101,6 +90,17 @@ def tracer_filepath(tracer_id, tracer_step, model):
 # ===============================================================
 #                      Cache
 # ===============================================================
+def model_cache_path(model):
+    """Return path to temporary cache directory
+
+    parameters
+    ----------
+    model : str
+        """
+    path = repo_path()
+    return os.path.join(path, 'cache', model)
+
+
 def cache_filename(tracer_id, model, table_name):
     """Return filename of columns cache
 
