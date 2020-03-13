@@ -1,4 +1,10 @@
 import os
+import sys
+import subprocess
+
+# nucleosynth
+from nucleosynth.printing import printv
+
 
 """
 Functions for paths/filenames
@@ -120,4 +126,35 @@ def cache_filepath(tracer_id, model, table_name):
     filename = cache_filename(tracer_id, model, table_name=table_name)
     return os.path.join(path, filename)
 
+
+# ===============================================================
+#              Misc.
+# ===============================================================
+def try_mkdir(path, skip=False, verbose=True):
+    """Try to create directory
+
+    parameters
+    ----------
+    path: str
+        Full path to directory to create
+    skip : bool
+        do nothing if directory already exists
+        if skip=false, will ask to overwrite an existing directory
+    verbose : bool
+    """
+    printv(f'Creating directory  {path}', verbose)
+    if os.path.exists(path):
+        if skip:
+            printv('Directory already exists', verbose)
+        else:
+            print('Directory exists')
+            cont = input('Overwrite (DESTROY)? (y/[n]): ')
+
+            if cont == 'y' or cont == 'Y':
+                subprocess.run(['rm', '-r', path])
+                subprocess.run(['mkdir', path])
+            else:
+                sys.exit()
+    else:
+        subprocess.run(['mkdir', '-p', path], check=True)
 

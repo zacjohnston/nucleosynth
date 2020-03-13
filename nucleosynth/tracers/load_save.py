@@ -262,36 +262,4 @@ def check_model_cache_path(model, verbose=True):
     """Check that the model cache directory exists
     """
     path = paths.model_cache_path(model)
-    try_mkdir(path, skip=True, verbose=verbose)
-
-
-# ===============================================================
-#              Misc.
-# ===============================================================
-def try_mkdir(path, skip=False, verbose=True):
-    """Try to create directory
-
-    parameters
-    ----------
-    path: str
-        Full path to directory to create
-    skip : bool
-        do nothing if directory already exists
-        if skip=false, will ask to overwrite an existing directory
-    verbose : bool
-    """
-    printv(f'Creating directory  {path}', verbose)
-    if os.path.exists(path):
-        if skip:
-            printv('Directory already exists', verbose)
-        else:
-            print('Directory exists')
-            cont = input('Overwrite (DESTROY)? (y/[n]): ')
-
-            if cont == 'y' or cont == 'Y':
-                subprocess.run(['rm', '-r', path])
-                subprocess.run(['mkdir', path])
-            else:
-                sys.exit()
-    else:
-        subprocess.run(['mkdir', '-p', path], check=True)
+    paths.try_mkdir(path, skip=True, verbose=verbose)
