@@ -4,7 +4,7 @@ import h5py
 
 # nucleosynth
 from nucleosynth import paths
-from nucleosynth import network
+from nucleosynth.tracers import extract
 from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
 
@@ -135,7 +135,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
                               tracer_files=tracer_files, verbose=verbose)
 
     if tracer_network is None:
-        tracer_network = extract_network(tracer_files[tracer_steps[0]])
+        tracer_network = extract.extract_network(tracer_files[tracer_steps[0]])
 
     if table_name == 'network':
         return tracer_network
@@ -144,80 +144,15 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
         tracer_file = tracer_files[step]
 
         if table_name == 'columns':
-            table = extract_columns(tracer_file, columns=columns)
+            table = extract.extract_columns(tracer_file, columns=columns)
         elif table_name == 'abu':
-            table = extract_abu(tracer_file, tracer_network=tracer_network)
+            table = extract.extract_abu(tracer_file, tracer_network=tracer_network)
         else:
             raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
         step_tables += [table]
 
     return pd.concat(step_tables, ignore_index=True)
-
-
-# ===============================================================
-#              Columns
-# ===============================================================
-def extract_columns(tracer_file, columns=None):
-    """Extract table of columns from a skynet output file
-
-    Returns : pd.DataFrame
-
-    parameters
-    ----------
-    tracer_file : h5py.File
-    columns : [str]
-    """
-    table = pd.DataFrame()
-
-    if columns is None:
-        columns = tables_config.columns
-
-    for column in columns:
-        table[column.lower()] = tracer_file[column]
-
-    return table
-
-
-# ===============================================================
-#              Network
-# ===============================================================
-def extract_network(tracer_file):
-    """Extract tracer network of isotopes from skynet output file
-
-    parameters
-    ----------
-    tracer_file : h5py.File
-    """
-    tracer_network = pd.DataFrame()
-    iso_list = []
-
-    for key in ['Z', 'A']:
-        tracer_network[key] = np.array(tracer_file[key], dtype=int)
-
-    for i in range(len(tracer_network)):
-        row = tracer_network.loc[i]
-        iso_str = network.get_isotope_str(z=row['Z'], a=row['A'])
-        iso_list += [iso_str]
-
-    tracer_network['isotope'] = iso_list
-    return tracer_network[['isotope', 'Z', 'A']]
-
-
-# ===============================================================
-#              Abundance
-# ===============================================================
-def extract_abu(tracer_file, tracer_network):
-    """Extract table of chemical abundances from skynet tracer file
-
-    parameters
-    ----------
-    tracer_file : h5py.File
-    tracer_network : pd.DataFrame
-    """
-    tracer_abu = pd.DataFrame(tracer_file['Y'])
-    tracer_abu.columns = list(tracer_network['isotope'])
-    return tracer_abu
 
 
 # ===============================================================
