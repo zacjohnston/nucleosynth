@@ -6,12 +6,12 @@ Each module can only import modules from lower levels (NOT from same level).
 ----------------------------
  Level 3
 ----------------------------
-tracer.py
+tracers/tracer.py
 
 ----------------------------
  Level 2
 ----------------------------
-load_save.py
+tracers/load_save.py
 
 ----------------------------
  Level 1
