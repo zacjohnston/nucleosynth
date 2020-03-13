@@ -258,16 +258,16 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     return pd.read_pickle(filepath)
 
 
-# ===============================================================
-#              Misc.
-# ===============================================================
 def check_model_cache_path(model, verbose=True):
     """Check that the model cache directory exists
     """
     path = paths.model_cache_path(model)
     try_mkdir(path, skip=True, verbose=verbose)
+    
 
-
+# ===============================================================
+#              Misc.
+# ===============================================================
 def try_mkdir(path, skip=False, verbose=True):
     """Try to create directory
 
