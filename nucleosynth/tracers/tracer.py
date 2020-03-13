@@ -119,7 +119,7 @@ class Tracer:
         """Load table of scalars
         """
         self.printv('Loading columns')
-        self.columns = load_save.load_tracer_table(self.tracer_id,
+        self.columns = load_save.load_table(self.tracer_id,
                                                    model=self.model,
                                                    tracer_steps=self.steps,
                                                    table_name='columns',
@@ -130,7 +130,7 @@ class Tracer:
         """Load table of network isotopes
         """
         self.printv('Loading network')
-        self.network = load_save.load_tracer_table(self.tracer_id,
+        self.network = load_save.load_table(self.tracer_id,
                                                    model=self.model,
                                                    tracer_steps=self.steps,
                                                    table_name='network',
@@ -149,7 +149,7 @@ class Tracer:
         """Load chemical abundance table
         """
         self.printv('Loading abundances')
-        self.abu = load_save.load_tracer_table(self.tracer_id, tracer_steps=self.steps,
+        self.abu = load_save.load_table(self.tracer_id, tracer_steps=self.steps,
                                                model=self.model,
                                                tracer_files=self.files,
                                                table_name='abu',
