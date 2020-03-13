@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 # nucleosynth
+from nucleosynth.tracers import load_save
 from nucleosynth import paths
-from nucleosynth import load_save
 from nucleosynth import network
 from nucleosynth import plotting
 from nucleosynth import printing

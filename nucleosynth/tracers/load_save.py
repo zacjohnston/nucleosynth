@@ -12,7 +12,7 @@ from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
 
 """
-Functions for loading/saving data
+Functions for loading/saving tracer data
 """
 
 
