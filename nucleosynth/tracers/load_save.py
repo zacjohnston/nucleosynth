@@ -35,13 +35,13 @@ def load_files(tracer_id, model, tracer_steps,
         tracer_files = {}
 
         for step in tracer_steps:
-            tracer_files[step] = load_tracer_file(tracer_id, tracer_step=step,
-                                                  model=model, verbose=verbose)
+            tracer_files[step] = load_file(tracer_id, tracer_step=step,
+                                           model=model, verbose=verbose)
 
     return tracer_files
 
 
-def load_tracer_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
+def load_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
     """Load skynet tracer hdf5 file
 
     parameters
@@ -78,7 +78,7 @@ def load_tracer_table(tracer_id, model, table_name, tracer_steps,
     columns : [str]
         list of columns to extract
     tracer_files : {h5py.File}
-        raw tracer files to load and join, as returned by load_tracer_file()
+        raw tracer files to load and join, as returned by load_file()
         dict keys must correspond to tracer_steps
     tracer_network : pd.DataFrame
     reload : bool
@@ -199,8 +199,8 @@ def load_tracer_network(tracer_id, tracer_step, model, tracer_file=None,
     verbose : bool
     """
     printv(f'Loading tracer network', verbose=verbose)
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
+    tracer_file = load_file(tracer_id, tracer_step, model=model,
+                            tracer_file=tracer_file, verbose=verbose)
 
     if tracer_network is None:
         tracer_network = extract_tracer_network(tracer_file)
@@ -248,8 +248,8 @@ def load_tracer_abu(tracer_id, tracer_step, model, tracer_file=None,
     """
     printv(f'Loading tracer abundances', verbose=verbose)
 
-    tracer_file = load_tracer_file(tracer_id, tracer_step, model=model,
-                                   tracer_file=tracer_file, verbose=verbose)
+    tracer_file = load_file(tracer_id, tracer_step, model=model,
+                            tracer_file=tracer_file, verbose=verbose)
 
     tracer_network = load_tracer_network(tracer_id, tracer_step, model=model,
                                          tracer_file=tracer_file,
