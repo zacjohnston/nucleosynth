@@ -233,32 +233,6 @@ def extract_network(tracer_file):
 # ===============================================================
 #              Abundance
 # ===============================================================
-def load_abu(tracer_id, tracer_step, model, tracer_file=None,
-             tracer_network=None, verbose=True):
-    """Load chemical abundance table from tracer file
-
-    parameters
-    ----------
-    tracer_id : int
-    tracer_step : 1 or 2
-    model : str
-    tracer_file : h5py.File
-    tracer_network : pd.DataFrame
-    verbose : bool
-    """
-    printv(f'Loading tracer abundances', verbose=verbose)
-
-    tracer_file = load_file(tracer_id, tracer_step, model=model,
-                            tracer_file=tracer_file, verbose=verbose)
-
-    tracer_network = load_network(tracer_id, tracer_step, model=model,
-                                  tracer_file=tracer_file,
-                                  tracer_network=tracer_network, verbose=verbose)
-
-    tracer_abu = extract_abu(tracer_file, tracer_network=tracer_network)
-    return tracer_abu
-
-
 def extract_abu(tracer_file, tracer_network):
     """Extract table of chemical abundances from skynet tracer file
 
