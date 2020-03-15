@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import time
 
 # nucleosynth
 from nucleosynth.tracers import load_save
@@ -94,12 +95,16 @@ class Tracer:
     def load_all(self):
         """Load all tracer data
         """
+        t0 = time.time()
         self.check_loaded()
 
         self.load_mass_frac()
         self.load_sums()
         self.load_sumy_abar()
         self.get_zbar()
+
+        t1 = time.time()
+        self.printv(f'Load time: {t1-t0:.3f} s')
 
     def check_loaded(self):
         """Check that main data is loaded
