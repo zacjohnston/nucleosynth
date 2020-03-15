@@ -13,3 +13,10 @@ def printv(string, verbose, **kwargs):
     """
     if verbose:
         print(string, **kwargs)
+
+
+def check_provided(variable, name):
+    """Check that variable is not None
+    """
+    if variable is None:
+        raise ValueError(f'Must provide {name}')
