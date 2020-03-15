@@ -3,7 +3,7 @@ import pandas as pd
 import h5py
 
 # nucleosynth
-from nucleosynth import paths
+from nucleosynth import paths, network
 from nucleosynth.tracers import extract
 from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
@@ -110,8 +110,9 @@ def load_table(tracer_id, model, table_name, tracer_steps,
 
 
 def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
-                  tracer_files=None, tracer_network=None, verbose=True):
-    """Extract and join table from multiple skynet output files
+                  tracer_files=None, tracer_network=None, abu_table=None,
+                  verbose=True):
+    """Wrapper for various table extract functions
 
     Returns : pd.DataFrame
 
@@ -124,6 +125,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
     columns : [str]
     tracer_files : {h5py.File}
     tracer_network : pd.DataFrame
+    abu_table : pd.DataFrame
     verbose : bool
     """
     step_tables = []
@@ -147,6 +149,8 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
             table = extract.extract_columns(tracer_file, columns=columns)
         elif table_name == 'abu':
             table = extract.extract_abu(tracer_file, tracer_network=tracer_network)
+        elif table_name == 'mass_frac':
+            table = network.get_mass_frac(abu_table, tracer_network=tracer_network)
         else:
             raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
