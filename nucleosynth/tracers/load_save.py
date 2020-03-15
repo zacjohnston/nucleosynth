@@ -153,10 +153,18 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 
         if table_name == 'columns':
             table = extract.extract_columns(tracer_file, columns=columns)
+
         elif table_name == 'abu':
             table = extract.extract_abu(tracer_file, tracer_network=tracer_network)
+
         elif table_name == 'mass_frac':
+            if abu_table is None:
+                abu_table = load_table(tracer_id, model=model, tracer_steps=tracer_steps,
+                                       table_name='abu', tracer_files=tracer_files,
+                                       tracer_network=tracer_network, verbose=verbose)
+
             table = network.get_mass_frac(abu_table, tracer_network=tracer_network)
+
         else:
             raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
