@@ -60,8 +60,13 @@ def load_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
 
 def load_table(tracer_id, model, table_name, tracer_steps,
                columns=None, tracer_files=None, tracer_network=None,
-               reload=False, save=True, verbose=True):
-    """Generalised function for loading tracer tables
+               abu_table=None, reload=False, save=True, verbose=True):
+    """Generalised wrapper function for loading tracer tables
+
+    Main steps:
+        1. Tries to load from cache
+        2. If no cache, re-extract from file or existing table
+        3. Save new table to cache (if save=True)
 
     Returns : pd.DataFrame
 
@@ -78,6 +83,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
         raw tracer files to load and join, as returned by load_file()
         dict keys must correspond to tracer_steps
     tracer_network : pd.DataFrame
+    abu_table : pd.DataFrame
     reload : bool
         Force reload from raw skynet file
     save : bool
@@ -87,7 +93,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     printv(f'Loading {table_name} table', verbose=verbose)
     table = None
 
-    if table_name not in ['columns', 'network', 'abu']:
+    if table_name not in ['columns', 'network', 'abu', 'mass_frac']:
         raise ValueError('table_name must be one of: columns, abu, mass_frac ')
 
     if not reload:
@@ -101,7 +107,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
 
         table = extract_table(tracer_id, tracer_steps=tracer_steps, model=model,
                               table_name=table_name, columns=columns,
-                              tracer_network=tracer_network,
+                              tracer_network=tracer_network, abu_table=abu_table,
                               tracer_files=tracer_files, verbose=verbose)
         if save:
             save_table_cache(table, tracer_id, model, table_name, verbose=verbose)
@@ -175,7 +181,7 @@ def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     """
     check_model_cache_path(model, verbose=verbose)
     filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
-    printv(f'Saving columns table: {filepath}', verbose)
+    printv(f'Saving table to cache: {filepath}', verbose)
     table.to_pickle(filepath)
 
 
@@ -190,7 +196,7 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     verbose : bool
     """
     filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
-    printv(f'Loading columns cache: {filepath}', verbose)
+    printv(f'Loading table from cache: {filepath}', verbose)
     return pd.read_pickle(filepath)
 
 
