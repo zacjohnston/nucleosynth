@@ -1,11 +1,10 @@
-import numpy as np
 import pandas as pd
 import h5py
 
 # nucleosynth
 from nucleosynth import paths, network
 from nucleosynth.tracers import extract
-from nucleosynth.printing import printv, check_provided
+from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
 
 """
