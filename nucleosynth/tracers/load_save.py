@@ -60,11 +60,11 @@ def load_file(tracer_id, tracer_step, model, tracer_file=None, verbose=True):
 def load_table(tracer_id, model, table_name, tracer_steps,
                columns=None, tracer_files=None, tracer_network=None,
                abu_table=None, reload=False, save=True, verbose=True):
-    """Generalised wrapper function for loading tracer tables
+    """Wrapper function for loading various tracer tables
 
     Main steps:
-        1. Tries to load from cache
-        2. If no cache, re-extract from file or existing table
+        1. Try to load from cache
+        2. If no cache, re-extract from file
         3. Save new table to cache (if save=True)
 
     Returns : pd.DataFrame
