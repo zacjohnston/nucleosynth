@@ -5,7 +5,7 @@ import h5py
 # nucleosynth
 from nucleosynth import paths, network
 from nucleosynth.tracers import extract
-from nucleosynth.printing import printv
+from nucleosynth.printing import printv, check_provided
 from nucleosynth.config import tables_config
 
 """
@@ -159,9 +159,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 
         elif table_name == 'mass_frac':
             if abu_table is None:
-                abu_table = load_table(tracer_id, model=model, tracer_steps=tracer_steps,
-                                       table_name='abu', tracer_files=tracer_files,
-                                       tracer_network=tracer_network, verbose=verbose)
+                abu_table = extract.extract_abu(tracer_file, tracer_network)
 
             table = network.get_mass_frac(abu_table, tracer_network=tracer_network)
 
