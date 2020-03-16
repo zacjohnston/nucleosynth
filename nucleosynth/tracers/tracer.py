@@ -239,6 +239,44 @@ class Tracer:
     # ===============================================================
     #                      Plotting
     # ===============================================================
+    def plot_multi(self, columns, max_cols=1, y_scale=None, x_scale=None,
+                   legend=False, title=True, ylims=None, xlims=None,
+                   sub_figsize=(8, 4), label=None,
+                   linestyle='-', marker='', sharex=True):
+        """Plot column quantity versus time
+
+        parameters
+        ----------
+        columns : [str]
+            list of quantities to plot in subplots
+        max_cols : int
+            how many subplots to put side-by-side
+        y_scale : {'log', 'linear'}
+        x_scale : {'log', 'linear'}
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        sub_figsize : [width, height]
+        label : str
+        linestyle : str
+        marker : str
+        sharex : bool
+        """
+        fig, ax = plotting.setup_subplots(n_sub=len(columns), max_cols=max_cols,
+                                          sub_figsize=sub_figsize,
+                                          sharex=sharex, squeeze=False)
+
+        for i, column in enumerate(columns):
+            row = int(np.floor(i / max_cols))
+            col = i % max_cols
+
+            self.plot(column, ax=ax[row, col], y_scale=y_scale, x_scale=x_scale,
+                      ylims=ylims, xlims=xlims, label=label,
+                      legend=legend, linestyle=linestyle, marker=marker,
+                      title=title if i == 0 else False)
+        return fig
+
     def plot(self, column, y_scale=None, x_scale=None,
              ax=None, legend=False, title=True,
              ylims=None, xlims=None, figsize=(8, 6), label=None,
@@ -261,7 +299,6 @@ class Tracer:
         linestyle : str
         marker : str
         """
-        # TODO: plot multiple subplots
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
@@ -304,8 +341,8 @@ class Tracer:
         x = self.network_unique[group]
         y = self.sums[table][group].loc[timestep]
 
-        time = self.columns['time'][timestep]
-        title_str = f"{self.title}, t={time:.3e} s"
+        t = self.columns['time'][timestep]
+        title_str = f"{self.title}, t={t:.3e} s"
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
         plotting.set_ax_all(ax, y_var=table, x_var=group, y_scale=y_scale,
