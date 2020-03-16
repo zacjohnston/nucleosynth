@@ -28,4 +28,6 @@ ax_lims = {
     'time': [1e-2, 3],
     'density': [1e3, 1e9],
     'temperature': [1e8, 2e10],
+    'abu': [1e-12, 1e1],
+    'mass_frac': [1e-12, 1e1],
 }
