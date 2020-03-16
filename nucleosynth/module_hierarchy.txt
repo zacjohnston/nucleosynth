@@ -23,6 +23,7 @@ tracers/extract.py
 ----------------------------
 network.py
 paths.py
+plotter.py
 
 ----------------------------
  Level 0
