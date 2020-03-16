@@ -27,4 +27,5 @@ ax_labels = {
 ax_lims = {
     'time': [1e-2, 3],
     'density': [1e3, 1e9],
+    'temperature': [1e8, 2e10],
 }
