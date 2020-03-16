@@ -13,13 +13,18 @@ class Plotter:
     """
     Handles axis properties
     """
-    def __init__(self, ax, y_var=None, x_var=None, y_scale=None, x_scale=None,
-                 xlabel=None, ylabel=None, xlims=None, ylims=None,
-                 legend=False, legend_loc=None, title=False, title_str=None):
+    def __init__(self, ax, set_all=True,
+                 y_var=None, x_var=None,
+                 y_scale=None, x_scale=None,
+                 xlabel=None, ylabel=None,
+                 xlims=None, ylims=None,
+                 legend=False, legend_loc=None,
+                 title=False, title_str=None):
         """
         parameters
         ----------
         ax : pyplot Axis
+        set_all : bool
         y_var : str
         x_var : str
         y_scale : one of ('log', 'linear')
@@ -46,6 +51,16 @@ class Plotter:
         self.legend_loc = legend_loc
         self.title = title
         self.title_str = title_str
+
+        if set_all:
+            self.set_all()
+
+    def set_all(self):
+        self.set_labels()
+        self.set_legend()
+        self.set_lims()
+        self.set_scales()
+        self.set_title()
 
     def set_scales(self):
         set_ax_scales(self.ax, y_var=self.y_var, x_var=self.x_var,
