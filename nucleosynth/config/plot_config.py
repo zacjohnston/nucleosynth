@@ -23,3 +23,8 @@ ax_labels = {
     'abu': '$Y$',
     'mass_frac': '$X$',
 }
+
+ax_lims = {
+    'time': [1e-2, 3],
+    'density': [1e3, 1e9],
+}
