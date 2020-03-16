@@ -9,6 +9,60 @@ General functions for plotting
 """
 
 
+class Plotter:
+    """
+    Handles axis properties
+    """
+    def __init__(self, ax, y_var=None, x_var=None, y_scale=None, x_scale=None,
+                 xlabel=None, ylabel=None, xlims=None, ylims=None,
+                 legend=False, legend_loc=None, title=False, title_str=None):
+        """
+        parameters
+        ----------
+        ax : pyplot Axis
+        y_var : str
+        x_var : str
+        y_scale : one of ('log', 'linear')
+        x_scale : one of ('log', 'linear')
+        xlabel : str
+        ylabel : str
+        xlims : [min, max]
+        ylims : [min, max]
+        legend : bool
+        legend_loc : str
+        title : bool
+        title_str : str
+        """
+        self.ax = ax
+        self.y_var = y_var
+        self.x_var = x_var
+        self.y_scale = y_scale
+        self.x_scale = x_scale
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.xlims = xlims
+        self.ylims = ylims
+        self.legend = legend
+        self.legend_loc = legend_loc
+        self.title = title
+        self.title_str = title_str
+
+    def set_scales(self):
+        pass
+
+    def set_labels(self):
+        pass
+
+    def set_lims(self):
+        pass
+
+    def set_title(self):
+        pass
+
+    def set_legend(self):
+        pass
+
+
 def setup_subplots(n_sub, max_cols=2, sub_figsize=(6, 5), **kwargs):
     """Constructs fig for given number of subplots
 
