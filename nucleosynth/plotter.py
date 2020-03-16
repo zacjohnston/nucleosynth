@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 # nucleosynth
 from nucleosynth import plotting
 
@@ -13,7 +15,8 @@ class Plotter:
                  xlabel=None, ylabel=None,
                  xlims=None, ylims=None,
                  legend=False, legend_loc=None,
-                 title=False, title_str=None):
+                 title=False, title_str=None,
+                 figsize=None):
         """
         parameters
         ----------
@@ -31,7 +34,9 @@ class Plotter:
         legend_loc : str
         title : bool
         title_str : str
+        figsize : []
         """
+        self.fig = None
         self.ax = ax
         self.y_var = y_var
         self.x_var = x_var
@@ -45,9 +50,16 @@ class Plotter:
         self.legend_loc = legend_loc
         self.title = title
         self.title_str = title_str
+        self.figsize = figsize
+
+        self.check_ax()
 
         if set_all:
             self.set_all()
+
+    def check_ax(self):
+        if self.ax is None:
+            self.fig, self.ax = plt.subplots(figsize=self.figsize)
 
     def set_all(self):
         self.set_labels()
