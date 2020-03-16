@@ -239,10 +239,10 @@ class Tracer:
     # ===============================================================
     #                      Plotting
     # ===============================================================
-    def plot_multi(self, columns, max_cols=1, y_scale=None, x_scale=None,
-                   legend=False, title=True, ylims=None, xlims=None,
-                   sub_figsize=(8, 4), label=None,
-                   linestyle='-', marker='', sharex=True):
+    def plot_columns(self, columns, max_cols=1, y_scale=None, x_scale=None,
+                     legend=False, title=True, ylims=None, xlims=None,
+                     sub_figsize=(8, 4), label=None,
+                     linestyle='-', marker='', sharex=True):
         """Plot column quantity versus time
 
         parameters
@@ -271,16 +271,16 @@ class Tracer:
             row = int(np.floor(i / max_cols))
             col = i % max_cols
 
-            self.plot(column, ax=ax[row, col], y_scale=y_scale, x_scale=x_scale,
-                      ylims=ylims, xlims=xlims, label=label,
-                      legend=legend, linestyle=linestyle, marker=marker,
-                      title=title if i == 0 else False)
+            self.plot_column(column, ax=ax[row, col], y_scale=y_scale, x_scale=x_scale,
+                             ylims=ylims, xlims=xlims, label=label,
+                             legend=legend, linestyle=linestyle, marker=marker,
+                             title=title if i == 0 else False)
         return fig
 
-    def plot(self, column, y_scale=None, x_scale=None,
-             ax=None, legend=False, title=True,
-             ylims=None, xlims=None, figsize=(8, 6), label=None,
-             linestyle='-', marker=''):
+    def plot_column(self, column, y_scale=None, x_scale=None,
+                    ax=None, legend=False, title=True,
+                    ylims=None, xlims=None, figsize=(8, 6), label=None,
+                    linestyle='-', marker=''):
         """Plot column quantity versus time
 
         parameters
