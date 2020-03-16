@@ -29,7 +29,13 @@ def extract_columns(tracer_file, columns=None):
         columns = tables_config.columns
 
     for column in columns:
-        table[column.lower()] = tracer_file[column]
+        col_low = column.lower()
+        table[col_low] = tracer_file[column]
+
+        # rescale if needed
+        scale = tables_config.column_scales.get(col_low)
+        if scale is not None:
+            table[col_low] *= scale
 
     return table
 
