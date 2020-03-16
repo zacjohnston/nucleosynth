@@ -303,6 +303,43 @@ class Tracer:
 
         return fig
 
+    def plot_composition(self, isotopes, table_name, y_scale=None, x_scale=None,
+                         ax=None, legend=True, title=True,
+                         ylims=None, xlims=None, figsize=(8, 6), label=None,
+                         linestyle='-', marker=''):
+        """Plot network composition versus time
+
+        parameters
+        ----------
+        isotopes : [str]
+            list of isotopes to plot
+        table_name : one of ('abu', 'mass_frac')
+            which composition quantity to plot
+        y_scale : {'log', 'linear'}
+        x_scale : {'log', 'linear'}
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        label : str
+        linestyle : str
+        marker : str
+        """
+        table = {'abu': self.abu, 'mass_frac': self.mass_frac}[table_name]
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        for i, isotope in enumerate(isotopes):
+            ax.plot(self.columns['time'], table[isotope], ls=linestyle,
+                    marker=marker, label=isotope)
+
+        plotting.set_ax_all(ax, y_var=table_name, x_var='time', y_scale=y_scale,
+                            x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend,
+                            title=title, title_str=self.title)
+
+        return fig
+
     def plot_sums(self, timestep, table, group, y_scale=None,
                   ax=None, legend=False, title=True,
                   ylims=None, xlims=None, figsize=(8, 6), label=None,
