@@ -178,14 +178,7 @@ class Tracer:
         """
         self.printv('Loading mass fractions')
         self.check_loaded()
-        self.mass_frac = load_save.load_table(self.tracer_id, model=self.model,
-                                              table_name='mass_frac',
-                                              tracer_steps=self.steps,
-                                              tracer_files=self.files,
-                                              tracer_network=self.network,
-                                              abu_table=self.abu,
-                                              reload=self.reload, save=self.save,
-                                              verbose=False)
+        self.mass_frac = network.get_mass_frac(self.abu, self.network)
 
     def load_sums(self):
         """Get abundance/mass-fraction sums over A, Z
