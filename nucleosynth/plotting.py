@@ -71,7 +71,7 @@ def set_ax_all(ax, y_var=None, x_var=None, y_scale=None, x_scale=None,
     """
     set_ax_scales(ax, x_var=x_var, y_var=y_var, x_scale=x_scale, y_scale=y_scale)
     set_ax_labels(ax, y_var=y_var, x_var=x_var, ylabel=ylabel, xlabel=xlabel)
-    set_ax_lims(ax, xlims=xlims, ylims=ylims)
+    set_ax_lims(ax, x_var=x_var, y_var=y_var, xlims=xlims, ylims=ylims)
     set_ax_legend(ax, legend=legend, loc=legend_loc)
     set_ax_title(ax, string=title_str, title=title)
 
@@ -109,19 +109,24 @@ def set_ax_title(ax, string, title):
         ax.set_title(string)
 
 
-def set_ax_lims(ax, xlims=None, ylims=None):
+def set_ax_lims(ax, x_var=None, y_var=None, xlims=None, ylims=None):
     """Set x and y axis limits
 
     parameters
     ----------
     ax : pyplot Axis
+    x_var : str
+    y_var : str
     xlims : [min, max]
     ylims : [min, max]
     """
-    if ylims is not None:
-        ax.set_ylim(ylims)
-    if xlims is not None:
-        ax.set_xlim(xlims)
+    if xlims is None:
+        xlims = plot_config.ax_lims.get(x_var)
+    if ylims is None:
+        ylims = plot_config.ax_lims.get(y_var)
+
+    ax.set_xlim(xlims)
+    ax.set_ylim(ylims)
 
 
 def set_ax_labels(ax, x_var=None, y_var=None, xlabel=None, ylabel=None):
