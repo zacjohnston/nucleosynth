@@ -48,19 +48,22 @@ class Plotter:
         self.title_str = title_str
 
     def set_scales(self):
-        pass
+        set_ax_scales(self.ax, y_var=self.y_var, x_var=self.x_var,
+                      y_scale=self.y_scale, x_scale=self.x_scale)
 
     def set_labels(self):
-        pass
+        set_ax_labels(self.ax, x_var=self.x_var, y_var=self.y_var,
+                      xlabel=self.xlabel, ylabel=self.ylabel)
 
     def set_lims(self):
-        pass
+        set_ax_lims(self.ax, x_var=self.x_var, y_var=self.y_var,
+                    xlims=self.xlims, ylims=self.ylims)
 
     def set_title(self):
-        pass
+        set_ax_title(self.ax, string=self.title_str, title=self.title)
 
     def set_legend(self):
-        pass
+        set_ax_legend(self.ax, legend=self.legend, loc=self.legend_loc)
 
 
 def setup_subplots(n_sub, max_cols=2, sub_figsize=(6, 5), **kwargs):
