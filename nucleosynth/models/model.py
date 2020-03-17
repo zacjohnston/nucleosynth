@@ -15,7 +15,7 @@ class Model:
     ----------
     model : str
         Name of skynet model, e.g. 'traj_s12.0'
-    path : str
+    output_path : str
         Path to skynet output directory of model
     tracers : {tracer_id: Tracer}
         Collection of tracer objects
@@ -39,7 +39,7 @@ class Model:
         verbose : bool
         """
         self.model = model
-        self.path = paths.model_path(model, directory='output')
+        self.output_path = paths.model_path(model, directory='output')
         self.tracer_steps = tracer_steps
         self.reload = reload
         self.save = save
