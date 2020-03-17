@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import h5py
 
@@ -169,6 +170,16 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 
     return pd.concat(step_tables, ignore_index=True)
 
+
+def get_stir_mass_element(tracer_id, model):
+    """Get mass element (Msun) from STIR tracer file
+    """
+    filepath = paths.stir_filepath(tracer_id, model)
+    with open(filepath, 'r') as f:
+        line = f.readline()
+        mass = float(line.split()[3])
+
+    return mass
 
 # ===============================================================
 #              Cache
