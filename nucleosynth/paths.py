@@ -105,6 +105,20 @@ def tracer_filepath(tracer_id, tracer_step, model):
     return os.path.join(path, filename)
 
 
+def stir_filename(tracer_id, model, extension='.dat'):
+    """Return name of STIR tracer file
+    """
+    return f'{model}_{tracer_id}{extension}'
+
+
+def stir_filepath(tracer_id, model):
+    """Return filepath to STIR tracer
+    """
+    path = model_path(model, directory='input')
+    filename = stir_filename(tracer_id, model)
+    return os.path.join(path, filename)
+
+
 # ===============================================================
 #                      Cache
 # ===============================================================
