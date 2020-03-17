@@ -74,19 +74,16 @@ class Tracer:
         self.save = save
         self.reload = reload
 
-        self.paths = None
         self.files = None
         self.network = None
         self.abu = None
         self.mass_frac = None
-
         self.network_unique = None
         self.sums = None
-
         self.columns = None
-        self.title = f'{self.model}, tracer_{self.tracer_id}'
 
-        self.get_paths()
+        self.title = f'{self.model}, tracer_{self.tracer_id}'
+        self.paths = paths.get_paths(self.model)
 
         if load_all:
             self.load_all()
@@ -94,13 +91,6 @@ class Tracer:
     # ===============================================================
     #                      Loading/extracting
     # ===============================================================
-    def get_paths(self):
-        """Get paths to tracer directories
-        """
-        self.paths = {'output': paths.model_path(self.model, directory='output'),
-                      'input': paths.model_path(self.model, directory='input'),
-                      'cache': paths.model_cache_path(self.model)}
-
     def load_all(self):
         """Load all tracer data
         """

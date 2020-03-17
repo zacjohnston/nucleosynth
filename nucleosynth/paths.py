@@ -57,7 +57,7 @@ def get_paths(model):
     paths = {'output': model_path(model, directory='output'),
              'input':  model_path(model, directory='input'),
              'cache':  model_cache_path(model)}
-    
+
     return paths
 
 
