@@ -1,7 +1,7 @@
 
 # nucleosynth
 from nucleosynth.tracers import tracer
-from nucleosynth import paths, tools
+from nucleosynth import paths, tools, plotting
 
 """
 Class representing a CCSN model, composed of multiple mass tracers
@@ -75,3 +75,39 @@ class Model:
                                                 save=self.save, reload=self.reload,
                                                 verbose=self.verbose)
 
+    # ===============================================================
+    #                      Plotting
+    # ===============================================================
+    def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
+                    ax=None, legend=False, title=True,
+                    ylims=None, xlims=None, figsize=(8, 6),
+                    linestyle='-', marker=''):
+        """Plot column quantity versus time
+
+        parameters
+        ----------
+        column : str
+            quantity to plot on y-axis (from Tracer.columns)
+        tracer_ids : [int]
+        y_scale : {'log', 'linear'}
+        x_scale : {'log', 'linear'}
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        linestyle : str
+        marker : str
+        """
+        if tracer_ids is None:
+            tracer_ids = self.tracers.keys()
+
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        for tracer_id in tracer_ids:
+            trace = self.tracers[tracer_id]
+            trace.plot_column(column=column, ax=ax,
+                              y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
+                              legend=legend, title=title, label=tracer_id,
+                              linestyle=linestyle, marker=marker)
