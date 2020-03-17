@@ -1,6 +1,6 @@
 
 # nucleosynth
-from nucleosynth.tracers import tracer
+from nucleosynth.tracers import tracer, load_save
 from nucleosynth import paths, tools, plotting
 
 """
@@ -47,6 +47,7 @@ class Model:
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
         self.paths = paths.get_model_paths(self.model)
+        self.mass_grid = load_save.get_stir_mass_grid(tracer_ids, self.model)
 
         if load_all:
             self.load_tracers()
