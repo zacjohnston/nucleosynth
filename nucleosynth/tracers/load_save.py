@@ -3,7 +3,7 @@ import pandas as pd
 import h5py
 
 # nucleosynth
-from nucleosynth import paths, network
+from nucleosynth import paths, network, tools
 from nucleosynth.tracers import extract
 from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
@@ -171,8 +171,34 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
     return pd.concat(step_tables, ignore_index=True)
 
 
+# ===============================================================
+#              STIR files
+# ===============================================================
+def get_stir_mass_grid(tracer_ids, model):
+    """Get full mass grid from stir tracer files
+
+    parameters
+    ----------
+    tracer_ids : int or [int]
+    model : str
+    """
+    tracer_ids = tools.expand_sequence(tracer_ids)
+    mass_grid = []
+
+    for tracer_id in tracer_ids:
+        mass = get_stir_mass_element(tracer_id, model)
+        mass_grid += [mass]
+
+    return np.array(mass_grid)
+
+
 def get_stir_mass_element(tracer_id, model):
     """Get mass element (Msun) from STIR tracer file
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
     """
     filepath = paths.stir_filepath(tracer_id, model)
     with open(filepath, 'r') as f:
@@ -180,6 +206,7 @@ def get_stir_mass_element(tracer_id, model):
         mass = float(line.split()[3])
 
     return mass
+
 
 # ===============================================================
 #              Cache
