@@ -47,7 +47,7 @@ def skynet_path():
 # ===============================================================
 #                      Models
 # ===============================================================
-def get_paths(model):
+def get_model_paths(model):
     """Get paths to various model directories
 
     parameters

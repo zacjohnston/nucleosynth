@@ -46,7 +46,7 @@ class Model:
 
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
-        self.paths = paths.get_paths(self.model)
+        self.paths = paths.get_model_paths(self.model)
 
         if load_all:
             self.load_tracers()

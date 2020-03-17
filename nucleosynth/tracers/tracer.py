@@ -83,7 +83,7 @@ class Tracer:
         self.columns = None
 
         self.title = f'{self.model}, tracer_{self.tracer_id}'
-        self.paths = paths.get_paths(self.model)
+        self.paths = paths.get_model_paths(self.model)
 
         if load_all:
             self.load_all()
