@@ -68,7 +68,7 @@ class Tracer:
         """
         self.tracer_id = tracer_id
         self.model = model
-        self.path = paths.model_path(model=model)
+        self.path = paths.model_path(model, directory='output')
         self.mass = mass
         self.verbose = verbose
         self.steps = steps

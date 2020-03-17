@@ -39,7 +39,7 @@ class Model:
         verbose : bool
         """
         self.model = model
-        self.path = paths.model_path(model=model)
+        self.path = paths.model_path(model, directory='output')
         self.tracer_steps = tracer_steps
         self.reload = reload
         self.save = save
