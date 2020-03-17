@@ -12,8 +12,8 @@ Functions for paths/filenames
 Shell environment variables needed:
 NUCLEOSYNTH
     path to this repository
-SKYNET_OUTPUT
-    path to skynet output directory
+SKYNET
+    path to skynet directory containing input/output folders
 """
 
 
@@ -33,14 +33,14 @@ def repo_path():
 
 
 def skynet_path():
-    """Return path to skynet output
+    """Return path to skynet directory
     """
     try:
-        path = os.environ['SKYNET_OUTPUT']
+        path = os.environ['SKYNET']
     except KeyError:
-        raise EnvironmentError('Environment variable SKYNET_OUTPUT not set. '
-                               'Set path to skynet output directory, e.g., '
-                               "'export SKYNET_OUTPUT=${HOME}/skynet/output'")
+        raise EnvironmentError('Environment variable SKYNET not set. '
+                               'Set path to skynet directory, e.g., '
+                               "'export SKYNET=${HOME}/skynet'")
     return path
 
 
@@ -53,9 +53,9 @@ def model_path(model):
     parameters
     ----------
     model : str
-        """
+    """
     path = skynet_path()
-    return os.path.join(path, model)
+    return os.path.join(path, 'output', model)
 
 
 def tracer_filename(tracer_id, tracer_step):
