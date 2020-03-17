@@ -1,0 +1,4 @@
+
+"""
+Misc. convenience functions
+"""
