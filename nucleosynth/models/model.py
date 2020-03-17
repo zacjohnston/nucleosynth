@@ -51,7 +51,8 @@ class Model:
     def load_tracers(self):
         """Load all tracers
         """
-        pass
+        for tracer_id in self.tracers:
+            self.load_tracer(tracer_id)
 
     def load_tracer(self, tracer_id):
         """Load all tracers
