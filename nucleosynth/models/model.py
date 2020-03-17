@@ -48,6 +48,19 @@ class Model:
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
 
+        if load_all:
+            self.load_tracers()
+
+    # ===============================================================
+    #                      Loading/extracting
+    # ===============================================================
+    def check_loaded(self):
+        """Check that main data is loaded
+        """
+        for tracer_id in self.tracers:
+            if self.tracers[tracer_id] is None:
+                self.load_tracer(tracer_id)
+
     def load_tracers(self):
         """Load all tracers
         """
