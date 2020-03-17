@@ -300,12 +300,11 @@ class Tracer:
         plotting.set_ax_all(ax, y_var=column, x_var='time', y_scale=y_scale,
                             x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=self.title)
-
         return fig
 
     def plot_composition(self, isotopes, table_name, y_scale=None, x_scale=None,
                          ax=None, legend=True, title=True,
-                         ylims=None, xlims=None, figsize=(8, 6), label=None,
+                         ylims=None, xlims=None, figsize=(8, 6),
                          linestyle='-', marker=''):
         """Plot network composition versus time
 
@@ -323,7 +322,6 @@ class Tracer:
         ylims : [min, max]
         xlims : [min, max]
         figsize : [width, height]
-        label : str
         linestyle : str
         marker : str
         """
@@ -337,7 +335,6 @@ class Tracer:
         plotting.set_ax_all(ax, y_var=table_name, x_var='time', y_scale=y_scale,
                             x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=self.title)
-
         return fig
 
     def plot_sums(self, timestep, table, group, y_scale=None,
@@ -378,7 +375,6 @@ class Tracer:
         plotting.set_ax_all(ax, y_var=table, x_var=group, y_scale=y_scale,
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=title_str)
-
         return fig
 
     # ===============================================================
