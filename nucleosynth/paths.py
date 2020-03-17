@@ -45,8 +45,22 @@ def skynet_path():
 
 
 # ===============================================================
-#                      Tracers
+#                      Models
 # ===============================================================
+def get_paths(model):
+    """Get paths to various model directories
+
+    parameters
+    ----------
+    model : str
+    """
+    paths = {'output': model_path(model, directory='output'),
+             'input':  model_path(model, directory='input'),
+             'cache':  model_cache_path(model)}
+    
+    return paths
+
+
 def model_path(model, directory):
     """Return path to model output directory
 
@@ -59,6 +73,9 @@ def model_path(model, directory):
     return os.path.join(path, directory, model)
 
 
+# ===============================================================
+#                      Tracers
+# ===============================================================
 def tracer_filename(tracer_id, tracer_step):
     """Return name of skynet tracer file
 
