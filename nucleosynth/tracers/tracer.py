@@ -97,7 +97,9 @@ class Tracer:
     def get_paths(self):
         """Get paths to tracer directories
         """
-        self.paths['output'] = paths.model_path(self.model, directory='output')
+        self.paths = {'output': paths.model_path(self.model, directory='output'),
+                      'input': paths.model_path(self.model, directory='input'),
+                      'cache': paths.model_cache_path(self.model)}
 
     def load_all(self):
         """Load all tracer data
