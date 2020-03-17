@@ -35,8 +35,8 @@ class Tracer:
         Table of isotopes used in model (name, Z, A)
     network_unique : {group: [int]}
         unique A and Z in network
-    path : str
-        Path to skynet model output
+    paths : str
+        Paths to model input/output directories
     reload : bool
         whether to force reload from raw file (i.e. don't load cache)
     save : bool
@@ -68,13 +68,13 @@ class Tracer:
         """
         self.tracer_id = tracer_id
         self.model = model
-        self.path = paths.model_path(model, directory='output')
         self.mass = mass
         self.verbose = verbose
         self.steps = steps
         self.save = save
         self.reload = reload
 
+        self.paths = None
         self.files = None
         self.network = None
         self.abu = None
@@ -86,12 +86,19 @@ class Tracer:
         self.columns = None
         self.title = f'{self.model}, tracer_{self.tracer_id}'
 
+        self.get_paths()
+
         if load_all:
             self.load_all()
 
     # ===============================================================
     #                      Loading/extracting
     # ===============================================================
+    def get_paths(self):
+        """Get paths to tracer directories
+        """
+        self.paths['output'] = paths.model_path(self.model, directory='output')
+
     def load_all(self):
         """Load all tracer data
         """
