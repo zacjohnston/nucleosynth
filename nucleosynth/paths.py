@@ -105,6 +105,9 @@ def tracer_filepath(tracer_id, tracer_step, model):
     return os.path.join(path, filename)
 
 
+# ===============================================================
+#                      STIR
+# ===============================================================
 def stir_filename(tracer_id, model, extension='.dat'):
     """Return name of STIR tracer file
     """

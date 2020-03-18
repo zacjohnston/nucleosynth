@@ -174,6 +174,22 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 # ===============================================================
 #              STIR files
 # ===============================================================
+def load_stir_tracer(tracer_id, model):
+    """Load STIR model used for SkyNet input
+
+    Return pd.DataFrame
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    """
+    filepath = paths.stir_filepath(tracer_id, model=model)
+    table = pd.read_csv(filepath, header=None, skiprows=2, delim_whitespace=True)
+    table.columns = tables_config.stir_columns
+    return table
+
+
 def get_stir_mass_grid(tracer_ids, model):
     """Get full mass grid from stir tracer files
 
