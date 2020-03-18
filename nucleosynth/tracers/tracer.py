@@ -26,7 +26,7 @@ class Tracer:
     files : h5py.File
         Raw hdf5 tracer output files from skynet
     mass : float
-        mass of tracer (Msun)
+        mass coordinate of tracer (interior mass, Msun)
     mass_frac : pd.DataFrame
         Table of isotopic mass fractions (X) versus time
     model : str
@@ -52,8 +52,8 @@ class Tracer:
     """
 
     def __init__(self, tracer_id, model, load_all=True,
-                 steps=(1, 2), mass=0.01,
-                 save=True, reload=False, verbose=True):
+                 steps=(1, 2), save=True, reload=False,
+                 verbose=True):
         """
         parameters
         ----------
@@ -61,14 +61,12 @@ class Tracer:
         model : str
         steps : [int]
         load_all : bool
-        mass : float
         save : bool
         reload : bool
         verbose : bool
         """
         self.tracer_id = tracer_id
         self.model = model
-        self.mass = mass
         self.verbose = verbose
         self.steps = steps
         self.save = save
@@ -82,6 +80,7 @@ class Tracer:
         self.sums = None
         self.columns = None
 
+        self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
         self.paths = paths.get_model_paths(self.model)
 
