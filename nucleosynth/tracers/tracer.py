@@ -43,6 +43,8 @@ class Tracer:
         whether to save tables to cache for faster loading
     steps : [int]
         list of skynet model steps
+    stir : pd.DataFrame
+        tracer input taken from STIR model
     sums : {table: group: pd.DataFrame}
         abundance/mass fraction tables, grouped and summed over A/Z
     tracer_id : int
@@ -79,6 +81,7 @@ class Tracer:
         self.network_unique = None
         self.sums = None
         self.columns = None
+        self.stir = None
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -107,6 +110,9 @@ class Tracer:
     def check_loaded(self):
         """Check that main data is loaded
         """
+        if self.stir is None:
+            self.load_stir()
+            
         if self.files is None:
             self.load_files()
 
@@ -126,6 +132,12 @@ class Tracer:
                                           tracer_steps=self.steps,
                                           model=self.model,
                                           verbose=self.verbose)
+
+    def load_stir(self):
+        """Load stir tracer table
+        """
+        self.printv('Loading stir tracer')
+        self.stir = load_save.load_stir_tracer(self.tracer_id, model=self.model)
 
     def load_columns(self):
         """Load table of scalars
