@@ -1,7 +1,8 @@
+import time
 
 # nucleosynth
 from nucleosynth.tracers import tracer, load_save
-from nucleosynth import paths, tools, plotting
+from nucleosynth import paths, tools, plotting, printing
 
 """
 Class representing a CCSN model, composed of multiple mass tracers
@@ -112,3 +113,14 @@ class Model:
                               y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
                               legend=legend, title=title, label=tracer_id,
                               linestyle=linestyle, marker=marker)
+
+    # ===============================================================
+    #                      Convenience
+    # ===============================================================
+    def printv(self, string):
+        """Print string if verbose is True
+        """
+        printing.printv(string, verbose=self.verbose)
+
+
+
