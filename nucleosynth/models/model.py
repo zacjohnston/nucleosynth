@@ -2,7 +2,7 @@ import time
 import numpy as np
 
 # nucleosynth
-from nucleosynth.tracers import tracer, load_save
+from nucleosynth import tracers
 from nucleosynth import paths, tools, plotting, printing, network
 
 """
@@ -53,7 +53,7 @@ class Model:
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
         self.paths = paths.get_model_paths(self.model)
-        self.mass_grid = load_save.get_stir_mass_grid(tracer_ids, self.model)
+        self.mass_grid = tracers.load_save.get_stir_mass_grid(tracer_ids, self.model)
 
         if load_all:
             self.load_tracers()
@@ -72,12 +72,12 @@ class Model:
         """Load table of network isotopes
         """
         self.printv('Loading network')
-        self.network = load_save.load_table(tracer_id=self.tracer_ids[0],
-                                            model=self.model,
-                                            tracer_steps=self.tracer_steps,
-                                            table_name='network',
-                                            save=self.save, reload=self.reload,
-                                            verbose=False)
+        self.network = tracers.load_save.load_table(tracer_id=self.tracer_ids[0],
+                                                    model=self.model,
+                                                    tracer_steps=self.tracer_steps,
+                                                    table_name='network',
+                                                    save=self.save, reload=self.reload,
+                                                    verbose=False)
         self.get_network_unique()
 
     def get_network_unique(self):
@@ -98,10 +98,10 @@ class Model:
     def load_tracer(self, tracer_id):
         """Load all tracers
         """
-        self.tracers[tracer_id] = tracer.Tracer(tracer_id, self.model,
-                                                steps=self.tracer_steps,
-                                                save=self.save, reload=self.reload,
-                                                verbose=self.verbose)
+        self.tracers[tracer_id] = tracers.tracer.Tracer(tracer_id, self.model,
+                                                        steps=self.tracer_steps,
+                                                        save=self.save, reload=self.reload,
+                                                        verbose=self.verbose)
 
     # ===============================================================
     #                      Plotting
