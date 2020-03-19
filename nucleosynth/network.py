@@ -55,7 +55,7 @@ def get_network_unique(tracer_network):
 # ===============================================================
 #                      summaries/subsets
 # ===============================================================
-def get_all_table_sums(composition, tracer_network):
+def get_all_composition_sums(composition, tracer_network):
     """Get all X, Y sums over A, Z
 
     parameters
@@ -67,12 +67,12 @@ def get_all_table_sums(composition, tracer_network):
 
     for group in ['A', 'Z']:
         for key, table in composition.items():
-            sums[key][group] = get_table_sums(table, tracer_network, group)
+            sums[key][group] = get_composition_sums(table, tracer_network, group)
 
     return sums
 
 
-def get_table_sums(table, tracer_network, group_by):
+def get_composition_sums(composition_table, tracer_network, group_by):
     """Calculate sums of X and Y for fixed Z or A
         i.e., sum table columns grouped by either Z or A
 
@@ -81,7 +81,7 @@ def get_table_sums(table, tracer_network, group_by):
 
     parameters
     ----------
-    table : pd.DataFrame
+    composition_table : pd.DataFrame
         X or Y table
     tracer_network : pd.DataFrame
     group_by : one of ['A', 'Z']
@@ -99,7 +99,8 @@ def get_table_sums(table, tracer_network, group_by):
         else:
             z = val
 
-        subset = select_table(table, tracer_network=tracer_network, z=z, a=a)
+        subset = select_table(composition_table, tracer_network=tracer_network,
+                              z=z, a=a)
         sums[val] = np.sum(subset, axis=1)
 
     return sums
@@ -109,7 +110,7 @@ def get_table_sums(table, tracer_network, group_by):
 #                      tables
 # ===============================================================
 def select_table(table, tracer_network, z=None, a=None):
-    """Return subset of Y table with given Z and/or A
+    """Return subset of X or Y table with given Z and/or A
 
     Returns : pd.DataFrame
 

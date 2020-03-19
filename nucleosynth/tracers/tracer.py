@@ -193,8 +193,8 @@ class Tracer:
         """
         self.printv('Calculating composition sums')
         self.check_loaded()
-        self.sums = network.get_all_table_sums(self.composition,
-                                               tracer_network=self.network,)
+        self.sums = network.get_all_composition_sums(self.composition,
+                                                     tracer_network=self.network, )
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from Y table
