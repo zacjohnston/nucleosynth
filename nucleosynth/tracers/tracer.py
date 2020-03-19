@@ -21,7 +21,7 @@ class Tracer:
     ----------
     columns : pd.DataFrame
         Table of main scalar quantities (density, temperature, etc.) versus time
-    composition : {'abu': pd.DataFrame, 'mass_frac': pd.DataFrame}
+    composition : {'Y': pd.DataFrame, 'X': pd.DataFrame}
         Tables of isotopic number fractions (Y) and mass fractions (X) versus time
     files : h5py.File
         Raw hdf5 tracer output files from skynet
@@ -44,7 +44,7 @@ class Tracer:
     stir : pd.DataFrame
         tracer input taken from STIR model
     sums : {table: group: pd.DataFrame}
-        abundance/mass fraction tables, grouped and summed over A/Z
+        Y and X tables, grouped and summed over A and Z
     tracer_id : int
         The tracer ID/index
     verbose : bool
@@ -120,7 +120,7 @@ class Tracer:
             self.load_network()
 
         if self.composition is None:
-            self.load_abu()
+            self.load_y()
 
     def load_files(self):
         """Load raw tracer files
@@ -166,66 +166,66 @@ class Tracer:
         """
         self.network_unique = network.get_network_unique(self.network)
 
-    def load_abu(self):
-        """Load chemical abundance table
+    def load_y(self):
+        """Load isotopic abundance table (number fraction, Y)
         """
-        self.printv('Loading abundances')
-        self.composition = {'abu': load_save.load_table(self.tracer_id,
-                                                        tracer_steps=self.steps,
-                                                        model=self.model,
-                                                        tracer_files=self.files,
-                                                        table_name='abu',
-                                                        tracer_network=self.network,
-                                                        save=self.save,
-                                                        reload=self.reload,
-                                                        verbose=False)}
+        self.printv('Loading abundances (Y)')
+        self.composition = {'Y': load_save.load_table(self.tracer_id,
+                                                      tracer_steps=self.steps,
+                                                      model=self.model,
+                                                      tracer_files=self.files,
+                                                      table_name='Y',
+                                                      tracer_network=self.network,
+                                                      save=self.save,
+                                                      reload=self.reload,
+                                                      verbose=False)}
 
     def load_mass_frac(self):
-        """Get mass fraction (X) table from abu table
+        """Get mass fraction (X) table from Y table
         """
         self.printv('Loading mass fractions')
         self.check_loaded()
-        self.composition['mass_frac'] = network.get_mass_frac(self.composition['abu'],
+        self.composition['mass_frac'] = network.get_mass_frac(self.composition['Y'],
                                                               self.network)
 
     def load_sums(self):
-        """Get abundance/mass-fraction sums over A, Z
+        """Get X, Y sums over A, Z
         """
         self.printv('Calculating composition sums')
         self.check_loaded()
-        self.sums = {'abu': {}, 'mass_frac': {}}
+        self.sums = {'Y': {}, 'mass_frac': {}}
 
         for group in ['A', 'Z']:
             for key, table in self.composition.items():
                 self.sums[key][group] = network.get_table_sums(table, self.network, group)
 
     def load_sumy_abar(self):
-        """Get sumY and Abar versus time from abu table
+        """Get sumY and Abar versus time from Y table
         """
         self.check_loaded()
-        self.columns['sumy'] = network.get_sumy(self.composition['abu'])
+        self.columns['sumy'] = network.get_sumy(self.composition['Y'])
         self.columns['abar'] = 1 / self.columns['sumy']
 
     def get_zbar(self):
-        """Get Zbar versus time from abu table
+        """Get Zbar versus time from Y table
         """
         self.check_loaded()
-        self.columns['zbar'] = network.get_zbar(self.composition['abu'],
+        self.columns['zbar'] = network.get_zbar(self.composition['Y'],
                                                 self.network,
                                                 ye=self.columns['ye'])
 
     # ===============================================================
     #                      Accessing Data
     # ===============================================================
-    def get_abu(self, z=None, a=None):
-        """Return abundance column(s) for given Z and/or A
+    def get_y(self, z=None, a=None):
+        """Return Y column(s) for given Z and/or A
 
         z : int
             atomic number
         a : int
             atomic mass number
         """
-        return network.select_table(self.composition['abu'],
+        return network.select_table(self.composition['Y'],
                                     tracer_network=self.network, z=z, a=a)
 
     def get_network(self, z=None, a=None):
@@ -321,7 +321,7 @@ class Tracer:
         ----------
         isotopes : [str]
             list of isotopes to plot
-        table_name : one of ('abu', 'mass_frac')
+        table_name : one of ('Y', 'mass_frac')
             which composition quantity to plot
         y_scale : {'log', 'linear'}
         x_scale : {'log', 'linear'}
@@ -356,7 +356,7 @@ class Tracer:
         ----------
         timestep : int
             index of timestep to plot
-        table : one of ['abu', 'mass_frac']
+        table : one of ['Y', 'mass_frac']
              which composition table to plot
         group : one of ['A', 'Z']
              which atomic number to group by on x-axis

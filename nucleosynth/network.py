@@ -137,7 +137,7 @@ def get_ye(abu_table, tracer_network):
 
 
 def get_zbar(abu_table, tracer_network, ye=None, abar=None):
-    """Calculate Zbar from abu table
+    """Calculate Zbar from Y table
 
     Zbar = Ye*Abar
 
@@ -157,7 +157,7 @@ def get_zbar(abu_table, tracer_network, ye=None, abar=None):
 
 
 def get_abar(abu_table):
-    """Calculate Abar from abu table
+    """Calculate Abar from Y table
 
     Abar = 1/sumY
 
@@ -170,7 +170,7 @@ def get_abar(abu_table):
 
 
 def get_sumy(abu_table):
-    """Calculate sumY from abu table
+    """Calculate sumY from Y table
 
     sumY = sum(Y)
     Abar = 1/sumY

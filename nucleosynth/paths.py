@@ -154,7 +154,7 @@ def tracer_cache_filename(tracer_id, model, table_name):
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
+    table_name : one of ('columns', 'Y', 'mass_frac', 'network')
     """
     return f'{table_name}_{model}_tracer_{tracer_id}.pickle'
 
@@ -166,7 +166,7 @@ def tracer_cache_filepath(tracer_id, model, table_name):
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'abu', 'mass_frac', 'network')
+    table_name : one of ('columns', 'Y', 'mass_frac', 'network')
     """
     path = tracer_cache_path(model)
     filename = tracer_cache_filename(tracer_id, model, table_name=table_name)
