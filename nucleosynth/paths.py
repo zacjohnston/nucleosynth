@@ -147,7 +147,7 @@ def tracers_cache_path(model):
     return os.path.join(path, 'tracers')
 
 
-def cache_filename(tracer_id, model, table_name):
+def tracer_cache_filename(tracer_id, model, table_name):
     """Return filename of columns cache
 
     parameters
@@ -169,7 +169,7 @@ def cache_filepath(tracer_id, model, table_name):
     table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     """
     path = tracers_cache_path(model)
-    filename = cache_filename(tracer_id, model, table_name=table_name)
+    filename = tracer_cache_filename(tracer_id, model, table_name=table_name)
     return os.path.join(path, filename)
 
 
