@@ -66,7 +66,7 @@ def extract_network(tracer_file):
 
 
 # ===============================================================
-#              Abundance (Y)
+#              Y
 # ===============================================================
 def extract_y(tracer_file, tracer_network):
     """Extract table of isotopic abundances (Y) from skynet tracer file
