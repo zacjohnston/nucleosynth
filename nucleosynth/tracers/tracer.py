@@ -96,7 +96,7 @@ class Tracer:
         t0 = time.time()
         self.check_loaded()
 
-        self.load_mass_frac()
+        self.load_x()
         self.load_sums()
         self.load_sumy_abar()
         self.get_zbar()
@@ -169,7 +169,7 @@ class Tracer:
     def load_y(self):
         """Load isotopic abundance table (number fraction, Y)
         """
-        self.printv('Loading abundances (Y)')
+        self.printv('Loading Y table')
         self.composition = {'Y': load_save.load_table(self.tracer_id,
                                                       tracer_steps=self.steps,
                                                       model=self.model,
@@ -180,10 +180,10 @@ class Tracer:
                                                       reload=self.reload,
                                                       verbose=False)}
 
-    def load_mass_frac(self):
+    def load_x(self):
         """Get mass fraction (X) table from Y table
         """
-        self.printv('Loading mass fractions')
+        self.printv('Loading X table')
         self.check_loaded()
         self.composition['X'] = network.get_x(self.composition['Y'],
                                               self.network)
