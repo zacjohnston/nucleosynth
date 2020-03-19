@@ -18,6 +18,8 @@ class Model:
     ----------
     model : str
         Name of skynet model, e.g. 'traj_s12.0'
+    n_tracers : int
+        number of tracers in model
     paths : str
         Path to skynet output directory of model
     tracers : {tracer_id: Tracer}
@@ -47,6 +49,7 @@ class Model:
         self.save = save
         self.verbose = verbose
         self.tracer_ids = tracer_ids
+        self.n_tracers = len(tracer_ids)
 
         self.network_unique = None
         self.network = None
@@ -55,7 +58,10 @@ class Model:
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
         self.paths = paths.get_model_paths(self.model)
+
         self.mass_grid = tracers.load_save.get_stir_mass_grid(tracer_ids, self.model)
+        self.dmass = np.diff(self.mass_grid)[0]  # Assume equally-spaced
+        self.total_mass = len(self.tracers)*self.dmass
 
         if load_all:
             self.load_network()
@@ -112,7 +118,6 @@ class Model:
     def get_final_yields(self):
         """Calculate final yields
         """
-        # TODO: rescale X properly
         self.check_loaded()
         self.yields = pd.DataFrame(self.network['isotope'])
 
@@ -120,7 +125,8 @@ class Model:
             self.yields[table] = 0.0
 
             for tracer_id, tracer in self.tracers.items():
-                self.yields[table] += np.array(tracer.composition[table].iloc[-1])
+                last_row = tracer.composition[table].iloc[-1]
+                self.yields[table] += np.array(last_row) / self.n_tracers
 
     # ===============================================================
     #                      Plotting
