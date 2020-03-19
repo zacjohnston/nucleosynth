@@ -74,7 +74,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'mass_frac', 'network')
+    table_name : one of ('columns', 'Y', 'X', 'network')
     tracer_steps : [int]
         Load multiple skynet files for joining
     columns : [str]
@@ -93,7 +93,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     printv(f'Loading {table_name} table', verbose=verbose)
     table = None
 
-    if table_name not in ['columns', 'network', 'Y', 'mass_frac']:
+    if table_name not in ['columns', 'network', 'Y', 'X']:
         raise ValueError('table_name must be one of: columns, Y, mass_frac ')
 
     if not reload:
@@ -157,7 +157,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
         elif table_name == 'Y':
             table = extract.extract_abu(tracer_file, tracer_network=tracer_network)
 
-        elif table_name == 'mass_frac':
+        elif table_name == 'X':
             if abu_table is None:
                 abu_table = extract.extract_abu(tracer_file, tracer_network)
 
@@ -235,7 +235,7 @@ def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     table : pd.DataFrame
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'mass_frac', 'network')
+    table_name : one of ('columns', 'Y', 'X', 'network')
     verbose : bool
     """
     check_cache_path(model, verbose=verbose)
@@ -251,7 +251,7 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'mass_frac', 'network')
+    table_name : one of ('columns', 'Y', 'X', 'network')
     verbose : bool
     """
     filepath = paths.tracer_cache_filepath(tracer_id, model, table_name=table_name)

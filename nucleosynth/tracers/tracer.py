@@ -185,15 +185,15 @@ class Tracer:
         """
         self.printv('Loading mass fractions')
         self.check_loaded()
-        self.composition['mass_frac'] = network.get_mass_frac(self.composition['Y'],
-                                                              self.network)
+        self.composition['X'] = network.get_mass_frac(self.composition['Y'],
+                                                      self.network)
 
     def load_sums(self):
         """Get X, Y sums over A, Z
         """
         self.printv('Calculating composition sums')
         self.check_loaded()
-        self.sums = {'Y': {}, 'mass_frac': {}}
+        self.sums = {'Y': {}, 'X': {}}
 
         for group in ['A', 'Z']:
             for key, table in self.composition.items():
@@ -321,7 +321,7 @@ class Tracer:
         ----------
         isotopes : [str]
             list of isotopes to plot
-        table_name : one of ('Y', 'mass_frac')
+        table_name : one of ('Y', 'X')
             which composition quantity to plot
         y_scale : {'log', 'linear'}
         x_scale : {'log', 'linear'}
@@ -356,7 +356,7 @@ class Tracer:
         ----------
         timestep : int
             index of timestep to plot
-        table : one of ['Y', 'mass_frac']
+        table : one of ['Y', 'X']
              which composition table to plot
         group : one of ['A', 'Z']
              which atomic number to group by on x-axis

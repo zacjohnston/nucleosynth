@@ -3,7 +3,7 @@ ax_scales = {
     'temperature': 'log',
     'heatingrate': 'log',
     'Y': 'log',
-    'mass_frac': 'log',
+    'X': 'log',
     'ye': 'linear',
     'entropy': 'linear',
     'time': 'linear',
@@ -21,7 +21,7 @@ ax_labels = {
     'abar': r'$\bar{A}$',
     'sumy': r'$\Sigma Y$',
     'Y': '$Y$',
-    'mass_frac': '$X$',
+    'X': '$X$',
 }
 
 ax_lims = {
@@ -29,5 +29,5 @@ ax_lims = {
     'density': [1e3, 1e9],
     'temperature': [1e8, 2e10],
     'Y': [1e-12, 1e1],
-    'mass_frac': [1e-12, 1e1],
+    'X': [1e-12, 1e1],
 }
