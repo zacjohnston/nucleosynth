@@ -76,14 +76,14 @@ def get_table_sums(table, tracer_network, group_by):
 
     unique = np.unique(tracer_network[group_by])
 
-    for num in unique:
+    for val in unique:
         if group_by == 'A':
-            a = num
+            a = val
         else:
-            z = num
+            z = val
 
         subset = select_table(table, tracer_network=tracer_network, z=z, a=a)
-        sums[num] = np.sum(subset, axis=1)
+        sums[val] = np.sum(subset, axis=1)
 
     return sums
 
