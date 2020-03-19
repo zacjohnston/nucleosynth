@@ -56,7 +56,7 @@ def get_network_unique(tracer_network):
 #                      summaries/subsets
 # ===============================================================
 def get_table_sums(table, tracer_network, group_by):
-    """Calculate sums of abundance/mass-fraction over Z or A
+    """Calculate sums of X and Y for fixed Z or A
         i.e., sum table columns grouped by either Z or A
 
     Returns : pd.DataFrame()
@@ -65,7 +65,7 @@ def get_table_sums(table, tracer_network, group_by):
     parameters
     ----------
     table : pd.DataFrame
-        Abundances or mass fractions
+        X or Y table
     tracer_network : pd.DataFrame
     group_by : one of ['A', 'Z']
         Which atomic number to group columns by
@@ -92,12 +92,12 @@ def get_table_sums(table, tracer_network, group_by):
 #                      tables
 # ===============================================================
 def select_table(table, tracer_network, z=None, a=None):
-    """Return column(s) of abundance table with given Z and/or A
+    """Return column(s) of Y table with given Z and/or A
 
     parameters
     ----------
     table : pd.DataFrame
-        either abundance or mass_frac table
+        either X or Y table
     tracer_network : pd.DataFrame
     z : int
     a : int
@@ -107,7 +107,7 @@ def select_table(table, tracer_network, z=None, a=None):
 
 
 def get_mass_frac(abu_table, tracer_network):
-    """Calculate mass fraction (X) table from abu table
+    """Calculate X table from Y table
 
     X = Y*A
 
@@ -121,7 +121,7 @@ def get_mass_frac(abu_table, tracer_network):
 
 
 def get_ye(abu_table, tracer_network):
-    """Calculate Ye from abu table
+    """Calculate Ye from Y table
 
     Ye = sum(Z*X/A)
        = sum(Z*Y)
