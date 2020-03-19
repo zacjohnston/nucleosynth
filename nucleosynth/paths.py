@@ -136,7 +136,7 @@ def model_cache_path(model):
     return os.path.join(path, 'cache', model)
 
 
-def tracers_cache_path(model):
+def tracer_cache_path(model):
     """Return path to temporary cache directory
 
     parameters
@@ -168,7 +168,7 @@ def tracer_cache_filepath(tracer_id, model, table_name):
     model : str
     table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     """
-    path = tracers_cache_path(model)
+    path = tracer_cache_path(model)
     filename = tracer_cache_filename(tracer_id, model, table_name=table_name)
     return os.path.join(path, filename)
 
