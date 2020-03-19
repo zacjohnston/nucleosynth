@@ -228,7 +228,7 @@ def get_stir_mass_element(tracer_id, model):
 #              Cache
 # ===============================================================
 def save_table_cache(table, tracer_id, model, table_name, verbose=True):
-    """Save columns table to file
+    """Save tracer table to file
 
     parameters
     ----------
@@ -238,7 +238,7 @@ def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     verbose : bool
     """
-    check_model_cache_path(model, verbose=verbose)
+    check_cache_path(model, verbose=verbose)
     filepath = paths.tracer_cache_filepath(tracer_id, model, table_name=table_name)
     printv(f'Saving table to cache: {filepath}', verbose)
     table.to_pickle(filepath)
@@ -259,8 +259,8 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     return pd.read_pickle(filepath)
 
 
-def check_model_cache_path(model, verbose=True):
+def check_cache_path(model, verbose=True):
     """Check that the model cache directory exists
     """
-    path = paths.model_cache_path(model)
+    path = paths.tracer_cache_path(model)
     paths.try_mkdir(path, skip=True, verbose=verbose)
