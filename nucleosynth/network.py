@@ -99,8 +99,8 @@ def get_composition_sums(composition_table, tracer_network, group_by):
         else:
             z = val
 
-        subset = select_table(composition_table, tracer_network=tracer_network,
-                              z=z, a=a)
+        subset = select_composition(composition_table, tracer_network=tracer_network,
+                                    z=z, a=a)
         sums[val] = np.sum(subset, axis=1)
 
     return sums
@@ -109,7 +109,7 @@ def get_composition_sums(composition_table, tracer_network, group_by):
 # ===============================================================
 #                      tables
 # ===============================================================
-def select_table(table, tracer_network, z=None, a=None):
+def select_composition(table, tracer_network, z=None, a=None):
     """Return subset of X or Y table with given Z and/or A
 
     Returns : pd.DataFrame
