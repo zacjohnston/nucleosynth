@@ -112,7 +112,7 @@ class Tracer:
         """
         if self.stir is None:
             self.load_stir()
-            
+
         if self.files is None:
             self.load_files()
 

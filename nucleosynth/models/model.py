@@ -66,8 +66,12 @@ class Model:
     def load_tracers(self):
         """Load all tracers
         """
+        t0 = time.time()
         for tracer_id in self.tracers:
             self.load_tracer(tracer_id)
+
+        t1 = time.time()
+        self.printv(f'Total load time: {t1-t0:.3f} s')
 
     def load_tracer(self, tracer_id):
         """Load all tracers
