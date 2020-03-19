@@ -1,5 +1,6 @@
-import time
 import numpy as np
+import pandas as pd
+import time
 
 # nucleosynth
 from nucleosynth import tracers
@@ -49,6 +50,7 @@ class Model:
 
         self.network_unique = None
         self.network = None
+        self.yields = None
 
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
@@ -56,6 +58,7 @@ class Model:
         self.mass_grid = tracers.load_save.get_stir_mass_grid(tracer_ids, self.model)
 
         if load_all:
+            self.load_network()
             self.load_tracers()
 
     # ===============================================================
@@ -102,6 +105,22 @@ class Model:
                                                         steps=self.tracer_steps,
                                                         save=self.save, reload=self.reload,
                                                         verbose=self.verbose)
+
+    # ===============================================================
+    #                      Analysis
+    # ===============================================================
+    def get_final_yields(self):
+        """Calculate final yields
+        """
+        # TODO: rescale X properly
+        self.check_loaded()
+        self.yields = pd.DataFrame(self.network['isotope'])
+
+        for table in ['X', 'Y']:
+            self.yields[table] = 0.0
+
+            for tracer_id, tracer in self.tracers.items():
+                self.yields[table] += np.array(tracer.composition[table].iloc[-1])
 
     # ===============================================================
     #                      Plotting
