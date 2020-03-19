@@ -35,6 +35,23 @@ def select_network(tracer_network, a=None, z=None):
     return tracer_network[mask]
 
 
+def get_network_unique(tracer_network):
+    """Get unique Z and A in network
+
+    Return : {'A': [int], 'Z': [int]}
+
+    parameters
+    ----------
+    tracer_network : pd.DataFrame
+    """
+    network_unique = {}
+
+    for group in ['A', 'Z']:
+        network_unique[group] = np.unique(tracer_network[group])
+
+    return network_unique
+
+
 # ===============================================================
 #                      summaries/subsets
 # ===============================================================
