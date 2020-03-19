@@ -159,7 +159,7 @@ def tracer_cache_filename(tracer_id, model, table_name):
     return f'{table_name}_{model}_tracer_{tracer_id}.pickle'
 
 
-def cache_filepath(tracer_id, model, table_name):
+def tracer_cache_filepath(tracer_id, model, table_name):
     """Return filename of columns cache
 
     parameters

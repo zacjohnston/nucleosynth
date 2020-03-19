@@ -239,7 +239,7 @@ def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     verbose : bool
     """
     check_model_cache_path(model, verbose=verbose)
-    filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
+    filepath = paths.tracer_cache_filepath(tracer_id, model, table_name=table_name)
     printv(f'Saving table to cache: {filepath}', verbose)
     table.to_pickle(filepath)
 
@@ -254,7 +254,7 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     table_name : one of ('columns', 'abu', 'mass_frac', 'network')
     verbose : bool
     """
-    filepath = paths.cache_filepath(tracer_id, model, table_name=table_name)
+    filepath = paths.tracer_cache_filepath(tracer_id, model, table_name=table_name)
     printv(f'Loading table from cache: {filepath}', verbose)
     return pd.read_pickle(filepath)
 
