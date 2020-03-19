@@ -38,7 +38,7 @@ def select_network(tracer_network, a=None, z=None):
 def get_network_unique(tracer_network):
     """Get unique Z and A in network
 
-    Return : {'A': [int], 'Z': [int]}
+    Returns : {'A': [int], 'Z': [int]}
 
     parameters
     ----------
@@ -92,7 +92,9 @@ def get_table_sums(table, tracer_network, group_by):
 #                      tables
 # ===============================================================
 def select_table(table, tracer_network, z=None, a=None):
-    """Return column(s) of Y table with given Z and/or A
+    """Return subset of Y table with given Z and/or A
+
+    Returns : pd.DataFrame
 
     parameters
     ----------
@@ -111,6 +113,8 @@ def get_x(y_table, tracer_network):
 
     X = Y*A
 
+    Returns : pd.DataFrame
+
     parameters
     ----------
     y_table : pd.DataFrame
@@ -126,6 +130,8 @@ def get_ye(y_table, tracer_network):
     Ye = sum(Z*X/A)
        = sum(Z*Y)
 
+    Returns : pd.Series
+
     parameters
     ----------
     y_table : pd.DataFrame
@@ -140,6 +146,8 @@ def get_zbar(y_table, tracer_network, ye=None, abar=None):
     """Calculate Zbar from Y table
 
     Zbar = Ye*Abar
+
+    Returns : pd.Series
 
     parameters
     ----------
@@ -161,6 +169,8 @@ def get_abar(y_table):
 
     Abar = 1/sumY
 
+    Returns : pd.Series
+
     parameters
     ----------
     y_table : pd.DataFrame
@@ -174,6 +184,8 @@ def get_sumy(y_table):
 
     sumY = sum(Y)
     Abar = 1/sumY
+
+    Returns : pd.Series
 
     parameters
     ----------
