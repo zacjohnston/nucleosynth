@@ -106,21 +106,21 @@ def select_table(table, tracer_network, z=None, a=None):
     return table.iloc[:, sub_net.index]
 
 
-def get_mass_frac(abu_table, tracer_network):
+def get_mass_frac(y_table, tracer_network):
     """Calculate X table from Y table
 
     X = Y*A
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    y_table : pd.DataFrame
     tracer_network : pd.DataFrame
     """
     a = np.array(tracer_network['A'])
-    return abu_table.multiply(a)
+    return y_table.multiply(a)
 
 
-def get_ye(abu_table, tracer_network):
+def get_ye(y_table, tracer_network):
     """Calculate Ye from Y table
 
     Ye = sum(Z*X/A)
@@ -128,48 +128,48 @@ def get_ye(abu_table, tracer_network):
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    y_table : pd.DataFrame
     tracer_network : pd.DataFrame
     """
     z = np.array(tracer_network['Z'])
-    zy = abu_table.multiply(z)
+    zy = y_table.multiply(z)
     return np.sum(zy, axis=1)
 
 
-def get_zbar(abu_table, tracer_network, ye=None, abar=None):
+def get_zbar(y_table, tracer_network, ye=None, abar=None):
     """Calculate Zbar from Y table
 
     Zbar = Ye*Abar
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    y_table : pd.DataFrame
     tracer_network : pd.DataFrame
     ye : 1d array
     abar : 1d array
     """
     if ye is None:
-        ye = get_ye(abu_table, tracer_network)
+        ye = get_ye(y_table, tracer_network)
     if abar is None:
-        abar = get_abar(abu_table)
+        abar = get_abar(y_table)
 
     return ye * abar
 
 
-def get_abar(abu_table):
+def get_abar(y_table):
     """Calculate Abar from Y table
 
     Abar = 1/sumY
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    y_table : pd.DataFrame
     """
-    sumy = get_sumy(abu_table)
+    sumy = get_sumy(y_table)
     return 1 / sumy
 
 
-def get_sumy(abu_table):
+def get_sumy(y_table):
     """Calculate sumY from Y table
 
     sumY = sum(Y)
@@ -177,9 +177,9 @@ def get_sumy(abu_table):
 
     parameters
     ----------
-    abu_table : pd.DataFrame
+    y_table : pd.DataFrame
     """
-    return np.sum(abu_table, axis=1)
+    return np.sum(y_table, axis=1)
 
 
 # ===============================================================
