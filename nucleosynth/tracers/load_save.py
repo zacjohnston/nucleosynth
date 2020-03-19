@@ -164,7 +164,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
             table = network.get_x(y_table, tracer_network=tracer_network)
 
         else:
-            raise ValueError('table_name must be one of: columns, X, Y')
+            raise ValueError('table_name must be one of (network, columns, X, Y)')
 
         step_tables += [table]
 

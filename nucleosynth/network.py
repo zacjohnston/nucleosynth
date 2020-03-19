@@ -109,21 +109,21 @@ def get_composition_sums(composition_table, tracer_network, group_by):
 # ===============================================================
 #                      tables
 # ===============================================================
-def select_composition(table, tracer_network, z=None, a=None):
+def select_composition(composition_table, tracer_network, z=None, a=None):
     """Return subset of X or Y table with given Z and/or A
 
     Returns : pd.DataFrame
 
     parameters
     ----------
-    table : pd.DataFrame
-        either X or Y table
+    composition_table : pd.DataFrame
+        X or Y table
     tracer_network : pd.DataFrame
     z : int
     a : int
     """
     sub_net = select_network(tracer_network, z=z, a=a)
-    return table.iloc[:, sub_net.index]
+    return composition_table.iloc[:, sub_net.index]
 
 
 def get_x(y_table, tracer_network):
