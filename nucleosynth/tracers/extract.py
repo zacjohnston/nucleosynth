@@ -6,7 +6,7 @@ from nucleosynth.config import tables_config
 from nucleosynth import network
 
 """
-Functions for extracting data from raw hdf5 skynet files
+Functions for extracting data from a raw hdf5 skynet file
 """
 
 
