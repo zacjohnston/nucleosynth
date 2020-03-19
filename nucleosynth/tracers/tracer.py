@@ -167,9 +167,7 @@ class Tracer:
     def get_network_unique(self):
         """Get unique Z and A in network
         """
-        self.network_unique = {}
-        for group in ['A', 'Z']:
-            self.network_unique[group] = np.unique(self.network[group])
+        self.network_unique = network.get_network_unique(self.network)
 
     def load_abu(self):
         """Load chemical abundance table
