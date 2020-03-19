@@ -1,8 +1,9 @@
 import time
+import numpy as np
 
 # nucleosynth
 from nucleosynth.tracers import tracer, load_save
-from nucleosynth import paths, tools, plotting, printing
+from nucleosynth import paths, tools, plotting, printing, network
 
 """
 Class representing a CCSN model, composed of multiple mass tracers
@@ -44,6 +45,10 @@ class Model:
         self.reload = reload
         self.save = save
         self.verbose = verbose
+        self.tracer_ids = tracer_ids
+
+        self.network_unique = None
+        self.network = None
 
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
