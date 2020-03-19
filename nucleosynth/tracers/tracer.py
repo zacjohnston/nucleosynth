@@ -185,8 +185,8 @@ class Tracer:
         """
         self.printv('Loading mass fractions')
         self.check_loaded()
-        self.composition['X'] = network.get_mass_frac(self.composition['Y'],
-                                                      self.network)
+        self.composition['X'] = network.get_x(self.composition['Y'],
+                                              self.network)
 
     def load_sums(self):
         """Get X, Y sums over A, Z

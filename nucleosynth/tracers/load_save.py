@@ -74,7 +74,7 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'X', 'network')
+    table_name : one of ('columns', 'X', 'Y', 'network')
     tracer_steps : [int]
         Load multiple skynet files for joining
     columns : [str]
@@ -93,8 +93,8 @@ def load_table(tracer_id, model, table_name, tracer_steps,
     printv(f'Loading {table_name} table', verbose=verbose)
     table = None
 
-    if table_name not in ['columns', 'network', 'Y', 'X']:
-        raise ValueError('table_name must be one of: columns, Y, mass_frac ')
+    if table_name not in ['columns', 'network', 'X', 'Y']:
+        raise ValueError('table_name must be one of: columns, X, Y')
 
     if not reload:
         try:
@@ -161,10 +161,10 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
             if y_table is None:
                 y_table = extract.extract_y(tracer_file, tracer_network)
 
-            table = network.get_mass_frac(y_table, tracer_network=tracer_network)
+            table = network.get_x(y_table, tracer_network=tracer_network)
 
         else:
-            raise ValueError('table_name must be one of: columns, Y, mass_frac ')
+            raise ValueError('table_name must be one of: columns, X, Y')
 
         step_tables += [table]
 
@@ -235,7 +235,7 @@ def save_table_cache(table, tracer_id, model, table_name, verbose=True):
     table : pd.DataFrame
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'X', 'network')
+    table_name : one of ('columns', 'X', 'Y', 'network')
     verbose : bool
     """
     check_cache_path(model, verbose=verbose)
@@ -251,7 +251,7 @@ def load_table_cache(tracer_id, model, table_name, verbose=True):
     ----------
     tracer_id : int
     model : str
-    table_name : one of ('columns', 'Y', 'X', 'network')
+    table_name : one of ('columns', 'X', 'Y', 'network')
     verbose : bool
     """
     filepath = paths.tracer_cache_filepath(tracer_id, model, table_name=table_name)

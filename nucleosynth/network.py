@@ -106,7 +106,7 @@ def select_table(table, tracer_network, z=None, a=None):
     return table.iloc[:, sub_net.index]
 
 
-def get_mass_frac(y_table, tracer_network):
+def get_x(y_table, tracer_network):
     """Calculate X table from Y table
 
     X = Y*A
