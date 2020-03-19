@@ -68,6 +68,23 @@ class Model:
             if self.tracers[tracer_id] is None:
                 self.load_tracer(tracer_id)
 
+    def load_network(self):
+        """Load table of network isotopes
+        """
+        self.printv('Loading network')
+        self.network = load_save.load_table(tracer_id=self.tracer_ids[0],
+                                            model=self.model,
+                                            tracer_steps=self.tracer_steps,
+                                            table_name='network',
+                                            save=self.save, reload=self.reload,
+                                            verbose=False)
+        self.get_network_unique()
+
+    def get_network_unique(self):
+        """Get unique Z and A in network
+        """
+        self.network_unique = network.get_network_unique(self.network)
+
     def load_tracers(self):
         """Load all tracers
         """
