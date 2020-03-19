@@ -68,14 +68,14 @@ def extract_network(tracer_file):
 # ===============================================================
 #              Abundance (Y)
 # ===============================================================
-def extract_abu(tracer_file, tracer_network):
-    """Extract table of chemical abundances from skynet tracer file
+def extract_y(tracer_file, tracer_network):
+    """Extract table of isotopic abundances (Y) from skynet tracer file
 
     parameters
     ----------
     tracer_file : h5py.File
     tracer_network : pd.DataFrame
     """
-    tracer_abu = pd.DataFrame(tracer_file['Y'])
-    tracer_abu.columns = list(tracer_network['isotope'])
-    return tracer_abu
+    y_table = pd.DataFrame(tracer_file['Y'])
+    y_table.columns = list(tracer_network['isotope'])
+    return y_table

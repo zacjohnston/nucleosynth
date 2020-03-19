@@ -155,11 +155,11 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
             table = extract.extract_columns(tracer_file, columns=columns)
 
         elif table_name == 'Y':
-            table = extract.extract_abu(tracer_file, tracer_network=tracer_network)
+            table = extract.extract_y(tracer_file, tracer_network=tracer_network)
 
         elif table_name == 'X':
             if abu_table is None:
-                abu_table = extract.extract_abu(tracer_file, tracer_network)
+                abu_table = extract.extract_y(tracer_file, tracer_network)
 
             table = network.get_mass_frac(abu_table, tracer_network=tracer_network)
 
