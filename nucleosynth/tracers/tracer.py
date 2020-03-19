@@ -19,16 +19,14 @@ class Tracer:
 
     attributes
     ----------
-    abu : pd.DataFrame
-        Table of isotopic abundances (Y, number fraction) versus time
     columns : pd.DataFrame
         Table of main scalar quantities (density, temperature, etc.) versus time
+    composition : {'abu': pd.DataFrame, 'mass_frac': pd.DataFrame}
+        Tables of isotopic number fractions (Y) and mass fractions (X) versus time
     files : h5py.File
         Raw hdf5 tracer output files from skynet
     mass : float
         mass coordinate of tracer (interior mass, Msun)
-    mass_frac : pd.DataFrame
-        Table of isotopic mass fractions (X) versus time
     model : str
         Name of the core-collapse model (typically named after the progenitor model)
     network : pd.DataFrame
@@ -76,8 +74,7 @@ class Tracer:
 
         self.files = None
         self.network = None
-        self.abu = None
-        self.mass_frac = None
+        self.composition = None
         self.network_unique = None
         self.sums = None
         self.columns = None
@@ -122,7 +119,7 @@ class Tracer:
         if self.network is None:
             self.load_network()
 
-        if self.abu is None:
+        if self.composition is None:
             self.load_abu()
 
     def load_files(self):
@@ -173,20 +170,23 @@ class Tracer:
         """Load chemical abundance table
         """
         self.printv('Loading abundances')
-        self.abu = load_save.load_table(self.tracer_id, tracer_steps=self.steps,
-                                        model=self.model,
-                                        tracer_files=self.files,
-                                        table_name='abu',
-                                        tracer_network=self.network,
-                                        save=self.save, reload=self.reload,
-                                        verbose=False)
+        self.composition = {'abu': load_save.load_table(self.tracer_id,
+                                                        tracer_steps=self.steps,
+                                                        model=self.model,
+                                                        tracer_files=self.files,
+                                                        table_name='abu',
+                                                        tracer_network=self.network,
+                                                        save=self.save,
+                                                        reload=self.reload,
+                                                        verbose=False)}
 
     def load_mass_frac(self):
         """Get mass fraction (X) table from abu table
         """
         self.printv('Loading mass fractions')
         self.check_loaded()
-        self.mass_frac = network.get_mass_frac(self.abu, self.network)
+        self.composition['mass_frac'] = network.get_mass_frac(self.composition['abu'],
+                                                              self.network)
 
     def load_sums(self):
         """Get abundance/mass-fraction sums over A, Z
@@ -194,24 +194,24 @@ class Tracer:
         self.printv('Calculating composition sums')
         self.check_loaded()
         self.sums = {'abu': {}, 'mass_frac': {}}
-        tables = {'abu': self.abu, 'mass_frac': self.mass_frac}
 
         for group in ['A', 'Z']:
-            for key, table in tables.items():
+            for key, table in self.composition.items():
                 self.sums[key][group] = network.get_table_sums(table, self.network, group)
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from abu table
         """
         self.check_loaded()
-        self.columns['sumy'] = network.get_sumy(self.abu)
+        self.columns['sumy'] = network.get_sumy(self.composition['abu'])
         self.columns['abar'] = 1 / self.columns['sumy']
 
     def get_zbar(self):
         """Get Zbar versus time from abu table
         """
         self.check_loaded()
-        self.columns['zbar'] = network.get_zbar(self.abu, self.network,
+        self.columns['zbar'] = network.get_zbar(self.composition['abu'],
+                                                self.network,
                                                 ye=self.columns['ye'])
 
     # ===============================================================
@@ -225,7 +225,8 @@ class Tracer:
         a : int
             atomic mass number
         """
-        return network.select_table(self.abu, tracer_network=self.network, z=z, a=a)
+        return network.select_table(self.composition['abu'],
+                                    tracer_network=self.network, z=z, a=a)
 
     def get_network(self, z=None, a=None):
         """Return subset of network with given Z and/or A
@@ -333,7 +334,7 @@ class Tracer:
         linestyle : str
         marker : str
         """
-        table = {'abu': self.abu, 'mass_frac': self.mass_frac}[table_name]
+        table = self.composition[table_name]
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         for i, isotope in enumerate(isotopes):
