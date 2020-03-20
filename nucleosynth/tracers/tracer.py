@@ -204,20 +204,25 @@ class Tracer:
     # ===============================================================
     #                      Accessing Data
     # ===============================================================
-    def get_y(self, z=None, a=None):
-        """Return Y column(s) for given Z and/or A
+    def select_composition(self, key, z=None, a=None):
+        """Return composition (X or Y) for given Z and/or A
 
+        parameters
+        ----------
+        key : one of ('X', 'Y')
         z : int
             atomic number
         a : int
             atomic mass number
         """
-        return network.select_composition(self.composition['Y'],
+        return network.select_composition(self.composition[key],
                                           tracer_network=self.network, z=z, a=a)
 
-    def get_network(self, z=None, a=None):
+    def select_network(self, z=None, a=None):
         """Return subset of network with given Z and/or A
 
+        parameters
+        ----------
         z : int
             atomic number
         a : int
