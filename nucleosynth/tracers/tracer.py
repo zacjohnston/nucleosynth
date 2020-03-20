@@ -379,7 +379,7 @@ class Tracer:
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         x = self.network_unique[group]
-        y = self.sums[table][group].loc[timestep]
+        y = self.sums[group][table].loc[timestep]
 
         t = self.columns['time'][timestep]
         title_str = f"{self.title}, t={t:.3e} s"
