@@ -14,7 +14,7 @@ Functions for loading/saving tracer data
 
 
 # ===============================================================
-#              Loading/extracting
+#              Loading/extracting tables
 # ===============================================================
 def load_files(tracer_id, model, tracer_steps,
                tracer_files=None, verbose=True):
@@ -174,6 +174,9 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
     return pd.concat(step_tables, ignore_index=True)
 
 
+# ===============================================================
+#              Composition
+# ===============================================================
 def load_composition(tracer_id, tracer_steps, model,
                      tracer_files=None, tracer_network=None,
                      reload=False, save=True, verbose=True):
@@ -204,6 +207,25 @@ def load_composition(tracer_id, tracer_steps, model,
                                       save=save, reload=reload,
                                       verbose=verbose)
     return composition
+
+def save_composition_sums_cache(tracer_id, model, composition_sums, verbose=True):
+    """Save composition sum tables to cache
+
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    composition_sums : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
+                        'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+    verbose : bool
+    """
+    for group, types in composition_sums.items():
+        for composition_type, table in types.items():
+            table_name = network.sums_table_name(composition_type, group_by=group)
+
+            save_table_cache(table, tracer_id=tracer_id, model=model,
+                             table_name=table_name, verbose=verbose)
+
 
 # ===============================================================
 #              STIR files
