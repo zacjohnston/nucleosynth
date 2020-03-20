@@ -227,6 +227,31 @@ def save_composition_sums_cache(tracer_id, model, composition_sums, verbose=True
                              table_name=table_name, verbose=verbose)
 
 
+def load_composition_sums_cache(tracer_id, model, verbose=True):
+    """Load composition sum tables from cache
+
+    Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
+               'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+                        
+    parameters
+    ----------
+    tracer_id : int
+    model : str
+    verbose : bool
+    """
+    sums = {'A': {}, 'Z': {}}
+
+    for group in sums:
+        for composition_type in ['X', 'Y']:
+            table_name = network.sums_table_name(composition_type, group_by=group)
+
+            table = load_table_cache(tracer_id=tracer_id, model=model,
+                                     table_name=table_name, verbose=verbose)
+            sums[group][composition_type] = table
+
+    return sums
+
+
 # ===============================================================
 #              STIR files
 # ===============================================================
