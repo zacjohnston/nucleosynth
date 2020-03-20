@@ -148,6 +148,15 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
     if table_name == 'network':
         return tracer_network
 
+    if table_name == 'X':
+        if y_table is None:
+            y_table = extract_table(tracer_id, tracer_steps=tracer_steps,
+                                    model=model, table_name='Y',
+                                    tracer_files=tracer_files,
+                                    tracer_network=tracer_network, verbose=verbose)
+
+        return network.get_x(y_table, tracer_network=tracer_network)
+
     for step in tracer_steps:
         tracer_file = tracer_files[step]
 
@@ -156,12 +165,6 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
 
         elif table_name == 'Y':
             table = extract.extract_y(tracer_file, tracer_network=tracer_network)
-
-        elif table_name == 'X':
-            if y_table is None:
-                y_table = extract.extract_y(tracer_file, tracer_network)
-
-            table = network.get_x(y_table, tracer_network=tracer_network)
 
         else:
             raise ValueError('table_name must be one of (network, columns, X, Y)')
