@@ -184,9 +184,16 @@ class Tracer:
         """Get mass fraction (X) table from Y table
         """
         self.printv('Loading X table')
-        self.check_loaded()
-        self.composition['X'] = network.get_x(self.composition['Y'],
-                                              self.network)
+        self.composition['X'] = load_save.load_table(self.tracer_id,
+                                                     tracer_steps=self.steps,
+                                                     model=self.model,
+                                                     tracer_files=self.files,
+                                                     table_name='X',
+                                                     tracer_network=self.network,
+                                                     y_table=self.composition['Y'],
+                                                     save=self.save,
+                                                     reload=self.reload,
+                                                     verbose=False)
 
     def load_sums(self):
         """Get X, Y sums over A, Z
