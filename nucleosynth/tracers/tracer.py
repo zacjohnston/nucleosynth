@@ -167,7 +167,7 @@ class Tracer:
         self.network_unique = network.get_network_unique(self.network)
 
     def load_y(self):
-        """Load isotopic abundance table (number fraction, Y)
+        """Load isotopic number fraction (Y)
         """
         self.printv('Loading Y table')
         self.composition = {'Y': load_save.load_table(self.tracer_id,
@@ -181,7 +181,7 @@ class Tracer:
                                                       verbose=False)}
 
     def load_x(self):
-        """Get mass fraction (X) table from Y table
+        """Get isotopic mass fraction (X) table from Y
         """
         self.printv('Loading X table')
         self.composition['X'] = load_save.load_table(self.tracer_id,
