@@ -174,6 +174,37 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
     return pd.concat(step_tables, ignore_index=True)
 
 
+def load_composition(tracer_id, tracer_steps, model,
+                     tracer_files=None, tracer_network=None,
+                     reload=False, save=True, verbose=True):
+    """Wrapper function to load both composition tables (X, Y)
+
+    Returns : {'X': pd.DataFrame, 'Y': pd.DataFrame}
+    
+    parameters
+    ----------
+    tracer_id : int
+    tracer_steps : [int]
+    model : str
+    tracer_files : {h5py.File}
+    tracer_network : pd.DataFrame
+    reload : bool
+    save : bool
+    verbose : bool
+    """
+    composition = {}
+
+    for key in ['X', 'Y']:
+        composition[key] = load_table(tracer_id,
+                                      tracer_steps=tracer_steps,
+                                      model=model,
+                                      tracer_files=tracer_files,
+                                      table_name=key,
+                                      tracer_network=tracer_network,
+                                      save=save, reload=reload,
+                                      verbose=verbose)
+    return composition
+
 # ===============================================================
 #              STIR files
 # ===============================================================
