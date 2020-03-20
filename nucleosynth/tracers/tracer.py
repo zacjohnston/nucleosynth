@@ -96,7 +96,6 @@ class Tracer:
         t0 = time.time()
         self.check_loaded()
 
-        self.load_x()
         self.load_sums()
         self.load_sumy_abar()
         self.get_zbar()
@@ -120,7 +119,7 @@ class Tracer:
             self.load_network()
 
         if self.composition is None:
-            self.load_y()
+            self.load_composition()
 
     def load_files(self):
         """Load raw tracer files
@@ -169,7 +168,7 @@ class Tracer:
     def load_composition(self):
         """Load composition tables (X, Y)
         """
-        self.printv('Loading compositions tables: X, Y')
+        self.printv('Loading composition tables')
         self.composition = load_save.load_composition(self.tracer_id,
                                                       tracer_steps=self.steps,
                                                       model=self.model,
@@ -178,35 +177,6 @@ class Tracer:
                                                       reload=self.reload,
                                                       save=self.save,
                                                       verbose=False)
-        
-    def load_y(self):
-        """Load isotopic number fraction (Y)
-        """
-        self.printv('Loading Y table')
-        self.composition = {'Y': load_save.load_table(self.tracer_id,
-                                                      tracer_steps=self.steps,
-                                                      model=self.model,
-                                                      tracer_files=self.files,
-                                                      table_name='Y',
-                                                      tracer_network=self.network,
-                                                      save=self.save,
-                                                      reload=self.reload,
-                                                      verbose=False)}
-
-    def load_x(self):
-        """Get isotopic mass fraction (X) table from Y
-        """
-        self.printv('Loading X table')
-        self.composition['X'] = load_save.load_table(self.tracer_id,
-                                                     tracer_steps=self.steps,
-                                                     model=self.model,
-                                                     tracer_files=self.files,
-                                                     table_name='X',
-                                                     tracer_network=self.network,
-                                                     y_table=self.composition['Y'],
-                                                     save=self.save,
-                                                     reload=self.reload,
-                                                     verbose=False)
 
     def load_sums(self):
         """Get X, Y sums over A, Z
