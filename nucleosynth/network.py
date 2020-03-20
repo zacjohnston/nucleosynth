@@ -258,6 +258,17 @@ def get_element_str(z):
         raise ValueError(f'element with Z={z} not defined. Check config/elements.py')
 
 
+def sums_table_name(composition_type, group_by):
+    """Return formatted table name for composition sums
+
+    parameters
+    ----------
+    composition_type : 'X' or 'Y'
+    group_by : 'A' or 'Z'
+    """
+    return f'sums_{group_by}_{composition_type}'
+
+
 # ===============================================================
 #                      convenience
 # ===============================================================
