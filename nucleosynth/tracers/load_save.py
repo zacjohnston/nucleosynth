@@ -180,7 +180,7 @@ def load_composition(tracer_id, tracer_steps, model,
     """Wrapper function to load both composition tables (X, Y)
 
     Returns : {'X': pd.DataFrame, 'Y': pd.DataFrame}
-    
+
     parameters
     ----------
     tracer_id : int

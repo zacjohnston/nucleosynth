@@ -166,6 +166,19 @@ class Tracer:
         """
         self.network_unique = network.get_network_unique(self.network)
 
+    def load_composition(self):
+        """Load composition tables (X, Y)
+        """
+        self.printv('Loading compositions tables: X, Y')
+        self.composition = load_save.load_composition(self.tracer_id,
+                                                      tracer_steps=self.steps,
+                                                      model=self.model,
+                                                      tracer_files=self.files,
+                                                      tracer_network=self.network,
+                                                      reload=self.reload,
+                                                      save=self.save,
+                                                      verbose=False)
+        
     def load_y(self):
         """Load isotopic number fraction (Y)
         """
