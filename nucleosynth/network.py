@@ -114,7 +114,7 @@ def get_final_yields(tracers, tracer_network):
     """Sum over all tracers to obtain final composition yields
 
     Returns : pd.DataFrame
-    
+
     parameters
     ----------
     tracers : {tracer_id: Tracer}

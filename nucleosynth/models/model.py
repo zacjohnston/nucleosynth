@@ -28,6 +28,8 @@ class Model:
         list of skynet "steps" making up full tracer evolution
     reload : bool
     save : bool
+    yields : pd.DataFrame
+        final composition yields, summed over all tracers
     """
 
     def __init__(self, model, tracer_ids, tracer_steps=(1, 2),
@@ -136,14 +138,8 @@ class Model:
         """
         self.printv('Calculating final yields')
         self.check_loaded()
-        self.yields = pd.DataFrame(self.network['isotope'])
-
-        for table in ['X', 'Y']:
-            self.yields[table] = 0.0
-
-            for tracer_id, tracer in self.tracers.items():
-                last_row = tracer.composition[table].iloc[-1]
-                self.yields[table] += np.array(last_row) / self.n_tracers
+        self.yields = network.get_final_yields(self.tracers,
+                                               tracer_network=self.network)
 
     # ===============================================================
     #                      Plotting
