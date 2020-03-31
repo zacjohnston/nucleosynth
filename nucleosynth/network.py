@@ -110,6 +110,29 @@ def get_sums(composition_table, tracer_network, group):
     return sums
 
 
+def get_final_yields(tracers, tracer_network):
+    """Sum over all tracers to obtain final composition yields
+
+    Returns : pd.DataFrame
+    
+    parameters
+    ----------
+    tracers : {tracer_id: Tracer}
+    tracer_network : pd.DataFrame
+    """
+    yields = pd.DataFrame(tracer_network['isotope'])
+    n_tracers = len(tracers)
+
+    for group in ['X', 'Y']:
+        yields[group] = 0.0
+
+        for tracer_id, tracer in tracers.items():
+            last_row = tracer.composition[group].iloc[-1]
+            yields[group] += np.array(last_row) / n_tracers
+
+    return yields
+
+
 # ===============================================================
 #                      tables
 # ===============================================================
