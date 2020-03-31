@@ -61,17 +61,17 @@ class Model:
 
         self.tracers = dict.fromkeys(self.tracer_ids)
         self.paths = paths.get_model_paths(self.model)
-        self.load_mass_grid()
 
         if load_all:
             self.load_all()
-            
+
     # ===============================================================
     #                      Loading/extracting
     # ===============================================================
     def load_all(self):
         """Load all data
         """
+        self.load_mass_grid()
         self.load_network()
         self.load_tracers()
         self.get_final_yields()
