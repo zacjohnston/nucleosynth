@@ -139,7 +139,7 @@ class Model:
         self.printv('Calculating final yields')
         self.check_loaded()
         self.yields = network.get_yields(self.tracers,
-                                               tracer_network=self.network)
+                                         tracer_network=self.network)
 
     # ===============================================================
     #                      Plotting
