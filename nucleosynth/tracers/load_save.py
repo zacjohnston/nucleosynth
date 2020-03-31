@@ -327,14 +327,16 @@ def load_stir_tracer(tracer_id, model):
     return table
 
 
-def get_stir_mass_grid(tracer_ids, model):
+def get_stir_mass_grid(tracer_ids, model, verbose=True):
     """Get full mass grid from stir tracer files
 
     parameters
     ----------
     tracer_ids : int or [int]
     model : str
+    verbose : bool
     """
+    printv('Loading mass grid', verbose=verbose)
     tracer_ids = tools.expand_sequence(tracer_ids)
     mass_grid = []
 
