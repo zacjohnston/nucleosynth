@@ -123,7 +123,7 @@ def get_yields(tracers, tracer_network):
     tracers : {tracer_id: Tracer}
     tracer_network : pd.DataFrame
     """
-    yields = pd.DataFrame(tracer_network['isotope'])
+    yields = pd.DataFrame(tracer_network)
     n_tracers = len(tracers)
 
     for group in ['X', 'Y']:
@@ -134,13 +134,6 @@ def get_yields(tracers, tracer_network):
             yields[group] += np.array(last_row) / n_tracers
 
     return yields
-
-
-def select_yields(yeilds, tracer_network, a=None, z=None):
-    """Return subset of yields matching given A, Z
-    """
-    sub_network = select_network(tracer_network, a=a, z=z)
-    return yeilds.loc[sub_network.index]
 
 
 # ===============================================================
