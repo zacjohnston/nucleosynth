@@ -99,6 +99,7 @@ class Model:
         """
         t0 = time.time()
         for tracer_id in self.tracers:
+            self.printv('-'*20)
             self.load_tracer(tracer_id)
 
         t1 = time.time()
