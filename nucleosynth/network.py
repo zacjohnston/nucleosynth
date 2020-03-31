@@ -72,11 +72,11 @@ def get_all_composition_sums(composition, tracer_network):
         for comp_key, comp_table in composition.items():
             sums[group][comp_key] = get_composition_sums(comp_table,
                                                          tracer_network=tracer_network,
-                                                         group_by=group)
+                                                         group=group)
     return sums
 
 
-def get_composition_sums(composition_table, tracer_network, group_by):
+def get_composition_sums(composition_table, tracer_network, group):
     """Calculate sums of X and Y for fixed Z or A
         i.e., sum table columns grouped by either Z or A
 
@@ -88,17 +88,17 @@ def get_composition_sums(composition_table, tracer_network, group_by):
     composition_table : pd.DataFrame
         X or Y table
     tracer_network : pd.DataFrame
-    group_by : one of ['A', 'Z']
+    group : one of ['A', 'Z']
         Which atomic number to group columns by
     """
     sums = pd.DataFrame()
     a = None
     z = None
 
-    unique = np.unique(tracer_network[group_by])
+    unique = np.unique(tracer_network[group])
 
     for val in unique:
-        if group_by == 'A':
+        if group == 'A':
             a = val
         else:
             z = val
@@ -258,15 +258,15 @@ def get_element_str(z):
         raise ValueError(f'element with Z={z} not defined. Check config/elements.py')
 
 
-def sums_table_name(composition_type, group_by):
+def sums_table_name(composition_type, group):
     """Return formatted table name for composition sums
 
     parameters
     ----------
     composition_type : 'X' or 'Y'
-    group_by : 'A' or 'Z'
+    group : 'A' or 'Z'
     """
-    return f'sums_{group_by}_{composition_type}'
+    return f'sums_{group}_{composition_type}'
 
 
 # ===============================================================

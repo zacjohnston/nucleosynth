@@ -277,7 +277,7 @@ def save_composition_sums_cache(tracer_id, model, composition_sums, verbose=True
     """
     for group, types in composition_sums.items():
         for composition_type, table in types.items():
-            table_name = network.sums_table_name(composition_type, group_by=group)
+            table_name = network.sums_table_name(composition_type, group=group)
 
             save_table_cache(table, tracer_id=tracer_id, model=model,
                              table_name=table_name, verbose=verbose)
@@ -299,7 +299,7 @@ def load_composition_sums_cache(tracer_id, model, verbose=True):
 
     for group in sums:
         for composition_type in ['X', 'Y']:
-            table_name = network.sums_table_name(composition_type, group_by=group)
+            table_name = network.sums_table_name(composition_type, group=group)
 
             table = load_table_cache(tracer_id=tracer_id, model=model,
                                      table_name=table_name, verbose=verbose)
