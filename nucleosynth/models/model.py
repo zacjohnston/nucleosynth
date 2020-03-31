@@ -31,7 +31,7 @@ class Model:
     """
 
     def __init__(self, model, tracer_ids, tracer_steps=(1, 2),
-                 reload=False, save=True, verbose=True, load_all=True):
+                 reload=False, save=True, load_all=True, verbose=True):
         """
         parameters
         ----------
@@ -41,15 +41,16 @@ class Model:
         tracer_steps : [int]
         reload : bool
         save : bool
+        load_all : bool
         verbose : bool
         """
         self.model = model
+        self.tracer_ids = tools.expand_sequence(tracer_ids)
+        self.n_tracers = len(self.tracer_ids)
         self.tracer_steps = tracer_steps
         self.reload = reload
         self.save = save
         self.verbose = verbose
-        self.tracer_ids = tracer_ids
-        self.n_tracers = len(tracer_ids)
 
         self.network_unique = None
         self.network = None
@@ -58,8 +59,7 @@ class Model:
         self.dmass = None
         self.total_mass = None
 
-        tracer_ids = tools.expand_sequence(tracer_ids)
-        self.tracers = dict.fromkeys(tracer_ids)
+        self.tracers = dict.fromkeys(self.tracer_ids)
         self.paths = paths.get_model_paths(self.model)
         self.load_mass_grid()
 

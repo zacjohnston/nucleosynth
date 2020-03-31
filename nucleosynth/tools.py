@@ -19,14 +19,15 @@ def ensure_sequence(x):
         return [x, ]
 
 
-def expand_sequence(x):
-    """If x is an int, return np.arange(x), else return x
+def expand_sequence(x, start_from=0):
+    """If x is int, return (np.arange(x) + start_from), else return x
 
     parameters
     ----------
     x : int or 1D-array
+    start_from : int
     """
     if isinstance(x, (list, tuple, np.ndarray)):
         return x
     else:
-        return np.arange(x)
+        return np.arange(x) + start_from
