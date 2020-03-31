@@ -54,14 +54,14 @@ class Model:
         self.network_unique = None
         self.network = None
         self.yields = None
+        self.mass_grid = None
+        self.dmass = None
+        self.total_mass = None
 
         tracer_ids = tools.expand_sequence(tracer_ids)
         self.tracers = dict.fromkeys(tracer_ids)
         self.paths = paths.get_model_paths(self.model)
-
-        self.mass_grid = tracers.load_save.get_stir_mass_grid(tracer_ids, self.model)
-        self.dmass = np.diff(self.mass_grid)[0]  # Assume equally-spaced
-        self.total_mass = len(self.tracers)*self.dmass
+        self.load_mass_grid()
 
         if load_all:
             self.load_network()
@@ -76,6 +76,15 @@ class Model:
         for tracer_id in self.tracers:
             if self.tracers[tracer_id] is None:
                 self.load_tracer(tracer_id)
+
+    def load_mass_grid(self):
+        """Load mass coordinate grid
+        """
+        self.mass_grid = tracers.load_save.get_stir_mass_grid(self.tracer_ids,
+                                                              model=self.model,
+                                                              verbose=self.verbose)
+        self.dmass = np.diff(self.mass_grid)[0]  # Assume equally-spaced
+        self.total_mass = len(self.tracers)*self.dmass
 
     def load_network(self):
         """Load table of network isotopes
