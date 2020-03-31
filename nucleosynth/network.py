@@ -15,6 +15,8 @@ Functions for managing nuclear network data
 def select_network(tracer_network, a=None, z=None):
     """Return subset of tracer network with given Z and/or A
 
+    Note: also works for any pd.DataFrame that contains A, Z as columns
+    
     parameters
     ----------
     tracer_network : pd.DataFrame
