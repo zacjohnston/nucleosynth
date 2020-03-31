@@ -106,11 +106,11 @@ class Tracer:
     def check_loaded(self):
         """Check that main data is loaded
         """
-        if self.stir is None:
-            self.load_stir()
-
         if self.files is None:
             self.load_files()
+
+        if self.stir is None:
+            self.load_stir()
 
         if self.columns is None:
             self.load_columns()
