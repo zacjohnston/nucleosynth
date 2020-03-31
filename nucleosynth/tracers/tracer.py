@@ -182,14 +182,14 @@ class Tracer:
         """Get X, Y sums over A, Z
         """
         self.printv('Loading composition sums')
-        self.sums = load_save.load_composition_sums(self.tracer_id,
-                                                    tracer_steps=self.steps,
-                                                    model=self.model,
-                                                    tracer_files=self.files,
-                                                    tracer_network=self.network,
-                                                    reload=self.reload,
-                                                    save=self.save,
-                                                    verbose=False)
+        self.sums = load_save.load_sums(self.tracer_id,
+                                        tracer_steps=self.steps,
+                                        model=self.model,
+                                        tracer_files=self.files,
+                                        tracer_network=self.network,
+                                        reload=self.reload,
+                                        save=self.save,
+                                        verbose=False)
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from Y table

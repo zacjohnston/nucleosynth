@@ -209,10 +209,9 @@ def load_composition(tracer_id, tracer_steps, model,
     return composition
 
 
-def load_composition_sums(tracer_id, tracer_steps, model,
-                          tracer_files=None, tracer_network=None,
-                          composition=None,
-                          reload=False, save=True, verbose=True):
+def load_sums(tracer_id, tracer_steps, model,
+              tracer_files=None, tracer_network=None, composition=None,
+              reload=False, save=True, verbose=True):
     """Wrapper function to load all composition sum tables
 
     Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
@@ -234,7 +233,7 @@ def load_composition_sums(tracer_id, tracer_steps, model,
 
     if not reload:
         try:
-            sums = load_composition_sums_cache(tracer_id, model=model, verbose=verbose)
+            sums = load_sums_cache(tracer_id, model=model, verbose=verbose)
         except FileNotFoundError:
             printv('cache not found', verbose)
 
@@ -255,27 +254,27 @@ def load_composition_sums(tracer_id, tracer_steps, model,
                                         tracer_files=tracer_files, reload=reload,
                                         save=save, verbose=verbose)
 
-        sums = network.get_all_composition_sums(composition, tracer_network=tracer_network)
+        sums = network.get_all_sums(composition, tracer_network=tracer_network)
 
         if save:
-            save_composition_sums_cache(tracer_id, model=model,
-                                        composition_sums=sums, verbose=verbose)
+            save_sums_cache(tracer_id, model=model,
+                            sums=sums, verbose=verbose)
 
     return sums
 
 
-def save_composition_sums_cache(tracer_id, model, composition_sums, verbose=True):
+def save_sums_cache(tracer_id, model, sums, verbose=True):
     """Save composition sum tables to cache
 
     parameters
     ----------
     tracer_id : int
     model : str
-    composition_sums : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
+    sums : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
                         'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
     verbose : bool
     """
-    for group, types in composition_sums.items():
+    for group, types in sums.items():
         for composition_type, table in types.items():
             table_name = network.sums_table_name(composition_type, group=group)
 
@@ -283,7 +282,7 @@ def save_composition_sums_cache(tracer_id, model, composition_sums, verbose=True
                              table_name=table_name, verbose=verbose)
 
 
-def load_composition_sums_cache(tracer_id, model, verbose=True):
+def load_sums_cache(tracer_id, model, verbose=True):
     """Load composition sum tables from cache
 
     Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
