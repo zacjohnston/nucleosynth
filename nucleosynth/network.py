@@ -110,7 +110,10 @@ def get_sums(composition_table, tracer_network, group):
     return sums
 
 
-def get_final_yields(tracers, tracer_network):
+# ===============================================================
+#                      yields
+# ===============================================================
+def get_yields(tracers, tracer_network):
     """Sum over all tracers to obtain final composition yields
 
     Returns : pd.DataFrame

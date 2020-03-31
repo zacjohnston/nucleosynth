@@ -76,7 +76,7 @@ class Model:
         self.load_mass_grid()
         self.load_network()
         self.load_tracers()
-        self.get_final_yields()
+        self.get_yields()
 
     def check_loaded(self):
         """Check that main data is loaded
@@ -133,12 +133,12 @@ class Model:
     # ===============================================================
     #                      Analysis
     # ===============================================================
-    def get_final_yields(self):
+    def get_yields(self):
         """Sum over all tracers to obtain final composition yields
         """
         self.printv('Calculating final yields')
         self.check_loaded()
-        self.yields = network.get_final_yields(self.tracers,
+        self.yields = network.get_yields(self.tracers,
                                                tracer_network=self.network)
 
     # ===============================================================
