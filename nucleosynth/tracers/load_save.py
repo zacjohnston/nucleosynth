@@ -222,8 +222,9 @@ def load_sums(tracer_id, tracer_steps, model,
     tracer_id : int
     tracer_steps : [int]
     model : str
-    tracer_files : {h5py.File}
+    tracer_files : {tracer_step: h5py.File}
     tracer_network : pd.DataFrame
+    composition : {'X': pd.DataFrame, 'Y': pd.DataFrame}
     reload : bool
     save : bool
     verbose : bool
