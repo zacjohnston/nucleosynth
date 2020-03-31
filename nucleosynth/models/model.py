@@ -37,7 +37,7 @@ class Model:
         ----------
         model : str
         tracer_ids : int or [int]
-            list of tracers. If int: assume tracer_ids = [0..(int-1)]
+            list of tracers. If int: assume tracer_ids = [0 .. (int-1)]
         tracer_steps : [int]
         reload : bool
         save : bool
@@ -66,6 +66,7 @@ class Model:
         if load_all:
             self.load_network()
             self.load_tracers()
+            self.get_final_yields()
 
     # ===============================================================
     #                      Loading/extracting
@@ -112,7 +113,7 @@ class Model:
             self.load_tracer(tracer_id)
 
         t1 = time.time()
-        self.printv(f'Total load time: {t1-t0:.3f} s')
+        self.printv('-'*20 + f'\nTotal load time: {t1-t0:.3f} s\n' + '-'*20)
 
     def load_tracer(self, tracer_id):
         """Load all tracers
@@ -128,6 +129,7 @@ class Model:
     def get_final_yields(self):
         """Calculate final yields
         """
+        self.printv('Calculating final yields')
         self.check_loaded()
         self.yields = pd.DataFrame(self.network['isotope'])
 
