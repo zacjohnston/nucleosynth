@@ -142,6 +142,14 @@ class Model:
                                          tracer_network=self.network)
 
     # ===============================================================
+    #                      Accessing Data
+    # ===============================================================
+    def select_yields(self, a=None, z=None):
+        """Select subset of yields matching given A and/or Z
+        """
+        return network.select_network(self.yields, a=a, z=z)
+
+    # ===============================================================
     #                      Plotting
     # ===============================================================
     def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
