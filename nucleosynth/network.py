@@ -138,6 +138,23 @@ def get_yields(tracers, tracer_network):
     return yields
 
 
+def get_all_yield_sums(yields):
+    """Sum over yields grouped by both A and Z
+
+    Returns : {'A': pd.DataFrame, 'Z': pd.DataFrame}
+
+    parameters
+    ----------
+    yields : pd.DataFrame
+    """
+    yield_sums = {'A': None, 'Z': None}
+
+    for group in yield_sums:
+        yield_sums[group] = get_yield_sums(yields, group=group)
+
+    return yield_sums
+
+
 def get_yield_sums(yields, group):
     """Sum over yields grouped by A or Z
 
