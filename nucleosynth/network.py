@@ -55,7 +55,7 @@ def get_network_unique(tracer_network):
 
 
 # ===============================================================
-#                      summaries/subsets
+#                      sums
 # ===============================================================
 def get_all_sums(composition, tracer_network):
     """Get all X, Y sums over A, Z
@@ -136,6 +136,46 @@ def get_yields(tracers, tracer_network):
             yields[group] += np.array(last_row) / n_tracers
 
     return yields
+
+
+def get_yield_sums(yields, group):
+    """Sum over yields grouped by A or Z
+
+    Returns : pd.DataFrame
+
+    parameters
+    ----------
+    yields : pd.DataFrame
+    group : one of ['A', 'Z']
+    """
+    yield_sums = pd.DataFrame()
+    group_unique = np.unique(yields[group])
+
+    sums = {}
+    for abu in ['X', 'Y']:
+        sums[abu] = np.full(len(group_unique), np.nan)
+
+    a = None
+    z = None
+
+    # TODO: check to properly weight by A, Z?
+    for i, val in enumerate(group_unique):
+        if group == 'A':
+            a = val
+        else:
+            z = val
+
+        subset = select_network(yields, a=a, z=z)
+
+        for abu in ['X', 'Y']:
+            sums[abu][i] = np.sum(subset[abu])
+
+    yield_sums[group] = group_unique
+
+    for abu in ['X', 'Y']:
+        yield_sums[abu] = sums[abu]
+
+    return yield_sums
 
 
 # ===============================================================
