@@ -30,6 +30,8 @@ class Model:
     save : bool
     yields : pd.DataFrame
         final composition yields, summed over all tracers
+    yield_sums : {'A': pd.DataFrame, 'Z': pd.DataFrame}
+        sums over yields grouped by A and Z
     """
 
     def __init__(self, model, tracer_ids, tracer_steps=(1, 2),
@@ -57,6 +59,7 @@ class Model:
         self.network_unique = None
         self.network = None
         self.yields = None
+        self.yield_sums = None
         self.mass_grid = None
         self.dmass = None
         self.total_mass = None
@@ -77,6 +80,7 @@ class Model:
         self.load_network()
         self.load_tracers()
         self.get_yields()
+        self.get_yield_sums()
 
     def check_loaded(self):
         """Check that main data is loaded
@@ -140,6 +144,13 @@ class Model:
         self.check_loaded()
         self.yields = network.get_yields(self.tracers,
                                          tracer_network=self.network)
+
+    def get_yield_sums(self):
+        """Sum over yields, grouped by A and Z
+        """
+        self.printv('Grouping final yields by A and Z')
+        self.check_loaded()
+        self.yield_sums = network.get_all_yield_sums(self.yields)
 
     # ===============================================================
     #                      Accessing Data
