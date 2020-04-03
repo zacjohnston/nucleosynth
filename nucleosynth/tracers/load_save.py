@@ -197,12 +197,12 @@ def load_composition(tracer_id, tracer_steps, model,
     """
     composition = {}
 
-    for key in ['X', 'Y']:
-        composition[key] = load_table(tracer_id,
+    for abu_var in ['X', 'Y']:
+        composition[abu_var] = load_table(tracer_id,
                                       tracer_steps=tracer_steps,
                                       model=model,
                                       tracer_files=tracer_files,
-                                      table_name=key,
+                                      table_name=abu_var,
                                       tracer_network=tracer_network,
                                       save=save, reload=reload,
                                       verbose=verbose)
@@ -298,12 +298,12 @@ def load_sums_cache(tracer_id, model, verbose=True):
     sums = {'A': {}, 'Z': {}}
 
     for iso_group in sums:
-        for composition_type in ['X', 'Y']:
-            table_name = network.sums_table_name(composition_type, iso_group=iso_group)
+        for abu_var in ['X', 'Y']:
+            table_name = network.sums_table_name(abu_var, iso_group=iso_group)
 
             table = load_table_cache(tracer_id=tracer_id, model=model,
                                      table_name=table_name, verbose=verbose)
-            sums[iso_group][composition_type] = table
+            sums[iso_group][abu_var] = table
 
     return sums
 

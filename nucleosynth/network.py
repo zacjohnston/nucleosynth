@@ -168,8 +168,8 @@ def get_yield_sums(yields, iso_group):
     group_unique = np.unique(yields[iso_group])
 
     sums = {}
-    for abu in ['X', 'Y']:
-        sums[abu] = np.full(len(group_unique), np.nan)
+    for abu_var in ['X', 'Y']:
+        sums[abu_var] = np.full(len(group_unique), np.nan)
 
     a = None
     z = None
@@ -183,13 +183,13 @@ def get_yield_sums(yields, iso_group):
 
         subset = select_isotopes(yields, a=a, z=z)
 
-        for abu in ['X', 'Y']:
-            sums[abu][i] = np.sum(subset[abu])
+        for abu_var in ['X', 'Y']:
+            sums[abu_var][i] = np.sum(subset[abu_var])
 
     yield_sums[iso_group] = group_unique
 
-    for abu in ['X', 'Y']:
-        yield_sums[abu] = sums[abu]
+    for abu_var in ['X', 'Y']:
+        yield_sums[abu_var] = sums[abu_var]
 
     return yield_sums
 
