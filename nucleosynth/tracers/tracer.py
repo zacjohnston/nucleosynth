@@ -43,7 +43,7 @@ class Tracer:
         list of skynet model steps
     stir : pd.DataFrame
         tracer input taken from STIR model
-    sums : {table: group: pd.DataFrame}
+    sums : {abu_var: group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
     tracer_id : int
         The tracer ID/index
@@ -350,7 +350,7 @@ class Tracer:
                             title=title, title_str=self.title)
         return fig
 
-    def plot_sums(self, timestep, table, group, y_scale=None,
+    def plot_sums(self, timestep, abu_var, group, y_scale=None,
                   ax=None, legend=False, title=True,
                   ylims=None, xlims=None, figsize=(8, 6), label=None,
                   linestyle='-', marker='o'):
@@ -360,7 +360,7 @@ class Tracer:
         ----------
         timestep : int
             index of timestep to plot
-        table : one of ['Y', 'X']
+        abu_var : one of ['X', 'Y']
              which composition table to plot
         group : one of ['A', 'Z']
              which atomic number to group by on x-axis
@@ -379,13 +379,13 @@ class Tracer:
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         x = self.network_unique[group]
-        y = self.sums[group][table].loc[timestep]
+        y = self.sums[group][abu_var].loc[timestep]
 
         t = self.columns['time'][timestep]
         title_str = f"{self.title}, t={t:.3e} s"
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
-        plotting.set_ax_all(ax, y_var=table, x_var=group, y_scale=y_scale,
+        plotting.set_ax_all(ax, y_var=abu_var, x_var=group, y_scale=y_scale,
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=title_str)
         return fig
