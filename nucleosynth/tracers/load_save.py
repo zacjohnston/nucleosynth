@@ -199,13 +199,13 @@ def load_composition(tracer_id, tracer_steps, model,
 
     for abu_var in ['X', 'Y']:
         composition[abu_var] = load_table(tracer_id,
-                                      tracer_steps=tracer_steps,
-                                      model=model,
-                                      tracer_files=tracer_files,
-                                      table_name=abu_var,
-                                      tracer_network=tracer_network,
-                                      save=save, reload=reload,
-                                      verbose=verbose)
+                                          tracer_steps=tracer_steps,
+                                          model=model,
+                                          tracer_files=tracer_files,
+                                          table_name=abu_var,
+                                          tracer_network=tracer_network,
+                                          save=save, reload=reload,
+                                          verbose=verbose)
     return composition
 
 

@@ -236,6 +236,3 @@ class Model:
         """Print string if verbose is True
         """
         printing.printv(string, verbose=self.verbose)
-
-
-
