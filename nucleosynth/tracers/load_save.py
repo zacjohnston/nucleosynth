@@ -182,7 +182,7 @@ def load_composition(tracer_id, tracer_steps, model,
                      reload=False, save=True, verbose=True):
     """Wrapper function to load both composition tables (X, Y)
 
-    Returns : {'X': pd.DataFrame, 'Y': pd.DataFrame}
+    Returns : {abu_var: pd.DataFrame}
 
     parameters
     ----------
@@ -214,8 +214,7 @@ def load_sums(tracer_id, tracer_steps, model,
               reload=False, save=True, verbose=True):
     """Wrapper function to load all composition sum tables
 
-    Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
-               'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+    Returns : {iso_group {abu_var: pd.DataFrame}}
 
     parameters
     ----------
@@ -224,7 +223,7 @@ def load_sums(tracer_id, tracer_steps, model,
     model : str
     tracer_files : {tracer_step: h5py.File}
     tracer_network : pd.DataFrame
-    composition : {'X': pd.DataFrame, 'Y': pd.DataFrame}
+    composition : {abu_var: pd.DataFrame}
     reload : bool
     save : bool
     verbose : bool
@@ -271,8 +270,7 @@ def save_sums_cache(tracer_id, model, sums, verbose=True):
     ----------
     tracer_id : int
     model : str
-    sums : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
-                        'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+    sums : {iso_group: {abu_var: pd.DataFrame}}
     verbose : bool
     """
     for iso_group, types in sums.items():
@@ -286,8 +284,7 @@ def save_sums_cache(tracer_id, model, sums, verbose=True):
 def load_sums_cache(tracer_id, model, verbose=True):
     """Load composition sum tables from cache
 
-    Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
-               'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+    Returns : {iso_group: {abu_var: pd.DataFrame}}
 
     parameters
     ----------
