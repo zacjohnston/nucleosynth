@@ -354,7 +354,7 @@ class Tracer:
                   ax=None, legend=False, title=True,
                   ylims=None, xlims=None, figsize=(8, 6), label=None,
                   linestyle='-', marker='o'):
-        """Plot composition sums versus time
+        """Plot composition sums
 
         parameters
         ----------
