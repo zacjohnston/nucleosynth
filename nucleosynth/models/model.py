@@ -164,9 +164,9 @@ class Model:
     #                      Plotting
     # ===============================================================
     def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
-                    ax=None, legend=False, title=True,
-                    ylims=None, xlims=None, figsize=(8, 6),
-                    linestyle='-', marker='', table_name='columns'):
+                    ax=None, legend=False, ylims=None, xlims=None,
+                    figsize=(8, 6), linestyle='-', marker='',
+                    table_name='columns'):
         """Plot column quantity versus time
 
         parameters
@@ -178,7 +178,6 @@ class Model:
         x_scale : {'log', 'linear'}
         ax : Axes
         legend : bool
-        title : bool
         ylims : [min, max]
         xlims : [min, max]
         figsize : [width, height]
@@ -195,7 +194,7 @@ class Model:
             trace = self.tracers[tracer_id]
             trace.plot_column(column=column, ax=ax,
                               y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
-                              legend=legend, title=title, label=tracer_id,
+                              legend=legend, title=False, label=tracer_id,
                               linestyle=linestyle, marker=marker,
                               table_name=table_name)
 
