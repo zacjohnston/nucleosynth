@@ -166,7 +166,7 @@ class Model:
     def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
                     ax=None, legend=False, title=True,
                     ylims=None, xlims=None, figsize=(8, 6),
-                    linestyle='-', marker=''):
+                    linestyle='-', marker='', table_name='columns'):
         """Plot column quantity versus time
 
         parameters
@@ -184,6 +184,7 @@ class Model:
         figsize : [width, height]
         linestyle : str
         marker : str
+        table_name : one of ['columns', 'stir']
         """
         if tracer_ids is None:
             tracer_ids = self.tracers.keys()
@@ -195,7 +196,8 @@ class Model:
             trace.plot_column(column=column, ax=ax,
                               y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
                               legend=legend, title=title, label=tracer_id,
-                              linestyle=linestyle, marker=marker)
+                              linestyle=linestyle, marker=marker,
+                              table_name=table_name)
 
     # ===============================================================
     #                      Convenience
