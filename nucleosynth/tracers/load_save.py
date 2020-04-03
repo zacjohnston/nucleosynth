@@ -4,7 +4,7 @@ import h5py
 
 # nucleosynth
 from nucleosynth import paths, network, tools
-from nucleosynth.tracers import extract
+from nucleosynth.tracers import extract_hdf5
 from nucleosynth.printing import printv
 from nucleosynth.config import tables_config
 
@@ -143,7 +143,7 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
                               tracer_files=tracer_files, verbose=verbose)
 
     if tracer_network is None:
-        tracer_network = extract.extract_network(tracer_files[tracer_steps[0]])
+        tracer_network = extract_hdf5.extract_network(tracer_files[tracer_steps[0]])
 
     if table_name == 'network':
         return tracer_network
@@ -161,10 +161,10 @@ def extract_table(tracer_id, tracer_steps, model, table_name, columns=None,
         tracer_file = tracer_files[step]
 
         if table_name == 'columns':
-            table = extract.extract_columns(tracer_file, columns=columns)
+            table = extract_hdf5.extract_columns(tracer_file, columns=columns)
 
         elif table_name == 'Y':
-            table = extract.extract_y(tracer_file, tracer_network=tracer_network)
+            table = extract_hdf5.extract_y(tracer_file, tracer_network=tracer_network)
 
         else:
             raise ValueError('table_name must be one of (network, columns, X, Y)')
