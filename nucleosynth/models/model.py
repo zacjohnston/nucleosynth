@@ -198,7 +198,7 @@ class Model:
                               linestyle=linestyle, marker=marker,
                               table_name=table_name)
 
-    def plot_yield_sums(self, abu_var, group, y_scale=None,
+    def plot_yield_sums(self, abu_var, iso_group, y_scale=None,
                         ax=None, legend=False, ylims=None, xlims=None,
                         figsize=(8, 6), label=None, linestyle='-', marker='o'):
         """Plot nucleosynthesis yields, grouped by A or Z
@@ -207,7 +207,7 @@ class Model:
         ----------
         abu_var : one of ['X', 'Y']
              which composition quantitiy to plot
-        group : one of ['A', 'Z']
+        iso_group : one of ['A', 'Z']
              which atomic number to group by on x-axis
         y_scale : {'log', 'linear'}
         ax : Axes
@@ -221,12 +221,12 @@ class Model:
         """
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
-        x = self.network_unique[group]
-        y = self.yield_sums[group][abu_var]
+        x = self.network_unique[iso_group]
+        y = self.yield_sums[iso_group][abu_var]
 
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
-        plotting.set_ax_all(ax, y_var=abu_var, x_var=group, y_scale=y_scale,
+        plotting.set_ax_all(ax, y_var=abu_var, x_var=iso_group, y_scale=y_scale,
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend)
 
     # ===============================================================

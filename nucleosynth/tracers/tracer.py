@@ -31,7 +31,7 @@ class Tracer:
         Name of the core-collapse model (typically named after the progenitor model)
     network : pd.DataFrame
         Table of isotopes used in model (name, Z, A)
-    network_unique : {group: [int]}
+    network_unique : {iso_group: [int]}
         unique A and Z in network
     paths : str
         Paths to model input/output directories
@@ -43,7 +43,7 @@ class Tracer:
         list of skynet model steps
     stir : pd.DataFrame
         tracer input taken from STIR model
-    sums : {abu_var: group: pd.DataFrame}
+    sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
     tracer_id : int
         The tracer ID/index
@@ -350,7 +350,7 @@ class Tracer:
                             title=title, title_str=self.title)
         return fig
 
-    def plot_sums(self, timestep, abu_var, group, y_scale=None,
+    def plot_sums(self, timestep, abu_var, iso_group, y_scale=None,
                   ax=None, legend=False, title=True,
                   ylims=None, xlims=None, figsize=(8, 6), label=None,
                   linestyle='-', marker='o'):
@@ -362,7 +362,7 @@ class Tracer:
             index of timestep to plot
         abu_var : one of ['X', 'Y']
              which composition table to plot
-        group : one of ['A', 'Z']
+        iso_group : one of ['A', 'Z']
              which atomic number to group by on x-axis
         y_scale : {'log', 'linear'}
         ax : Axes
@@ -378,14 +378,14 @@ class Tracer:
         # TODO: slider for timestep
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
-        x = self.network_unique[group]
-        y = self.sums[group][abu_var].loc[timestep]
+        x = self.network_unique[iso_group]
+        y = self.sums[iso_group][abu_var].loc[timestep]
 
         t = self.columns['time'][timestep]
         title_str = f"{self.title}, t={t:.3e} s"
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
-        plotting.set_ax_all(ax, y_var=abu_var, x_var=group, y_scale=y_scale,
+        plotting.set_ax_all(ax, y_var=abu_var, x_var=iso_group, y_scale=y_scale,
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=title_str)
         return fig

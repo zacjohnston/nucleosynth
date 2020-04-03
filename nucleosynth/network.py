@@ -47,8 +47,8 @@ def get_network_unique(tracer_network):
     """
     network_unique = {}
 
-    for group in ['A', 'Z']:
-        network_unique[group] = np.unique(tracer_network[group])
+    for iso_group in ['A', 'Z']:
+        network_unique[iso_group] = np.unique(tracer_network[iso_group])
 
     return network_unique
 
@@ -69,15 +69,15 @@ def get_all_sums(composition, tracer_network):
     """
     sums = {'A': {}, 'Z': {}}
 
-    for group in sums:
+    for iso_group in sums:
         for comp_key, comp_table in composition.items():
-            sums[group][comp_key] = get_sums(comp_table,
-                                             tracer_network=tracer_network,
-                                             group=group)
+            sums[iso_group][comp_key] = get_sums(comp_table,
+                                                 tracer_network=tracer_network,
+                                                 iso_group=iso_group)
     return sums
 
 
-def get_sums(composition_table, tracer_network, group):
+def get_sums(composition_table, tracer_network, iso_group):
     """Calculate sums of X and Y for fixed Z or A
         i.e., sum table columns grouped by either Z or A
 
@@ -89,17 +89,17 @@ def get_sums(composition_table, tracer_network, group):
     composition_table : pd.DataFrame
         X or Y table
     tracer_network : pd.DataFrame
-    group : one of ['A', 'Z']
+    iso_group : one of ['A', 'Z']
         Which atomic number to group columns by
     """
     sums = pd.DataFrame()
     a = None
     z = None
 
-    unique = np.unique(tracer_network[group])
+    unique = np.unique(tracer_network[iso_group])
 
     for val in unique:
-        if group == 'A':
+        if iso_group == 'A':
             a = val
         else:
             z = val
@@ -127,12 +127,12 @@ def get_yields(tracers, tracer_network):
     yields = pd.DataFrame(tracer_network)
     n_tracers = len(tracers)
 
-    for group in ['X', 'Y']:
-        yields[group] = 0.0
+    for abu_var in ['X', 'Y']:
+        yields[abu_var] = 0.0
 
         for tracer_id, tracer in tracers.items():
-            last_row = tracer.composition[group].iloc[-1]
-            yields[group] += np.array(last_row) / n_tracers
+            last_row = tracer.composition[abu_var].iloc[-1]
+            yields[abu_var] += np.array(last_row) / n_tracers
 
     return yields
 
@@ -148,13 +148,13 @@ def get_all_yield_sums(yields):
     """
     yield_sums = {'A': None, 'Z': None}
 
-    for group in yield_sums:
-        yield_sums[group] = get_yield_sums(yields, group=group)
+    for iso_group in yield_sums:
+        yield_sums[iso_group] = get_yield_sums(yields, iso_group=iso_group)
 
     return yield_sums
 
 
-def get_yield_sums(yields, group):
+def get_yield_sums(yields, iso_group):
     """Sum over yields grouped by A or Z
 
     Returns : pd.DataFrame
@@ -162,10 +162,10 @@ def get_yield_sums(yields, group):
     parameters
     ----------
     yields : pd.DataFrame
-    group : one of ['A', 'Z']
+    iso_group : one of ['A', 'Z']
     """
     yield_sums = pd.DataFrame()
-    group_unique = np.unique(yields[group])
+    group_unique = np.unique(yields[iso_group])
 
     sums = {}
     for abu in ['X', 'Y']:
@@ -176,7 +176,7 @@ def get_yield_sums(yields, group):
 
     # TODO: check to properly weight by A, Z?
     for i, val in enumerate(group_unique):
-        if group == 'A':
+        if iso_group == 'A':
             a = val
         else:
             z = val
@@ -186,7 +186,7 @@ def get_yield_sums(yields, group):
         for abu in ['X', 'Y']:
             sums[abu][i] = np.sum(subset[abu])
 
-    yield_sums[group] = group_unique
+    yield_sums[iso_group] = group_unique
 
     for abu in ['X', 'Y']:
         yield_sums[abu] = sums[abu]
@@ -342,15 +342,15 @@ def get_element_str(z):
         raise ValueError(f'element with Z={z} not defined. Check config/elements.py')
 
 
-def sums_table_name(composition_type, group):
+def sums_table_name(composition_type, iso_group):
     """Return formatted table name for composition sums
 
     parameters
     ----------
     composition_type : 'X' or 'Y'
-    group : 'A' or 'Z'
+    iso_group : 'A' or 'Z'
     """
-    return f'sums_{group}_{composition_type}'
+    return f'sums_{iso_group}_{composition_type}'
 
 
 # ===============================================================

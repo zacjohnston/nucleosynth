@@ -275,9 +275,9 @@ def save_sums_cache(tracer_id, model, sums, verbose=True):
                         'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
     verbose : bool
     """
-    for group, types in sums.items():
+    for iso_group, types in sums.items():
         for composition_type, table in types.items():
-            table_name = network.sums_table_name(composition_type, group=group)
+            table_name = network.sums_table_name(composition_type, iso_group=iso_group)
 
             save_table_cache(table, tracer_id=tracer_id, model=model,
                              table_name=table_name, verbose=verbose)
@@ -297,13 +297,13 @@ def load_sums_cache(tracer_id, model, verbose=True):
     """
     sums = {'A': {}, 'Z': {}}
 
-    for group in sums:
+    for iso_group in sums:
         for composition_type in ['X', 'Y']:
-            table_name = network.sums_table_name(composition_type, group=group)
+            table_name = network.sums_table_name(composition_type, iso_group=iso_group)
 
             table = load_table_cache(tracer_id=tracer_id, model=model,
                                      table_name=table_name, verbose=verbose)
-            sums[group][composition_type] = table
+            sums[iso_group][composition_type] = table
 
     return sums
 
