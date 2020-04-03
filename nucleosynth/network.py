@@ -13,12 +13,12 @@ Functions for managing nuclear network data
 #                      network table
 # ===============================================================
 def select_isotopes(isotope_table, a=None, z=None):
-    """Return subset of isotope table that matches given A and/or Z
+    """Return subset of table with given A and/or Z
 
     parameters
     ----------
     isotope_table : pd.DataFrame
-        table containing A and Z columns (e.g., tracer_network)
+        any table containing both A and Z columns (e.g., tracer_network)
     z : int
     a : int
     """
@@ -37,9 +37,9 @@ def select_isotopes(isotope_table, a=None, z=None):
 
 
 def get_network_unique(tracer_network):
-    """Get unique Z and A in network
+    """Get unique A and Z in network
 
-    Returns : {'A': [int], 'Z': [int]}
+    Returns : {iso_group: [int]}
 
     parameters
     ----------
@@ -88,7 +88,7 @@ def get_sums(composition_table, tracer_network, iso_group):
     composition_table : pd.DataFrame
         X or Y table
     tracer_network : pd.DataFrame
-    iso_group : one of ['A', 'Z']
+    iso_group : 'A' or 'Z'
         Which atomic number to group columns by
     """
     sums = pd.DataFrame()
@@ -139,7 +139,7 @@ def get_yields(tracers, tracer_network):
 def get_all_yield_sums(yields):
     """Sum over yields grouped by both A and Z
 
-    Returns : {'A': pd.DataFrame, 'Z': pd.DataFrame}
+    Returns : {iso_group: pd.DataFrame}
 
     parameters
     ----------
@@ -161,7 +161,7 @@ def get_yield_sums(yields, iso_group):
     parameters
     ----------
     yields : pd.DataFrame
-    iso_group : one of ['A', 'Z']
+    iso_group : 'A' or 'Z'
     """
     yield_sums = pd.DataFrame()
     group_unique = np.unique(yields[iso_group])
@@ -197,7 +197,7 @@ def get_yield_sums(yields, iso_group):
 #                      tables
 # ===============================================================
 def select_composition(composition_table, tracer_network, z=None, a=None):
-    """Return subset of X or Y table with given Z and/or A
+    """Return subset of X or Y table with given A and/or Z
 
     Returns : pd.DataFrame
 
