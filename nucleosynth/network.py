@@ -12,29 +12,28 @@ Functions for managing nuclear network data
 # ===============================================================
 #                      network table
 # ===============================================================
-def select_network(tracer_network, a=None, z=None):
-    """Return subset of tracer network with given Z and/or A
+def select_isotopes(isotope_table, a=None, z=None):
+    """Return subset of isotope table that matches given A and/or Z
 
-    Note: also works for any pd.DataFrame that contains A, Z as columns
-    
     parameters
     ----------
-    tracer_network : pd.DataFrame
+    isotope_table : pd.DataFrame
+        table containing A and Z columns (e.g., tracer_network)
     z : int
     a : int
     """
     if (z is None) and (a is None):
         raise ValueError('Must specify at least one of Z, A')
 
-    z_mask = tracer_network['Z'] == z
-    a_mask = tracer_network['A'] == a
+    z_mask = isotope_table['Z'] == z
+    a_mask = isotope_table['A'] == a
 
     if None in [z, a]:
         mask = np.logical_or(z_mask, a_mask)
     else:
         mask = np.logical_and(z_mask, a_mask)
 
-    return tracer_network[mask]
+    return isotope_table[mask]
 
 
 def get_network_unique(tracer_network):
@@ -182,7 +181,7 @@ def get_yield_sums(yields, group):
         else:
             z = val
 
-        subset = select_network(yields, a=a, z=z)
+        subset = select_isotopes(yields, a=a, z=z)
 
         for abu in ['X', 'Y']:
             sums[abu][i] = np.sum(subset[abu])
@@ -211,7 +210,7 @@ def select_composition(composition_table, tracer_network, z=None, a=None):
     z : int
     a : int
     """
-    sub_net = select_network(tracer_network, z=z, a=a)
+    sub_net = select_isotopes(tracer_network, z=z, a=a)
     return composition_table.iloc[:, sub_net.index]
 
 

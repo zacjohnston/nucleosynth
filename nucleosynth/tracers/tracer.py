@@ -233,7 +233,7 @@ class Tracer:
         a : int
             atomic mass number
         """
-        return network.select_network(self.network, z=z, a=a)
+        return network.select_isotopes(self.network, z=z, a=a)
 
     # ===============================================================
     #                      Plotting

@@ -158,7 +158,7 @@ class Model:
     def select_yields(self, a=None, z=None):
         """Select subset of yields matching given A and/or Z
         """
-        return network.select_network(self.yields, a=a, z=z)
+        return network.select_isotopes(self.yields, a=a, z=z)
 
     # ===============================================================
     #                      Plotting
