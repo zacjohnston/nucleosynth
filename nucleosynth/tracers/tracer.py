@@ -240,7 +240,7 @@ class Tracer:
     # ===============================================================
     def plot_columns(self, columns, max_cols=1, y_scale=None, x_scale=None,
                      legend=False, title=True, ylims=None, xlims=None,
-                     sub_figsize=(8, 4), label=None,
+                     sub_figsize=(8, 4), label=None, table_name='columns',
                      linestyle='-', marker='', sharex=True):
         """Plot column quantity versus time
 
@@ -261,6 +261,7 @@ class Tracer:
         linestyle : str
         marker : str
         sharex : bool
+        table_name : one of ['columns', 'stir']
         """
         fig, ax = plotting.setup_subplots(n_sub=len(columns), max_cols=max_cols,
                                           sub_figsize=sub_figsize,
@@ -273,13 +274,14 @@ class Tracer:
             self.plot_column(column, ax=ax[row, col], y_scale=y_scale, x_scale=x_scale,
                              ylims=ylims, xlims=xlims, label=label,
                              legend=legend, linestyle=linestyle, marker=marker,
-                             title=title if i == 0 else False)
+                             title=title if i == 0 else False,
+                             table_name=table_name)
         return fig
 
     def plot_column(self, column, y_scale=None, x_scale=None,
                     ax=None, legend=False, title=True,
                     ylims=None, xlims=None, figsize=(8, 6), label=None,
-                    linestyle='-', marker=''):
+                    linestyle='-', marker='', table_name='columns'):
         """Plot column quantity versus time
 
         parameters
@@ -297,10 +299,15 @@ class Tracer:
         label : str
         linestyle : str
         marker : str
+        table_name : one of ['columns', 'stir']
+            which table to plot from
         """
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
-        ax.plot(self.columns['time'], self.columns[column], ls=linestyle,
+        tables = {'columns': self.columns, 'stir': self.stir}
+        table = tables[table_name]
+
+        ax.plot(table['time'], table[column], ls=linestyle,
                 marker=marker, label=label)
 
         plotting.set_ax_all(ax, y_var=column, x_var='time', y_scale=y_scale,
