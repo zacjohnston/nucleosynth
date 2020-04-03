@@ -59,12 +59,11 @@ def get_network_unique(tracer_network):
 def get_all_sums(composition, tracer_network):
     """Get all X, Y sums over A, Z
 
-    Returns : {'A': {'X': pd.DataFrame, 'Y': pd.DataFrame},
-               'Z': {'X': pd.DataFrame, 'Y': pd.DataFrame}}
+    Returns : {iso_group: {abu_var: pd.DataFrame}}
 
     parameters
     ----------
-    composition : {'X': pd.DataFrame, 'Y': pd.DataFrame}
+    composition : {abu_var: pd.DataFrame}
     tracer_network : pd.DataFrame
     """
     sums = {'A': {}, 'Z': {}}
@@ -342,15 +341,15 @@ def get_element_str(z):
         raise ValueError(f'element with Z={z} not defined. Check config/elements.py')
 
 
-def sums_table_name(composition_type, iso_group):
+def sums_table_name(abu_var, iso_group):
     """Return formatted table name for composition sums
 
     parameters
     ----------
-    composition_type : 'X' or 'Y'
+    abu_var : 'X' or 'Y'
     iso_group : 'A' or 'Z'
     """
-    return f'sums_{iso_group}_{composition_type}'
+    return f'sums_{iso_group}_{abu_var}'
 
 
 # ===============================================================
