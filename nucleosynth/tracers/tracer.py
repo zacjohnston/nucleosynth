@@ -17,12 +17,19 @@ Class representing an individual mass tracer from a model
 class Tracer:
     """Object representing an individual mass tracer from a skynet model
 
+    common variables/terminology
+    ----------------------------
+    abu_var : 'X' or 'Y'
+        mass fraction (X) and number fraction (Y)
+    iso_group : 'A' or 'Z'
+        nuclides of constant A (isobars) and Z (isotopes)
+
     attributes
     ----------
     columns : pd.DataFrame
         Table of main scalar quantities (density, temperature, etc.) versus time
-    composition : {'Y': pd.DataFrame, 'X': pd.DataFrame}
-        Tables of isotopic number fractions (Y) and mass fractions (X) versus time
+    composition : {abu_var: pd.DataFrame}
+        Tables of X and Y versus time
     files : h5py.File
         Raw hdf5 tracer output files from skynet
     mass : float
@@ -214,7 +221,7 @@ class Tracer:
 
         parameters
         ----------
-        abu_var : one of ('X', 'Y')
+        abu_var : 'X' or 'Y'
         z : int
             atomic number
         a : int
@@ -250,8 +257,8 @@ class Tracer:
             list of quantities to plot in subplots
         max_cols : int
             how many subplots to put side-by-side
-        y_scale : {'log', 'linear'}
-        x_scale : {'log', 'linear'}
+        y_scale : 'log' or 'linear'
+        x_scale : 'log' or 'linear'
         legend : bool
         title : bool
         ylims : [min, max]
@@ -261,7 +268,7 @@ class Tracer:
         linestyle : str
         marker : str
         sharex : bool
-        table_name : one of ['columns', 'stir']
+        table_name : 'columns' or 'stir'
         """
         fig, ax = plotting.setup_subplots(n_sub=len(columns), max_cols=max_cols,
                                           sub_figsize=sub_figsize,
@@ -288,8 +295,8 @@ class Tracer:
         ----------
         column : str
             quantity to plot on y-axis (from Tracer.columns)
-        y_scale : {'log', 'linear'}
-        x_scale : {'log', 'linear'}
+        y_scale : 'log' or 'linear'
+        x_scale : 'log' or 'linear'
         ax : Axes
         legend : bool
         title : bool
@@ -299,7 +306,7 @@ class Tracer:
         label : str
         linestyle : str
         marker : str
-        table_name : one of ['columns', 'stir']
+        table_name : 'columns' or 'stir'
             which table to plot from
         """
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
@@ -325,9 +332,9 @@ class Tracer:
         ----------
         isotopes : [str]
             list of isotopes to plot
-        abu_var : one of ('X', 'Y')
-        y_scale : {'log', 'linear'}
-        x_scale : {'log', 'linear'}
+        abu_var : 'X' or 'Y'
+        y_scale : 'log' or 'linear'
+        x_scale : 'log' or 'linear'
         ax : Axes
         legend : bool
         title : bool
@@ -359,11 +366,10 @@ class Tracer:
         ----------
         timestep : int
             index of timestep to plot
-        abu_var : one of ['X', 'Y']
-             which composition table to plot
-        iso_group : one of ['A', 'Z']
-             which atomic number to group by on x-axis
-        y_scale : {'log', 'linear'}
+        abu_var : 'X' or 'Y'
+        iso_group : 'A' or 'Z'
+             which iso-number to group by on x-axis
+        y_scale : 'log' or 'linear'
         ax : Axes
         legend : bool
         title : bool

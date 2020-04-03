@@ -174,8 +174,8 @@ class Model:
         column : str
             quantity to plot on y-axis (from Tracer.columns)
         tracer_ids : [int]
-        y_scale : {'log', 'linear'}
-        x_scale : {'log', 'linear'}
+        y_scale : 'log' or 'linear'
+        x_scale : 'log' or 'linear'
         ax : Axes
         legend : bool
         ylims : [min, max]
@@ -209,7 +209,7 @@ class Model:
              which composition quantitiy to plot
         iso_group : one of ['A', 'Z']
              which atomic number to group by on x-axis
-        y_scale : {'log', 'linear'}
+        y_scale : 'log' or 'linear'
         ax : Axes
         legend : bool
         ylims : [min, max]
