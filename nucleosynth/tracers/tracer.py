@@ -209,18 +209,18 @@ class Tracer:
     # ===============================================================
     #                      Accessing Data
     # ===============================================================
-    def select_composition(self, key, z=None, a=None):
+    def select_composition(self, abu_var, z=None, a=None):
         """Return composition (X or Y) for given Z and/or A
 
         parameters
         ----------
-        key : one of ('X', 'Y')
+        abu_var : one of ('X', 'Y')
         z : int
             atomic number
         a : int
             atomic mass number
         """
-        return network.select_composition(self.composition[key],
+        return network.select_composition(self.composition[abu_var],
                                           tracer_network=self.network, z=z, a=a)
 
     def select_network(self, z=None, a=None):
