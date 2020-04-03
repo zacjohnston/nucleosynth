@@ -315,7 +315,7 @@ class Tracer:
                             title=title, title_str=self.title)
         return fig
 
-    def plot_composition(self, isotopes, table_name, y_scale=None, x_scale=None,
+    def plot_composition(self, isotopes, abu_var, y_scale=None, x_scale=None,
                          ax=None, legend=True, title=True,
                          ylims=None, xlims=None, figsize=(8, 6),
                          linestyle='-', marker=''):
@@ -325,8 +325,7 @@ class Tracer:
         ----------
         isotopes : [str]
             list of isotopes to plot
-        table_name : one of ('Y', 'X')
-            which composition quantity to plot
+        abu_var : one of ('X', 'Y')
         y_scale : {'log', 'linear'}
         x_scale : {'log', 'linear'}
         ax : Axes
@@ -338,14 +337,14 @@ class Tracer:
         linestyle : str
         marker : str
         """
-        table = self.composition[table_name]
+        table = self.composition[abu_var]
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         for i, isotope in enumerate(isotopes):
             ax.plot(self.columns['time'], table[isotope], ls=linestyle,
                     marker=marker, label=isotope)
 
-        plotting.set_ax_all(ax, y_var=table_name, x_var='time', y_scale=y_scale,
+        plotting.set_ax_all(ax, y_var=abu_var, x_var='time', y_scale=y_scale,
                             x_scale=x_scale, ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=self.title)
         return fig
