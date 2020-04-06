@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import time
+from matplotlib.widgets import Slider
 
 # nucleosynth
 from nucleosynth.tracers import load_save
@@ -380,7 +381,6 @@ class Tracer:
         linestyle : str
         marker : str
         """
-        # TODO: slider for timestep
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         x = self.network_unique[iso_group]
@@ -394,6 +394,52 @@ class Tracer:
                             x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
                             title=title, title_str=title_str)
         return fig
+
+    def plot_sums_slider(self, abu_var, iso_group,
+                         y_scale=None, title=True, ylims=None, xlims=None,
+                         legend=False, figsize=(8, 6), linestyle='-', marker='o'):
+        """Plot composition sums with interactive slider
+
+        parameters
+        ----------
+        abu_var : 'X' or 'Y'
+        iso_group : 'A' or 'Z'
+             which iso-number to group by on x-axis
+        y_scale : 'log' or 'linear'
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        linestyle : str
+        marker : str
+        """
+        fig, profile_ax, slider_ax = plotting.setup_slider_fig(figsize=figsize)
+        step_min, step_max = self._get_slider_steps()
+
+        slider = Slider(slider_ax, 'timestep', step_min, step_max,
+                        valinit=step_max, valstep=1)
+
+        self.plot_sums(step_max, abu_var=abu_var, iso_group=iso_group,
+                       y_scale=y_scale, ax=profile_ax, legend=legend,
+                       title=title, ylims=ylims, xlims=xlims, figsize=figsize,
+                       linestyle=linestyle, marker=marker)
+
+        def update(step):
+            x = self.network_unique[iso_group]
+            y = self.sums[iso_group][abu_var].loc[step]
+
+            profile_ax.lines[0].set_xdata(x)
+            profile_ax.lines[0].set_ydata(y)
+
+            t = self.columns['time'][step]
+            title_str = f"{self.title}, t={t:.3e} s"
+            profile_ax.set_title(title_str)
+
+            fig.canvas.draw_idle()
+
+        slider.on_changed(update)
+        return fig, slider
 
     def plot_sums_all(self, timestep, abu_var, y_scale=None,
                       ax=None, legend=False, title=True,
@@ -443,3 +489,10 @@ class Tracer:
         """Print string if verbose is True
         """
         printing.printv(string, verbose=self.verbose)
+
+    def _get_slider_steps(self):
+        """Return numbers of steps for slider bar
+        """
+        step_min = self.columns.index[0]
+        step_max = self.columns.index[-1]
+        return step_min, step_max
