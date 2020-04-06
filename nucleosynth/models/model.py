@@ -152,6 +152,11 @@ class Model:
         self.check_loaded()
         self.yield_sums = network.get_all_yield_sums(self.yields)
 
+        # get mass yield in msun
+        for iso_group in ['A', 'Z']:
+            table = self.yield_sums[iso_group]
+            table['msun'] = table['X'] * self.total_mass
+
     # ===============================================================
     #                      Accessing Data
     # ===============================================================
