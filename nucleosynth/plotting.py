@@ -48,6 +48,20 @@ def check_ax(ax, figsize):
     return fig, ax
 
 
+def setup_slider_fig(figsize):
+    """Setup fig, ax for slider
+
+    parameters
+    ----------
+    figsize : [width, height]
+    """
+    fig = plt.figure(figsize=figsize)
+    profile_ax = fig.add_axes([0.1, 0.2, 0.8, 0.65])
+    slider_ax = fig.add_axes([0.1, 0.05, 0.8, 0.05])
+
+    return fig, profile_ax, slider_ax
+
+
 def set_ax_all(ax, y_var=None, x_var=None, y_scale=None, x_scale=None,
                xlabel=None, ylabel=None, xlims=None, ylims=None,
                legend=False, legend_loc=None, title=False, title_str=None):
