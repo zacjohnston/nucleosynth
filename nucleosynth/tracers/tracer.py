@@ -395,6 +395,47 @@ class Tracer:
                             title=title, title_str=title_str)
         return fig
 
+    def plot_sums_all(self, timestep, abu_var, y_scale=None,
+                      ax=None, legend=False, title=True,
+                      ylims=None, xlims=None, figsize=(8, 6),
+                      linestyle='-', marker='o'):
+        """Plot all isotope composition sums
+
+        parameters
+        ----------
+        timestep : int
+            index of timestep to plot
+        abu_var : 'X' or 'Y'
+        y_scale : 'log' or 'linear'
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        linestyle : str
+        marker : str
+        """
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        for z in self.network_unique['Z']:
+            subnet = self.select_network(z=z)
+            subcomp = self.select_composition(abu_var=abu_var, z=z)
+
+            x = subnet['A']
+            y = subcomp.loc[timestep]
+            label = network.get_element_str(z=z).title()
+
+            ax.plot(x, y, ls=linestyle, marker=marker, label=label)
+
+        t = self.columns['time'][timestep]
+        title_str = f"{self.title}, t={t:.3e} s"
+
+        plotting.set_ax_all(ax, y_var=abu_var, x_var='A', y_scale=y_scale,
+                            x_scale='linear', ylims=ylims, xlims=xlims, legend=legend,
+                            title=title, title_str=title_str)
+        return fig
+
     # ===============================================================
     #                      Convenience
     # ===============================================================
