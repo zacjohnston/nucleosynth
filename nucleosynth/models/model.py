@@ -142,8 +142,8 @@ class Model:
         """
         self.printv('Calculating final yields')
         self.check_loaded()
-        self.yields = network.get_yields(self.tracers,
-                                         tracer_network=self.network)
+        self.yields = network.get_yields(self.tracers, tracer_network=self.network)
+        self.yields['msun'] = self.yields['X'] * self.total_mass
 
     def get_yield_sums(self):
         """Sum over yields, grouped by A and Z
