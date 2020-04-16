@@ -153,7 +153,7 @@ def get_all_yield_sums(yields):
     return yield_sums
 
 
-def get_yield_sums(yields, iso_group):
+def get_yield_sums(yields, iso_group, abu_vars=('X', 'Y')):
     """Sum over yields grouped by A or Z
 
     Returns : pd.DataFrame
@@ -162,12 +162,14 @@ def get_yield_sums(yields, iso_group):
     ----------
     yields : pd.DataFrame
     iso_group : 'A' or 'Z'
+    abu_vars : [str]
+        which abundance variables to extract (X and/or Y)
     """
     yield_sums = pd.DataFrame()
     group_unique = np.unique(yields[iso_group])
 
     sums = {}
-    for abu_var in ['X', 'Y']:
+    for abu_var in abu_vars:
         sums[abu_var] = np.full(len(group_unique), np.nan)
 
     a = None
@@ -182,12 +184,12 @@ def get_yield_sums(yields, iso_group):
 
         subset = select_isotopes(yields, a=a, z=z)
 
-        for abu_var in ['X', 'Y']:
+        for abu_var in abu_vars:
             sums[abu_var][i] = np.sum(subset[abu_var])
 
     yield_sums[iso_group] = group_unique
 
-    for abu_var in ['X', 'Y']:
+    for abu_var in abu_vars:
         yield_sums[abu_var] = sums[abu_var]
 
     return yield_sums
