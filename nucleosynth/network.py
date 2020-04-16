@@ -113,7 +113,7 @@ def get_sums(composition_table, tracer_network, iso_group):
 # ===============================================================
 #                      yields
 # ===============================================================
-def get_yields(tracers, tracer_network):
+def get_yields(tracers, tracer_network, abu_vars=('X', 'Y')):
     """Sum over all tracers to obtain final composition yields
 
     Returns : pd.DataFrame
@@ -122,11 +122,12 @@ def get_yields(tracers, tracer_network):
     ----------
     tracers : {tracer_id: Tracer}
     tracer_network : pd.DataFrame
+    abu_vars : [str]
     """
     yields = pd.DataFrame(tracer_network)
     n_tracers = len(tracers)
 
-    for abu_var in ['X', 'Y']:
+    for abu_var in abu_vars:
         yields[abu_var] = 0.0
 
         for tracer_id, tracer in tracers.items():
