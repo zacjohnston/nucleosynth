@@ -197,9 +197,10 @@ class Model:
 
         for tracer_id in tracer_ids:
             trace = self.tracers[tracer_id]
+            mass = f'{self.mass_grid[tracer_id]:.2f}'
             trace.plot_column(column=column, ax=ax,
                               y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
-                              legend=legend, title=False, label=tracer_id,
+                              legend=legend, title=False, label=mass,
                               linestyle=linestyle, marker=marker,
                               table_name=table_name)
 
