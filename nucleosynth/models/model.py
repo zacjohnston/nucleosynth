@@ -36,8 +36,14 @@ class Model:
         sums over yields grouped by A and Z
     """
 
-    def __init__(self, model, tracer_ids, tracer_steps=(1, 2),
-                 reload=False, save=True, load_all=True, verbose=True):
+    def __init__(self,
+                 model,
+                 tracer_ids,
+                 tracer_steps=(1, 2),
+                 reload=False,
+                 save=True,
+                 load_all=True,
+                 verbose=True):
         """
         parameters
         ----------
