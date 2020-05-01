@@ -310,11 +310,13 @@ class Tracer:
         table_name : 'columns' or 'stir'
             which table to plot from
         """
-        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
-
         tables = {'columns': self.columns, 'stir': self.stir}
         table = tables[table_name]
 
+        if column not in table:
+            raise ValueError(f"column '{column}' not in tracer table '{table_name}'")
+
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
         ax.plot(table['time'], table[column], ls=linestyle,
                 marker=marker, label=label)
 
