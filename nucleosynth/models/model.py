@@ -195,6 +195,7 @@ class Model:
         column : str
             quantity to plot on y-axis (from Tracer.columns)
         tracer_ids : [int]
+            Specify which tracers to plot. If not provided, plot all tracers
         y_scale : 'log' or 'linear'
         x_scale : 'log' or 'linear'
         ax : Axes
