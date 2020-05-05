@@ -50,12 +50,10 @@ class Tracer:
         whether to save tables to cache for faster loading
     steps : [int]
         list of skynet model steps
-    stir : pd.DataFrame
-        tracer input taken from STIR model
     sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
     tables : {table_name: pd.DataFrame}
-        Pointer to different tables
+        Tables of tracer properties vs. time
     time : pd.Series
         Pointer to 'time' column of self.columns
     tracer_id : int
@@ -91,9 +89,8 @@ class Tracer:
         self.network_unique = None
         self.sums = None
         self.columns = None
-        self.stir = None
         self.time = None
-        self.tables = None
+        self.tables = {'columns': None, 'stir': None}
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -124,7 +121,7 @@ class Tracer:
         if self.files is None:
             self.load_files()
 
-        if self.stir is None:
+        if self.tables['stir'] is None:
             self.load_stir()
 
         if self.columns is None:
@@ -135,8 +132,6 @@ class Tracer:
 
         if self.composition is None:
             self.load_composition()
-
-        self.tables = {'columns': self.columns, 'stir': self.stir}
 
     def load_files(self):
         """Load raw tracer files
@@ -150,7 +145,7 @@ class Tracer:
         """Load stir tracer table
         """
         self.printv('Loading stir tracer')
-        self.stir = load_save.load_stir_tracer(self.tracer_id, model=self.model)
+        self.tables['stir'] = load_save.load_stir_tracer(self.tracer_id, model=self.model)
 
     def load_columns(self):
         """Load table of scalars
