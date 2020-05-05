@@ -9,6 +9,7 @@ from nucleosynth import paths
 from nucleosynth import network
 from nucleosynth import plotting
 from nucleosynth import printing
+from nucleosynth import tools
 
 """
 Class representing an individual mass tracer from a model
@@ -312,9 +313,7 @@ class Tracer:
         """
         tables = {'columns': self.columns, 'stir': self.stir}
         table = tables[table_name]
-
-        if column not in table:
-            raise ValueError(f"column '{column}' not in tracer table '{table_name}'")
+        self.check_columns(column, table_name)
 
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
         ax.plot(table['time'], table[column], ls=linestyle,
@@ -495,3 +494,22 @@ class Tracer:
         step_min = self.columns.index[0]
         step_max = self.columns.index[-1]
         return step_min, step_max
+
+    def check_columns(self, columns, tables):
+        """Check if column(s) exist in provided table(s)
+
+        parameters
+        ----------
+        columns : str or [str]
+        tables : str or [str]
+        """
+        table_map = {'columns': self.columns, 'stir': self.stir}
+        columns = tools.ensure_sequence(columns)
+        tables = tools.ensure_sequence(tables)
+
+        for table_name in tables:
+            table = table_map[table_name]
+
+            for column in columns:
+                if column not in table:
+                    raise ValueError(f"column '{column}' not in tracer table '{table_name}'")
