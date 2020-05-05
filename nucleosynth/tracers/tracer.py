@@ -330,6 +330,37 @@ class Tracer:
                             title=title, title_str=self.title)
         return fig
 
+    def plot_compare_tables(self, column, y_scale=None, x_scale=None,
+                            ax=None, legend=True, title=True,
+                            ylims=None, xlims=None, figsize=(8, 6),
+                            marker='', table_names=('columns', 'stir')):
+        """Plot column(s) from multiple tables for comparison
+
+        parameters
+        ----------
+        column : str
+            quantity to plot on y-axis (from Tracer.columns)
+        y_scale : 'log' or 'linear'
+        x_scale : 'log' or 'linear'
+        ax : Axes
+        legend : bool
+        title : bool
+        ylims : [min, max]
+        xlims : [min, max]
+        figsize : [width, height]
+        marker : str
+        table_names : 'columns' or 'stir'
+            which table to plot from
+        """
+        self.check_columns(column, tables=table_names)
+        fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        for table_name in table_names:
+            self.plot_column(column=column, table_name=table_name, ax=ax,
+                             label=table_name, legend=legend, marker=marker,
+                             x_scale=x_scale, y_scale=y_scale, xlims=xlims,
+                             ylims=ylims, title=title)
+
     def plot_composition(self, isotopes, abu_var, y_scale=None, x_scale=None,
                          ax=None, legend=True, title=True,
                          ylims=None, xlims=None, figsize=(8, 6),
