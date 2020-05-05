@@ -428,10 +428,7 @@ class Tracer:
                        linestyle=linestyle, marker=marker)
 
         def update(step):
-            x = self.network_unique[iso_group]
             y = self.sums[iso_group][abu_var].loc[step]
-
-            profile_ax.lines[0].set_xdata(x)
             profile_ax.lines[0].set_ydata(y)
 
             t = self.columns['time'][step]
