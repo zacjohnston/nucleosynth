@@ -54,6 +54,8 @@ class Tracer:
         tracer input taken from STIR model
     sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
+    time : pd.Series
+        Pointer to 'time' column of self.columns
     tracer_id : int
         The tracer ID/index
     verbose : bool
@@ -88,6 +90,7 @@ class Tracer:
         self.sums = None
         self.columns = None
         self.stir = None
+        self.time = None
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -155,6 +158,7 @@ class Tracer:
                                             tracer_files=self.files,
                                             save=self.save, reload=self.reload,
                                             verbose=False)
+        self.time = self.columns['time']
 
     def load_network(self):
         """Load table of network isotopes
@@ -350,7 +354,7 @@ class Tracer:
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
         for i, isotope in enumerate(isotopes):
-            ax.plot(self.columns['time'], table[isotope], ls=linestyle,
+            ax.plot(self.time, table[isotope], ls=linestyle,
                     marker=marker, label=isotope)
 
         plotting.set_ax_all(ax, y_var=abu_var, x_var='time', y_scale=y_scale,
@@ -387,7 +391,7 @@ class Tracer:
         x = self.network_unique[iso_group]
         y = self.sums[iso_group][abu_var].loc[timestep]
 
-        t = self.columns['time'][timestep]
+        t = self.time[timestep]
         title_str = f"{self.title}, t={t:.3e} s"
         ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
@@ -430,7 +434,7 @@ class Tracer:
             y = self.sums[iso_group][abu_var].loc[step]
             profile_ax.lines[0].set_ydata(y)
 
-            t = self.columns['time'][step]
+            t = self.time[step]
             title_str = f"{self.title}, t={t:.3e} s"
             profile_ax.set_title(title_str)
 
@@ -472,7 +476,7 @@ class Tracer:
 
             ax.plot(x, y, ls=linestyle, marker=marker, label=label)
 
-        t = self.columns['time'][timestep]
+        t = self.time[timestep]
         title_str = f"{self.title}, t={t:.3e} s"
 
         plotting.set_ax_all(ax, y_var=abu_var, x_var='A', y_scale=y_scale,
