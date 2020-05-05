@@ -88,7 +88,6 @@ class Tracer:
         self.composition = None
         self.network_unique = None
         self.sums = None
-        self.columns = None
         self.time = None
         self.tables = {'columns': None, 'stir': None}
 
@@ -124,7 +123,7 @@ class Tracer:
         if self.tables['stir'] is None:
             self.load_stir()
 
-        if self.columns is None:
+        if self.tables['columns'] is None:
             self.load_columns()
 
         if self.network is None:
@@ -151,14 +150,15 @@ class Tracer:
         """Load table of scalars
         """
         self.printv('Loading columns')
-        self.columns = load_save.load_table(self.tracer_id,
-                                            model=self.model,
-                                            tracer_steps=self.steps,
-                                            table_name='columns',
-                                            tracer_files=self.files,
-                                            save=self.save, reload=self.reload,
-                                            verbose=False)
-        self.time = self.columns['time']
+        columns = load_save.load_table(self.tracer_id,
+                                       model=self.model,
+                                       tracer_steps=self.steps,
+                                       table_name='columns',
+                                       tracer_files=self.files,
+                                       save=self.save, reload=self.reload,
+                                       verbose=False)
+        self.tables['columns'] = columns
+        self.time = columns['time']
 
     def load_network(self):
         """Load table of network isotopes
@@ -208,16 +208,19 @@ class Tracer:
         """Get sumY and Abar versus time from Y table
         """
         self.check_loaded()
-        self.columns['sumy'] = network.get_sumy(self.composition['Y'])
-        self.columns['abar'] = 1 / self.columns['sumy']
+
+        columns = self.tables['columns']
+        columns['sumy'] = network.get_sumy(self.composition['Y'])
+        columns['abar'] = 1 / columns['sumy']
 
     def get_zbar(self):
         """Get Zbar versus time from Y table
         """
         self.check_loaded()
-        self.columns['zbar'] = network.get_zbar(self.composition['Y'],
-                                                self.network,
-                                                ye=self.columns['ye'])
+        columns = self.tables['columns']
+        columns['zbar'] = network.get_zbar(self.composition['Y'],
+                                           tracer_network=self.network,
+                                           ye=columns['ye'])
 
     # ===============================================================
     #                      Accessing Data
@@ -494,8 +497,10 @@ class Tracer:
     def _get_slider_steps(self):
         """Return numbers of steps for slider bar
         """
-        step_min = self.columns.index[0]
-        step_max = self.columns.index[-1]
+        columns = self.tables['columns']
+        step_min = columns.index[0]
+        step_max = columns.index[-1]
+
         return step_min, step_max
 
     def check_columns(self, columns, tables):
@@ -514,4 +519,5 @@ class Tracer:
 
             for column in columns:
                 if column not in table:
-                    raise ValueError(f"column '{column}' not in tracer table '{table_name}'")
+                    raise ValueError(f"column '{column}' not in "
+                                     f"tracer table '{table_name}'")
