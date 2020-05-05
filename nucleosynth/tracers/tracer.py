@@ -54,6 +54,8 @@ class Tracer:
         tracer input taken from STIR model
     sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
+    tables : {table_name: pd.DataFrame}
+        Pointer to different tables
     time : pd.Series
         Pointer to 'time' column of self.columns
     tracer_id : int
@@ -91,6 +93,7 @@ class Tracer:
         self.columns = None
         self.stir = None
         self.time = None
+        self.tables = None
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -132,6 +135,8 @@ class Tracer:
 
         if self.composition is None:
             self.load_composition()
+
+        self.tables = {'columns': self.columns, 'stir': self.stir}
 
     def load_files(self):
         """Load raw tracer files
@@ -315,8 +320,7 @@ class Tracer:
         table_name : 'columns' or 'stir'
             which table to plot from
         """
-        tables = {'columns': self.columns, 'stir': self.stir}
-        table = tables[table_name]
+        table = self.tables[table_name]
         self.check_columns(column, table_name)
 
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
@@ -507,12 +511,11 @@ class Tracer:
         columns : str or [str]
         tables : str or [str]
         """
-        table_map = {'columns': self.columns, 'stir': self.stir}
         columns = tools.ensure_sequence(columns)
         tables = tools.ensure_sequence(tables)
 
         for table_name in tables:
-            table = table_map[table_name]
+            table = self.tables[table_name]
 
             for column in columns:
                 if column not in table:
