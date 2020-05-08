@@ -148,7 +148,8 @@ class Model:
         """Get list of columns in tracer data
         """
         tracer_id_0 = self.tracer_ids[0]
-        self.columns = list(self.tracers[tracer_id_0].columns.columns)
+        table = self.tracers[tracer_id_0].tables['columns']
+        self.columns = list(table.columns)
 
     # ===============================================================
     #                      Analysis
