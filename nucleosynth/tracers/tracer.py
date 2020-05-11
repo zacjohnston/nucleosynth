@@ -28,8 +28,9 @@ class Tracer:
 
     attributes
     ----------
-    columns : pd.DataFrame
-        Table of main scalar quantities (density, temperature, etc.) versus time
+    columns : {table_name: pd.DataFrame}
+        Tables of tracer properties (density, temperature, etc.) versus time,
+        from original STIR data, and resulting SkyNet output
     composition : {abu_var: pd.DataFrame}
         Tables of X and Y versus time
     files : h5py.File
@@ -52,8 +53,6 @@ class Tracer:
         list of skynet model steps
     sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
-    tables : {table_name: pd.DataFrame}
-        Tables of tracer properties vs. time
     time : pd.Series
         Pointer to 'time' column of self.columns
     tracer_id : int
