@@ -109,7 +109,6 @@ class Tracer:
         t0 = time.time()
         self.check_loaded()
 
-        self.load_sums()    # TODO: move under check_loaded?
         self.load_sumy_abar()
         self.get_zbar()
         self.get_summary()
@@ -134,6 +133,9 @@ class Tracer:
 
         if self.composition is None:
             self.load_composition()
+
+        if self.sums is None:
+            self.load_sums()
 
     def load_files(self):
         """Load raw tracer files
@@ -189,7 +191,7 @@ class Tracer:
                                                       save=self.save,
                                                       verbose=False)
 
-    def load_sums(self):    # TODO: rename get_sums()?
+    def load_sums(self):
         """Get X, Y sums over A, Z
         """
         self.printv('Loading composition sums')
@@ -210,7 +212,7 @@ class Tracer:
         """
         self.network_unique = network.get_network_unique(self.network)
 
-    def load_sumy_abar(self):
+    def load_sumy_abar(self):     # TODO: rename get_?
         """Get sumY and Abar versus time from Y table
         """
         self.check_loaded()
