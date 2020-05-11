@@ -89,7 +89,7 @@ class Tracer:
         self.network_unique = None
         self.sums = None
         self.time = None
-        self.tables = {'columns': None, 'stir': None}
+        self.tables = {'skynet': None, 'stir': None}
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -123,7 +123,7 @@ class Tracer:
         if self.tables['stir'] is None:
             self.load_stir()
 
-        if self.tables['columns'] is None:
+        if self.tables['skynet'] is None:
             self.load_columns()
 
         if self.network is None:
@@ -157,7 +157,7 @@ class Tracer:
                                        tracer_files=self.files,
                                        save=self.save, reload=self.reload,
                                        verbose=False)
-        self.tables['columns'] = columns
+        self.tables['skynet'] = columns
         self.time = columns['time']
 
     def load_network(self):
@@ -209,7 +209,7 @@ class Tracer:
         """
         self.check_loaded()
 
-        columns = self.tables['columns']
+        columns = self.tables['skynet']
         columns['sumy'] = network.get_sumy(self.composition['Y'])
         columns['abar'] = 1 / columns['sumy']
 
@@ -217,7 +217,7 @@ class Tracer:
         """Get Zbar versus time from Y table
         """
         self.check_loaded()
-        columns = self.tables['columns']
+        columns = self.tables['skynet']
         columns['zbar'] = network.get_zbar(self.composition['Y'],
                                            tracer_network=self.network,
                                            ye=columns['ye'])
@@ -256,7 +256,7 @@ class Tracer:
     # ===============================================================
     def plot_columns(self, columns, max_cols=1, y_scale=None, x_scale=None,
                      legend=False, title=True, ylims=None, xlims=None,
-                     sub_figsize=(8, 4), label=None, table_name='columns',
+                     sub_figsize=(8, 4), label=None, table_name='skynet',
                      linestyle='-', marker='', sharex=True):
         """Plot column quantity versus time
 
@@ -277,7 +277,7 @@ class Tracer:
         linestyle : str
         marker : str
         sharex : bool
-        table_name : 'columns' or 'stir'
+        table_name : 'skynet' or 'stir'
         """
         fig, ax = plotting.setup_subplots(n_sub=len(columns), max_cols=max_cols,
                                           sub_figsize=sub_figsize,
@@ -297,7 +297,7 @@ class Tracer:
     def plot_column(self, column, y_scale=None, x_scale=None,
                     ax=None, legend=False, title=True,
                     ylims=None, xlims=None, figsize=(8, 6), label=None,
-                    linestyle='-', marker='', table_name='columns'):
+                    linestyle='-', marker='', table_name='skynet'):
         """Plot column quantity versus time
 
         parameters
@@ -315,7 +315,7 @@ class Tracer:
         label : str
         linestyle : str
         marker : str
-        table_name : 'columns' or 'stir'
+        table_name : 'skynet' or 'stir'
             which table to plot from
         """
         table = self.tables[table_name]
@@ -333,7 +333,7 @@ class Tracer:
     def plot_compare_tables(self, column, y_scale=None, x_scale=None,
                             ax=None, legend=True, title=True,
                             ylims=None, xlims=None, figsize=(8, 6),
-                            marker='', table_names=('columns', 'stir')):
+                            marker='', table_names=('skynet', 'stir')):
         """Plot column(s) from multiple tables for comparison
 
         parameters
@@ -349,7 +349,7 @@ class Tracer:
         xlims : [min, max]
         figsize : [width, height]
         marker : str
-        table_names : 'columns' or 'stir'
+        table_names : 'skynet' or 'stir'
             which table to plot from
         """
         self.check_columns(column, tables=table_names)
@@ -528,7 +528,7 @@ class Tracer:
     def _get_slider_steps(self):
         """Return numbers of steps for slider bar
         """
-        columns = self.tables['columns']
+        columns = self.tables['skynet']
         step_min = columns.index[0]
         step_max = columns.index[-1]
 

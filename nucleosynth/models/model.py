@@ -148,7 +148,7 @@ class Model:
         """Get list of columns in tracer data
         """
         tracer_id_0 = self.tracer_ids[0]
-        table = self.tracers[tracer_id_0].tables['columns']
+        table = self.tracers[tracer_id_0].tables['skynet']
         self.columns = list(table.columns)
 
     # ===============================================================
@@ -188,7 +188,7 @@ class Model:
     def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
                     ax=None, legend=False, ylims=None, xlims=None,
                     figsize=(8, 6), linestyle='-', marker='',
-                    table_name='columns'):
+                    table_name='skynet'):
         """Plot column quantity versus time
 
         parameters
@@ -206,7 +206,7 @@ class Model:
         figsize : [width, height]
         linestyle : str
         marker : str
-        table_name : one of ['columns', 'stir']
+        table_name : one of ['skynet', 'stir']
         """
         if tracer_ids is None:
             tracer_ids = self.tracers.keys()
