@@ -4,7 +4,7 @@ import time
 from matplotlib.widgets import Slider
 
 # nucleosynth
-from nucleosynth.tracers import load_save
+from nucleosynth.tracers import load_save, tracer_tools
 from nucleosynth import paths
 from nucleosynth import network
 from nucleosynth import plotting
@@ -51,6 +51,8 @@ class Tracer:
         whether to save tables to cache for faster loading
     steps : [int]
         list of skynet model steps
+    summary : {}
+        collection of summary quantities
     sums : {abu_var: iso_group: pd.DataFrame}
         Y and X tables, grouped and summed over A and Z
     time : pd.Series
@@ -88,7 +90,8 @@ class Tracer:
         self.network_unique = None
         self.sums = None
         self.time = None
-        self.columns = {'skynet': None, 'stir': None}
+        self.summary = dict.fromkeys(['total_heating'])
+        self.columns = dict.fromkeys(['skynet', 'stir'])
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -106,9 +109,10 @@ class Tracer:
         t0 = time.time()
         self.check_loaded()
 
-        self.load_sums()
+        self.load_sums()    # TODO: move under check_loaded?
         self.load_sumy_abar()
         self.get_zbar()
+        self.get_summary()
 
         t1 = time.time()
         self.printv(f'Load time: {t1-t0:.3f} s')
@@ -172,11 +176,6 @@ class Tracer:
                                             verbose=False)
         self.get_network_unique()
 
-    def get_network_unique(self):
-        """Get unique Z and A in network
-        """
-        self.network_unique = network.get_network_unique(self.network)
-
     def load_composition(self):
         """Load composition tables (X, Y)
         """
@@ -190,7 +189,7 @@ class Tracer:
                                                       save=self.save,
                                                       verbose=False)
 
-    def load_sums(self):
+    def load_sums(self):    # TODO: rename get_sums()?
         """Get X, Y sums over A, Z
         """
         self.printv('Loading composition sums')
@@ -202,6 +201,14 @@ class Tracer:
                                         reload=self.reload,
                                         save=self.save,
                                         verbose=False)
+
+    # ===============================================================
+    #                      Analysis
+    # ===============================================================
+    def get_network_unique(self):
+        """Get unique Z and A in network
+        """
+        self.network_unique = network.get_network_unique(self.network)
 
     def load_sumy_abar(self):
         """Get sumY and Abar versus time from Y table
@@ -220,6 +227,13 @@ class Tracer:
         columns['zbar'] = network.get_zbar(self.composition['Y'],
                                            tracer_network=self.network,
                                            ye=columns['ye'])
+
+    def get_summary(self):
+        """Get summary quantities
+        """
+        self.check_loaded()
+        self.summary['total_heating'] = tracer_tools.get_total_heating(
+                                                table=self.columns['skynet'])
 
     # ===============================================================
     #                      Accessing Data
