@@ -16,7 +16,7 @@ class Model:
 
     attributes
     ----------
-    columns : [str]
+    column_list : [str]
         list of column names available in tracer time-series data
     model : str
         Name of skynet model, e.g. 'traj_s12.0'
@@ -71,7 +71,7 @@ class Model:
         self.mass_grid = None
         self.dmass = None
         self.total_mass = None
-        self.columns = None
+        self.column_list = None
 
         self.tracers = dict.fromkeys(self.tracer_ids)
         self.paths = paths.get_model_paths(self.model)
@@ -88,7 +88,7 @@ class Model:
         self.load_mass_grid()
         self.load_network()
         self.load_tracers()
-        self.get_columns()
+        self.get_column_list()
         self.get_yields()
         self.get_yield_sums()
 
@@ -144,12 +144,12 @@ class Model:
                                                         save=self.save, reload=self.reload,
                                                         verbose=self.verbose)
 
-    def get_columns(self):
+    def get_column_list(self):
         """Get list of columns in tracer data
         """
         tracer_id_0 = self.tracer_ids[0]
         table = self.tracers[tracer_id_0].columns['skynet']
-        self.columns = list(table.columns)
+        self.column_list = list(table.columns)
 
     # ===============================================================
     #                      Analysis
