@@ -89,7 +89,7 @@ class Tracer:
         self.network_unique = None
         self.sums = None
         self.time = None
-        self.tables = {'skynet': None, 'stir': None}
+        self.columns = {'skynet': None, 'stir': None}
 
         self.mass = load_save.get_stir_mass_element(tracer_id, self.model)
         self.title = f'{self.model}, tracer_{self.tracer_id}'
@@ -120,10 +120,10 @@ class Tracer:
         if self.files is None:
             self.load_files()
 
-        if self.tables['stir'] is None:
+        if self.columns['stir'] is None:
             self.load_stir()
 
-        if self.tables['skynet'] is None:
+        if self.columns['skynet'] is None:
             self.load_columns()
 
         if self.network is None:
@@ -144,7 +144,7 @@ class Tracer:
         """Load stir tracer table
         """
         self.printv('Loading stir tracer')
-        self.tables['stir'] = load_save.load_stir_tracer(self.tracer_id, model=self.model)
+        self.columns['stir'] = load_save.load_stir_tracer(self.tracer_id, model=self.model)
 
     def load_columns(self):
         """Load table of scalars
@@ -157,7 +157,7 @@ class Tracer:
                                        tracer_files=self.files,
                                        save=self.save, reload=self.reload,
                                        verbose=False)
-        self.tables['skynet'] = columns
+        self.columns['skynet'] = columns
         self.time = columns['time']
 
     def load_network(self):
@@ -209,7 +209,7 @@ class Tracer:
         """
         self.check_loaded()
 
-        columns = self.tables['skynet']
+        columns = self.columns['skynet']
         columns['sumy'] = network.get_sumy(self.composition['Y'])
         columns['abar'] = 1 / columns['sumy']
 
@@ -217,7 +217,7 @@ class Tracer:
         """Get Zbar versus time from Y table
         """
         self.check_loaded()
-        columns = self.tables['skynet']
+        columns = self.columns['skynet']
         columns['zbar'] = network.get_zbar(self.composition['Y'],
                                            tracer_network=self.network,
                                            ye=columns['ye'])
@@ -318,7 +318,7 @@ class Tracer:
         table_name : 'skynet' or 'stir'
             which table to plot from
         """
-        table = self.tables[table_name]
+        table = self.columns[table_name]
         self.check_columns(column, table_name)
 
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
@@ -528,7 +528,7 @@ class Tracer:
     def _get_slider_steps(self):
         """Return numbers of steps for slider bar
         """
-        columns = self.tables['skynet']
+        columns = self.columns['skynet']
         step_min = columns.index[0]
         step_max = columns.index[-1]
 
@@ -546,7 +546,7 @@ class Tracer:
         tables = tools.ensure_sequence(tables)
 
         for table_name in tables:
-            table = self.tables[table_name]
+            table = self.columns[table_name]
 
             for column in columns:
                 if column not in table:
