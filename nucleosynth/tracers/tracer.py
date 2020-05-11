@@ -109,7 +109,7 @@ class Tracer:
         t0 = time.time()
         self.check_loaded()
 
-        self.load_sumy_abar()
+        self.get_sumy_abar()
         self.get_zbar()
         self.get_summary()
 
@@ -212,7 +212,7 @@ class Tracer:
         """
         self.network_unique = network.get_network_unique(self.network)
 
-    def load_sumy_abar(self):     # TODO: rename get_?
+    def get_sumy_abar(self):
         """Get sumY and Abar versus time from Y table
         """
         self.check_loaded()
