@@ -255,7 +255,7 @@ class Tracer:
     # ===============================================================
     def plot_columns(self, columns, max_cols=1, y_scale=None, x_scale=None,
                      legend=False, title=True, ylims=None, xlims=None,
-                     sub_figsize=(8, 4), label=None, table_name='skynet',
+                     sub_figsize=(8, 4), label=None, column_table='skynet',
                      linestyle='-', marker='', sharex=True):
         """Plot column quantity versus time
 
@@ -276,7 +276,7 @@ class Tracer:
         linestyle : str
         marker : str
         sharex : bool
-        table_name : 'skynet' or 'stir'
+        column_table : 'skynet' or 'stir'
         """
         fig, ax = plotting.setup_subplots(n_sub=len(columns), max_cols=max_cols,
                                           sub_figsize=sub_figsize,
@@ -290,13 +290,13 @@ class Tracer:
                              ylims=ylims, xlims=xlims, label=label,
                              legend=legend, linestyle=linestyle, marker=marker,
                              title=title if i == 0 else False,
-                             table_name=table_name)
+                             column_table=column_table)
         return fig
 
     def plot_column(self, column, y_scale=None, x_scale=None,
                     ax=None, legend=False, title=True,
                     ylims=None, xlims=None, figsize=(8, 6), label=None,
-                    linestyle='-', marker='', table_name='skynet'):
+                    linestyle='-', marker='', column_table='skynet'):
         """Plot column quantity versus time
 
         parameters
@@ -314,11 +314,11 @@ class Tracer:
         label : str
         linestyle : str
         marker : str
-        table_name : 'skynet' or 'stir'
+        column_table : 'skynet' or 'stir'
             which table to plot from
         """
-        table = self.columns[table_name]
-        self.check_columns(column, table_name)
+        table = self.columns[column_table]
+        self.check_columns(column, column_table)
 
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
         ax.plot(table['time'], table[column], ls=linestyle,
@@ -332,7 +332,7 @@ class Tracer:
     def plot_compare_tables(self, column, y_scale=None, x_scale=None,
                             ax=None, legend=True, title=True,
                             ylims=None, xlims=None, figsize=(8, 6),
-                            marker='', table_names=('skynet', 'stir')):
+                            marker='', column_tables=('skynet', 'stir')):
         """Plot column(s) from multiple tables for comparison
 
         parameters
@@ -348,15 +348,15 @@ class Tracer:
         xlims : [min, max]
         figsize : [width, height]
         marker : str
-        table_names : 'skynet' or 'stir'
+        column_tables : 'skynet' or 'stir'
             which table to plot from
         """
-        self.check_columns(column, tables=table_names)
+        self.check_columns(column, tables=column_tables)
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
 
-        for table_name in table_names:
-            self.plot_column(column=column, table_name=table_name, ax=ax,
-                             label=table_name, legend=legend, marker=marker,
+        for column_table in column_tables:
+            self.plot_column(column=column, column_table=column_table, ax=ax,
+                             label=column_table, legend=legend, marker=marker,
                              x_scale=x_scale, y_scale=y_scale, xlims=xlims,
                              ylims=ylims, title=title)
 
@@ -544,10 +544,10 @@ class Tracer:
         columns = tools.ensure_sequence(columns)
         tables = tools.ensure_sequence(tables)
 
-        for table_name in tables:
-            table = self.columns[table_name]
+        for column_table in tables:
+            table = self.columns[column_table]
 
             for column in columns:
                 if column not in table:
                     raise ValueError(f"column '{column}' not in "
-                                     f"tracer table '{table_name}'")
+                                     f"tracer table '{column_table}'")

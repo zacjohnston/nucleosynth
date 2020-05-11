@@ -188,7 +188,7 @@ class Model:
     def plot_column(self, column, tracer_ids=None, y_scale=None, x_scale=None,
                     ax=None, legend=False, ylims=None, xlims=None,
                     figsize=(8, 6), linestyle='-', marker='',
-                    table_name='skynet'):
+                    column_table='skynet'):
         """Plot column quantity versus time
 
         parameters
@@ -206,7 +206,7 @@ class Model:
         figsize : [width, height]
         linestyle : str
         marker : str
-        table_name : one of ['skynet', 'stir']
+        column_table : one of ['skynet', 'stir']
         """
         if tracer_ids is None:
             tracer_ids = self.tracers.keys()
@@ -220,7 +220,7 @@ class Model:
                               y_scale=y_scale, x_scale=x_scale, ylims=ylims, xlims=xlims,
                               legend=legend, title=False, label=mass,
                               linestyle=linestyle, marker=marker,
-                              table_name=table_name)
+                              column_table=column_table)
 
     def plot_yield_sums(self, abu_var, iso_group, y_scale=None,
                         ax=None, legend=False, ylims=None, xlims=None,
