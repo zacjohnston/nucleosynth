@@ -68,6 +68,31 @@ def get_network_unique(tracer_network):
 
 
 # ===============================================================
+#                      composition
+# ===============================================================
+def get_most_abundant(composition_table, tracer_network, n=10):
+    """Return subset of network table of most abundant isotopes
+
+    Returns : pd.DataFrame
+        subset of tracer_network, with a 'max_value' column
+
+    parameters
+    ----------
+    composition_table : pd.DataFrame
+        X or Y table
+    tracer_network : pd.DataFrame
+    n : int
+        find 'n' most abundant isotopes
+    """
+    isotopes = tracer_network.copy()
+
+    max_values = composition_table.max()
+    isotopes['max_value'] = max_values.values
+
+    return isotopes.nlargest(n, 'max_value')
+
+
+# ===============================================================
 #                      sums
 # ===============================================================
 def get_all_sums(composition, tracer_network):
