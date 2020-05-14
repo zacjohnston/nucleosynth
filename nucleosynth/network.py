@@ -6,6 +6,20 @@ from .config import elements
 
 """
 Functions for managing nuclear network data
+
+common arguments/variables
+----------------------------
+abu_var : 'X' or 'Y'
+    Mass fraction (X) or number fraction (Y)
+composition_table : pd.DataFrame
+    X or Y table
+iso_group : 'A' or 'Z'
+    Nuclides grouped by A (isobars) or Z (isotopes)
+isotope_table : pd.DataFrame
+    Any table containing both A and Z columns (e.g., tracer_network)
+tracer_network : pd.DataFrame
+    Table of isotopes used in a model (columns: isotope, Z, A)
+    
 """
 
 
