@@ -39,6 +39,8 @@ class Tracer:
         mass coordinate of tracer (interior mass, Msun)
     model : str
         Name of the core-collapse model (typically named after the progenitor model)
+    most_abundant : {abu_var: pd.DataFrame}
+        Table of most abundant isotopes, by X and Y, as subset of network
     network : pd.DataFrame
         Table of isotopes used in model (name, Z, A)
     network_unique : {iso_group: [int]}
@@ -88,6 +90,7 @@ class Tracer:
         self.network = None
         self.composition = None
         self.network_unique = None
+        self.most_abundant = None
         self.sums = None
         self.time = None
         self.summary = dict.fromkeys(['total_heating'])
@@ -133,6 +136,7 @@ class Tracer:
 
         if self.composition is None:
             self.load_composition()
+            self.get_most_abundant()
 
         if self.sums is None:
             self.load_sums()
@@ -236,6 +240,18 @@ class Tracer:
         self.check_loaded()
         self.summary['total_heating'] = tracer_tools.get_total_heating(
                                                 table=self.columns['skynet'])
+
+    def get_most_abundant(self):
+        """Get most abundant isotopes in network
+        """
+        most_abundant = dict.fromkeys(['X', 'Y'])
+
+        for abu_var in most_abundant:
+            most_abundant[abu_var] = network.get_most_abundant(
+                                                self.composition[abu_var],
+                                                tracer_network=self.network,
+                                                abu_var=abu_var)
+        self.most_abundant = most_abundant
 
     # ===============================================================
     #                      Accessing Data
