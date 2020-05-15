@@ -317,12 +317,19 @@ class Tracer:
         for i, column in enumerate(columns):
             row = int(np.floor(i / max_cols))
             col = i % max_cols
+            ax_title = title if i == 0 else False
+            axis = ax[row, col]
 
-            self.plot_column(column, ax=ax[row, col], y_scale=y_scale, x_scale=x_scale,
-                             ylims=ylims, xlims=xlims, label=label,
-                             legend=legend, linestyle=linestyle, marker=marker,
-                             title=title if i == 0 else False,
-                             column_table=column_table)
+            if column in ['X', 'Y']:
+                self.plot_composition(abu_var=column, y_scale=y_scale,
+                                      x_scale=x_scale, ylims=ylims, xlims=xlims,
+                                      ax=axis, legend=legend, title=ax_title,
+                                      linestyle=linestyle, marker=marker)
+            else:
+                self.plot_column(column, ax=axis, y_scale=y_scale,
+                                 x_scale=x_scale, ylims=ylims, xlims=xlims, label=label,
+                                 legend=legend, linestyle=linestyle, marker=marker,
+                                 title=ax_title, column_table=column_table)
         return fig
 
     def plot_column(self, column, y_scale=None, x_scale=None,
