@@ -2,7 +2,7 @@ ax_scales = {
     'density': 'log',
     'temperature': 'log',
     'radius': 'log',
-    'heatingrate': 'log',
+    'heatingrate': 'symlog',
     'Y': 'log',
     'X': 'log',
     'ye': 'linear',
