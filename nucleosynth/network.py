@@ -397,6 +397,18 @@ def sums_table_name(abu_var, iso_group):
     return f'sums_{iso_group}_{abu_var}'
 
 
+def formatted_isotope_str(z, a):
+    """Return formatted string of isotope label
+
+    parameters
+    ----------
+    z : int
+    a : int
+    """
+    element = get_element_str(z)
+    return fr'$^{{{a}}}${element.capitalize()}'
+
+
 # ===============================================================
 #                      convenience
 # ===============================================================
