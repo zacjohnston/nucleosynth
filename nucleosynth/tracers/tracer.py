@@ -110,36 +110,20 @@ class Tracer:
         """Load all tracer data
         """
         t0 = time.time()
-        self.check_loaded()
+        self.load_files()
+        self.load_stir()
+        self.load_columns()
+        self.load_network()
+        self.load_composition()
+        self.load_sums()
 
+        self.get_most_abundant()
         self.get_sumy_abar()
         self.get_zbar()
         self.get_summary()
 
         t1 = time.time()
         self.printv(f'Load time: {t1-t0:.3f} s')
-
-    def check_loaded(self):
-        """Check that main data is loaded
-        """
-        if self.files is None:
-            self.load_files()
-
-        if self.columns['stir'] is None:
-            self.load_stir()
-
-        if self.columns['skynet'] is None:
-            self.load_columns()
-
-        if self.network is None:
-            self.load_network()
-
-        if self.composition is None:
-            self.load_composition()
-            self.get_most_abundant()
-
-        if self.sums is None:
-            self.load_sums()
 
     def load_files(self):
         """Load raw tracer files
@@ -219,8 +203,6 @@ class Tracer:
     def get_sumy_abar(self):
         """Get sumY and Abar versus time from Y table
         """
-        self.check_loaded()
-
         columns = self.columns['skynet']
         columns['sumy'] = network.get_sumy(self.composition['Y'])
         columns['abar'] = 1 / columns['sumy']
@@ -228,7 +210,6 @@ class Tracer:
     def get_zbar(self):
         """Get Zbar versus time from Y table
         """
-        self.check_loaded()
         columns = self.columns['skynet']
         columns['zbar'] = network.get_zbar(self.composition['Y'],
                                            tracer_network=self.network,
@@ -237,7 +218,6 @@ class Tracer:
     def get_summary(self):
         """Get summary quantities
         """
-        self.check_loaded()
         self.summary['total_heating'] = tracer_tools.get_total_heating(
                                                 table=self.columns['skynet'])
 
