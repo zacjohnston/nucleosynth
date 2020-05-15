@@ -392,17 +392,17 @@ class Tracer:
                              x_scale=x_scale, y_scale=y_scale, xlims=xlims,
                              ylims=ylims, title=title)
 
-    def plot_composition(self, isotopes, abu_var, y_scale=None, x_scale=None,
+    def plot_composition(self, abu_var, isotopes=None,
+                         y_scale=None, x_scale=None, ylims=None, xlims=None,
                          ax=None, legend=True, title=True,
-                         ylims=None, xlims=None, figsize=(8, 6),
-                         linestyle='-', marker=''):
+                         figsize=(8, 6), linestyle='-', marker=''):
         """Plot network composition versus time
 
         parameters
         ----------
-        isotopes : [str]
-            list of isotopes to plot
         abu_var : 'X' or 'Y'
+        isotopes : [str]
+            list of isotopes to plot. If None, default to 10 most abundant
         y_scale : 'log' or 'linear'
         x_scale : 'log' or 'linear'
         ax : Axes
@@ -416,6 +416,9 @@ class Tracer:
         """
         table = self.composition[abu_var]
         fig, ax = plotting.check_ax(ax=ax, figsize=figsize)
+
+        if isotopes is None:
+            isotopes = self.most_abundant[abu_var]['isotope']
 
         for i, isotope in enumerate(isotopes):
             ax.plot(self.time, table[isotope], ls=linestyle,
