@@ -106,8 +106,8 @@ def set_ax_scales(ax, y_var=None, x_var=None, y_scale=None, x_scale=None):
     if y_scale is None:
         y_scale = plot_config.ax_scales.get(y_var, 'log')
 
-    ax.set_xscale(x_scale)
-    ax.set_yscale(y_scale)
+    ax.set_xscale(x_scale, linthreshx=10)
+    ax.set_yscale(y_scale, linthreshy=10)
 
 
 def set_ax_title(ax, string, title):

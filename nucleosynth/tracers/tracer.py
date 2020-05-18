@@ -110,6 +110,7 @@ class Tracer:
         """Load all tracer data
         """
         t0 = time.time()
+
         self.load_files()
         self.load_stir()
         self.load_columns()
