@@ -222,6 +222,8 @@ class Tracer:
         self.summary['total_heating'] = tracer_tools.get_total_heating(
                                                 table=self.columns['skynet'])
 
+        self.summary['max_ni56'] = self.composition['X']['ni56'].max()
+
     def get_most_abundant(self):
         """Get most abundant isotopes in network
         """
